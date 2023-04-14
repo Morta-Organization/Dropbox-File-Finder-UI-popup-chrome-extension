@@ -2,6 +2,7 @@ let inputField1 = document.createElement("input");
 let inputField2 = document.createElement("input");
 let StudentName = "";
 let routeList;
+let inc = 0;
 let hashParams = null;
 let accessToken = localStorage.getItem("access_token");
 
@@ -204,12 +205,15 @@ function extractStudentName() {
 //between the brackets, and making up to 3 searches each time adding its results to the UI
 
 async function filesSearch(studentNumber, taskName) {
-  let inc = 0;
-  console.log(`%c Searching for files ${inc}`, "color: #5390d9");
+  console.log('studentNumber', studentNumber)
 
+  console.log(`%c Searching for files ${inc}`, "color: #5390d9");
+  let root = studentNumber
+  console.log('root', root)
   let retry = inc;
   const query = taskName;
-  const path = inc > 0 ? studentNumber + ` (${retry})` : studentNumber;
+  const path = inc > 0 ? root + ` (${retry})` : root;
+  console.log('path', path)
 
   // Call the Dropbox API to search for a file
   await dbx
@@ -222,6 +226,8 @@ async function filesSearch(studentNumber, taskName) {
       },
     })
     .then(function (response) {
+      console.log('response', response)
+      console.log(`%c  making request: ${inc}`, "color: orange");
       inc++; //after 1rst request look for a 2nd folder
       let results = response.result.matches;
 
@@ -232,7 +238,7 @@ async function filesSearch(studentNumber, taskName) {
       } else {
         if (!foundFiles) {
           //foundFiles = true;
-          console.log(`%c  making request: ${inc}`, "color: #2196f3");
+       
           console.log(`%c results found: ${results.length}`, "color: #2196f3");
           results.forEach((item, i) => {
             let btnAndListContainer = document.createElement("div");
@@ -285,12 +291,13 @@ async function filesSearch(studentNumber, taskName) {
           if (inc >= 3) {
             return;
           }
-          filesSearch(retry);
+          filesSearch(studentNumber, taskName);
         }
       }
     })
     .catch(function (error) {
       console.log(error.error);
+      console.log(`%c error, search ended`, 'color: hotpink')
       return;
     });
 }
