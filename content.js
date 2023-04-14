@@ -1,9 +1,7 @@
 let inputField1 = document.createElement("input");
 let inputField2 = document.createElement("input");
 let StudentName = "";
-
 let routeList;
-
 let hashParams = null;
 let accessToken = localStorage.getItem("access_token");
 
@@ -20,24 +18,10 @@ let fileName = "";
 let foundFiles = false;
 let storeToken = "";
 
-// const urlParams = new URLSearchParams(window.location.search);
-// const contractId = urlParams.get('contract_id');
-// localStorage.setItem('contractId', contractId);
-// let contract_id = localStorage.getItem('contractId');
 
 //! Dropbox credentials
-function getCredentials() {
-  fetch('./config.json')
-  .then(response => response.json())
-  .then(config => {
-    console.log('config', config)
-
-    // Use the configuration settings as needed
-  });
-}
-getCredentials()
-const dropboxClientId = "gsw6a2m0r2u44lt"; //hd: gsw6a2m0r2u44lt //me: lqp7zeiwcl5toer
-const clientSecret = "nwpi7lk0yyp2v44"; //HD: nwpi7lk0yyp2v44 //me:4jcwnu9bagjrc89
+const dropboxClientId = " "; 
+const clientSecret = " "; 
 const redirectHomeUrl = "https://hyperiondev.cogrammar.com/reviewer/dashboard/"; // your redirect URI http://localhost:3000/testRoute/index.html
 
 // get access token from local storage
