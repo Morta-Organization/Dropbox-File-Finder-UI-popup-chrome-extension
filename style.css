@@ -112,8 +112,8 @@
     opacity: 1;
   }
   100% {
-    -webkit-transform: translateX(-300px);
-            transform: translateX(-300px);
+    -webkit-transform: translateX(-290px);
+            transform: translateX(-290px);
     opacity: 1;
   }
 }
@@ -124,8 +124,8 @@
     opacity: 1;
   }
   100% {
-    -webkit-transform: translateX(-300px);
-            transform: translateX(-300px);
+    -webkit-transform: translateX(-290px);
+            transform: translateX(-290px);
     opacity: 1;
   }
 }
