@@ -20,8 +20,8 @@ let storeToken = "";
 
 
 //! Dropbox credentials
-const dropboxClientId = " "; 
-const clientSecret = " "; 
+const dropboxClientId = "gsw6a2m0r2u44lt"; 
+const clientSecret = "nwpi7lk0yyp2v44"; 
 const redirectHomeUrl = "https://hyperiondev.cogrammar.com/reviewer/dashboard/"; // your redirect URI http://localhost:3000/testRoute/index.html
 
 // get access token from local storage
