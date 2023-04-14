@@ -1,3 +1,4 @@
+let floatingElement = document.createElement("div");
 let inputField1 = document.createElement("input");
 let inputField2 = document.createElement("input");
 let StudentName = "";
@@ -7,7 +8,7 @@ let hashParams = null;
 let accessToken = localStorage.getItem("access_token");
 
 //Stores token right after verification from the dashboard page
-if (!window.location.pathname.includes("generate_review")) {
+if (window.location.pathname.includes("dashboard/#access_token")) {
   //extracts everything after "#" in url
   hashParams = new URLSearchParams(window.location.hash.substr(1));
   accessToken = hashParams.get("access_token"); //save token to variable
@@ -30,6 +31,7 @@ let getStoredToken = localStorage.getItem("access_token");
 //console.log("getStoredToken", getStoredToken);
 
 let dbx = new Dropbox.Dropbox({
+  
   clientId: dropboxClientId,
   clientSecret: clientSecret,
   accessToken: accessToken,
@@ -103,7 +105,7 @@ function createUI() {
   const inputContainer = document.createElement("div");
   inputContainer.className = "DBXFF-main-input-container";
 
-  const floatingElement = document.createElement("div");
+
   //const header = document.createElement("h1");
   //header.innerText = "Floating Element";
   floatingElement.className = "DBXFF-box-layout DBXFF-slide-in-left";
@@ -366,4 +368,9 @@ function highlightInputName(inputVal) {
       elements[i].innerHTML = highlightedText;
     }
   }
+}
+
+function reviewCounter() {
+  let counterEl = document.createElement("p");
+
 }
