@@ -213,8 +213,7 @@ async function filesSearch(studentNumber, taskName) {
   const path = inc > 0 ? root + ` (${retry})` : root;
 
   // Call the Dropbox API to search for a file
-  await dbx
-    .filesSearchV2({
+  await dbx.filesSearchV2({
       query: query,
       options: {
         path: "/" + path,
@@ -264,7 +263,6 @@ async function filesSearch(studentNumber, taskName) {
               // Open the folder URL in a new tab
               window.open(link, "_blank");
             });
-            //linkIcon.href = createExternalLink(folderPath)
             let type = document.createElement("img");
             type.alt = item.metadata.metadata.name;
             dlIcon.src = chrome.runtime.getURL("images/dlFOlder.png");
@@ -348,23 +346,6 @@ function getDLLink(blob, name) {
   link.click();
   document.body.removeChild(link);
   //loadingImage.style.display = "none";
-}
-
-//Created and external link to the folder
-function createExternalLink(folderPath) {
-  console.log(`%c  Creating external Folder link`, "color: red");
-  dbx
-    .sharingCreateSharedLinkWithSettings({ path: folderPath })
-    .then(function (response) {
-      // Extract the URL of the shared link
-      let sharedLinkUrl = response.url;
-
-      // Open the shared link in a new window
-      return sharedLinkUrl;
-    })
-    .catch(function (error) {
-      console.log(error.error);
-    });
 }
 
 //Extracts the word that matches the input name and only highlight that word.
