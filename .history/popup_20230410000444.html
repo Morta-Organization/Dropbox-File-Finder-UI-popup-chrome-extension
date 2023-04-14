@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <script src="./content.js" defer></script>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+<style>
+   body {
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      min-width: 350px;
+      background-color: rgb(12 12 12);
+      justify-content: center;
+      color: white;
+      font-family: system-ui, sans-serif;
+      background-image: url("background-carbonfiber.png");
+      background-repeat: repeat;
+      background-size: initial;
+      background-position: inherit;
+      background-blend-mode: soft-light;
+   }
+
+   .div {
+      display: flex;
+      flex-direction: column;
+      background-color: #0f0f11;
+      margin: 20px;
+      box-shadow: 0 0px 3px 0px #8bc34a2e;
+      border-radius: 3px;
+      text-align: center;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 450px;
+      position: relative;
+      min-width: 400px;
+      height: auto;
+      transition: .3s;
+   }
+
+   .div::before {
+      content: "";
+      background-image: url("/icon-corner-top.svg");
+      position: absolute;
+      top: -4px;
+      right: -112px;
+      width: 200px;
+      height: 100%;
+      background-repeat: no-repeat;
+   }
+
+   .div::after {
+      content: "";
+      background-image: url("/icon-corner-top.svg");
+      position: absolute;
+      bottom: -2px;
+      left: -113px;
+      width: 200px;
+      height: 100%;
+      background-repeat: no-repeat;
+      transform: rotate(180deg);
+   }
+
+   .div:hover {
+      box-shadow: 0 0px 3px 0px #8bc34a94;
+   }
+
+   .paraDiv {
+      width: 90%;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      align-items: flex-start;
+      padding: 15px 0px;
+   }
+
+   .h2-heading {
+      margin-bottom: 0px;
+   }
+
+
+   .h3-text {
+      width: 90%;
+      border-radius: 3px;
+      padding: 5px 5px;
+      border-bottom: 2px dashed green;
+      text-align: left;
+      margin: 10px 0px 0px 0px;
+   }
+
+   .contentContainer {
+      text-align: left;
+      width: 90%;
+   }
+
+   .p_tagOne {
+      margin: 10px 0px;
+   }
+</style>
+
+<body>
+    <div>
+      <h2 class="h2-heading" id="h2Tag1">The popup</h2>
+       </div>
+    </div>
+
+
+
+
+
+
+</body>
+
+</html>

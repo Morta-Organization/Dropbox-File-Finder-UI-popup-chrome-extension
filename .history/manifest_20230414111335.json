@@ -1,0 +1,15 @@
+{
+    "manifest_version": 3,
+    "name": "Floating extension",
+    "version": "1.0",
+    "description": "A simple Chrome extension to render a floating element",
+    "permissions": ["activeTab", "tabs", "downloads", "downloads.shelf"],
+    "content_scripts": [{
+      "matches": ["https://hyperiondev.cogrammar.com/reviewer/dashboard/", "https://*.hyperiondev.cogrammar.com/reviewer/generate_review/*"],
+      "css": ["style.css"],
+      "js": ["Dropbox-sdk.min.js","content.js"]
+    }],
+    "action": {
+        "default_popup": "popup.html"
+      }
+  }
