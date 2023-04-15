@@ -1,4 +1,9 @@
 let floatingElement = document.createElement("div");
+let reviewCompleteBtn = document.querySelector("#submit-review-btn")
+let timerContainer = document.createElement("div");
+timerContainer.className = "DBXFF-timer-container";
+floatingElement.prepend(timerContainer);
+
 let counterEl = document.createElement("p");
     counterEl.className = "DBXFF-timer pulsate-fwd"
 let inputField1 = document.createElement("input");
@@ -6,6 +11,7 @@ let inputField2 = document.createElement("input");
 let StudentName = "";
 let routeList;
 let startTime;
+let reviewCount = 0
 let inc = 0;
 let combinedTime = 0
 let sec = 0
@@ -156,6 +162,8 @@ function createUI() {
 
   extractStudentNumber(); //! Step 2.1 : Call function to "Extract the student number"
   startTime = setInterval(reviewCounter, 1000);//start the time
+  //reviewCounter()
+  getReviewCounts()
 }
 
 //! Extracts the task name from the page elements
@@ -388,9 +396,6 @@ function highlightInputName(inputVal) {
 
 //Review Timer
 function reviewCounter() {
-
-
-
   //add 0 if only one decimal
   //reset seconds when > 59
   //increment minutes ever 60sec
@@ -420,7 +425,22 @@ function reviewCounter() {
   combinedTime = `${min > 9 ? "" : 0}${min}:${sec > 9 ? "" : 0}${sec}`;
   sec++;
   counterEl.textContent = combinedTime;
+  timerContainer.prepend(counterEl);
+}
 
-  floatingElement.prepend(counterEl);
 
+// Increment review count when review is finished and save to local storage
+reviewCompleteBtn.addEventListener("click", () => {
+  reviewCount++
+  localStorage.setItem("reviewCount", reviewCount)
+})
+
+//Get review count from local storage when page loads
+function getReviewCounts() {
+  let prevCounts = localStorage.getItem("reviewCount");
+  reviewCount = prevCounts ? prevCounts : 0;
+  let reviewCountEl = document.createElement("p");
+  reviewCountEl.className = "DBXFF-review-count";
+  reviewCountEl.textContent = `Reviews done: ${reviewCount}`;
+  floatingElement.prepend(reviewCountEl);
 }

@@ -1,8 +1,4 @@
 
-
-
-
-
 .DBXFF-box-layout {
   left: 0;
   top: 20%;
@@ -14,6 +10,7 @@
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  padding-top: 25px;
   z-index: 10;
   transition: left 0.5s ease-out;
   animation-name: slide-in;
@@ -186,11 +183,7 @@
 
 } */
 
-.DBXFF-timer {
-  margin-right: auto;
-  padding: 0px 20px;
-  background-color: #405c75;
-}
+
 
 .pulsate-fwd {
 	-webkit-animation: pulsate-fwd 3s ease-in-out infinite both;
@@ -264,3 +257,27 @@
     }
   }
   
+  .DBXFF-timer {
+  
+ 
+
+  }
+
+  .DBXFF-timer-container{
+    position: absolute;
+    top: 0;
+    left: 21px;
+    height: 25px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    margin: 0;
+    padding: 0px 20px;
+    background-color: #343a40;
+  }
+
+  .DBXFF-review-count {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0px);
+  }
