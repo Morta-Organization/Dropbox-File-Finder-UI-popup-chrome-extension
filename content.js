@@ -1,19 +1,28 @@
 let floatingElement = document.createElement("div");
+let counterEl = document.createElement("p");
 let inputField1 = document.createElement("input");
 let inputField2 = document.createElement("input");
 let StudentName = "";
 let routeList;
+let startTime;
 let inc = 0;
+let combinedTime = 0
+let sec = 0
+let min = 0
 let hashParams = null;
 let accessToken = localStorage.getItem("access_token");
 
+console.log('accessToken === null', accessToken === null)
+
 //Stores token right after verification from the dashboard page
-if (window.location.pathname.includes("dashboard/#access_token")) {
+if (accessToken === null) {
   //extracts everything after "#" in url
   hashParams = new URLSearchParams(window.location.hash.substr(1));
   accessToken = hashParams.get("access_token"); //save token to variable
   localStorage.setItem("access_token", accessToken);
-}
+} 
+
+
 
 let rootPath = "";
 let fileName = "";
@@ -37,27 +46,31 @@ let dbx = new Dropbox.Dropbox({
   accessToken: accessToken,
 });
 
-//Don't check token on review page
-if (window.location.pathname.includes("generate_review")) {
-  createUI();
-} else {
+if (window.location.pathname.includes("reviewer/dashboard/")) {
   checkToken(dbx);
 }
 
+//Don't check token on review page
+if (window.location.pathname.includes("generate_review")) {
+  createUI();
+ 
+} 
+
 //! 1 Check token validity
-function checkToken(dbx) {
+async function checkToken(dbx) {
   console.log(`%c Checking token`, "color: #f078c0");
-  dbx
+ await dbx
     .usersGetCurrentAccount()
     .then(function (response) {
       console.log(`%c Access token is still valid`, "color: #7cb518");
       window.location.pathname.includes("generate_review") && createUI();
     })
-    .catch(function (error) {
+    .catch(async function (error) {
+      localStorage.setItem("access_token", null)
       alert("Access token expired or is invalid. Proceeding to auth.");
       console.log(`%c Access token expired or is invalid`, "color: #f94144");
       //localStorage.removeItem("access_token");
-      auth2Flow();
+    auth2Flow();
     });
 }
 
@@ -97,6 +110,7 @@ if (window.location.pathname === "http://localhost:3000/testRoute/index.html") {
 
 //! Step 2:  Create Floating the UI elements
 function createUI() {
+  
   console.log(`%c Creating UI`, "color: red");
   // Create the floating element properties
   routeList = document.createElement("div");
@@ -142,6 +156,7 @@ function createUI() {
   // Call function to get page values and update UI elements
 
   extractStudentNumber(); //! Step 2.1 : Call function to "Extract the student number"
+  startTime = setInterval(reviewCounter, 1000);//start the time
 }
 
 //! Extracts the task name from the page elements
@@ -293,8 +308,8 @@ async function filesSearch(studentNumber, taskName) {
       }
     })
     .catch(function (error) {
-      console.log(error.error);
-      console.log(`%c error, search ended`, 'color: hotpink')
+      console.log(error);
+      console.log(`%c Search ended`, 'color: hotpink')
       return;
     });
 }
@@ -370,7 +385,44 @@ function highlightInputName(inputVal) {
   }
 }
 
+
+
+//Review Timer
 function reviewCounter() {
-  let counterEl = document.createElement("p");
+
+  counterEl.className = "DBXFF-timer"
+
+
+  //add 0 if only one decimal
+  //reset seconds when > 59
+  //increment minutes ever 60sec
+  if (sec > 59) {
+    min++;
+    sec = 0;
+  }
+
+  //set time warning colors
+  if (min < 5) {
+    counterEl.style.color = "#8BC34A";
+  } else if (min < 7) {
+    counterEl.style.color = "#ffeb3b";
+    counterEl.style.animationDuration = "1s";
+  } else if (min < 11) {
+    counterEl.style.color = "#ff9800";
+    counterEl.style.animationDuration = ".5s";
+  } else if (min < 13) {
+    counterEl.style.color = "#ff5722";
+    counterEl.style.animationDuration = ".3s";
+  } else if (min < 15) {
+    counterEl.style.color = "#f44336";
+    counterEl.style.animationDuration = ".2s";
+  }
+
+  //time UI
+  combinedTime = `${min > 9 ? "" : 0}${min}:${sec > 9 ? "" : 0}${sec}`;
+  sec++;
+  counterEl.textContent = combinedTime;
+
+  floatingElement.prepend(counterEl);
 
 }
