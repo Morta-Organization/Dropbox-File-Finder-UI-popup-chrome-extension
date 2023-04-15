@@ -187,5 +187,80 @@
 } */
 
 .DBXFF-timer {
-  background-color: black;
+  margin-right: auto;
+  padding: 0px 20px;
+  background-color: #405c75;
 }
+
+.pulsate-fwd {
+	-webkit-animation: pulsate-fwd 3s ease-in-out infinite both;
+	        animation: pulsate-fwd 3s ease-in-out infinite both;
+}
+
+.blink-1 {
+	-webkit-animation: blink-1 0.6s infinite both;
+	        animation: blink-1 0.6s infinite both;
+}
+
+/**
+ * ----------------------------------------
+ * animation pulsate-fwd
+ * ----------------------------------------
+ */
+ @-webkit-keyframes pulsate-fwd {
+    0% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+    50% {
+      -webkit-transform: scale(1.05);
+              transform: scale(1.05);
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+  }
+  @keyframes pulsate-fwd {
+    0% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+    50% {
+      -webkit-transform: scale(1.05);
+              transform: scale(1.05);
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+  }
+
+  /**
+ * ----------------------------------------
+ * animation blink-1
+ * ----------------------------------------
+ */
+@-webkit-keyframes blink-1 {
+    0%,
+    50%,
+    100% {
+      opacity: 1;
+    }
+    25%,
+    75% {
+      opacity: 0;
+    }
+  }
+  @keyframes blink-1 {
+    0%,
+    50%,
+    100% {
+      opacity: 1;
+    }
+    25%,
+    75% {
+      opacity: 0;
+    }
+  }
+  

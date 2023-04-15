@@ -60,11 +60,12 @@ async function checkToken(dbx) {
     .usersGetCurrentAccount()
     .then(function (response) {
       console.log(`%c Access token is still valid`, "color: #7cb518");
-      window.location.pathname.includes("generate_review") && createUI();
+      alert("Access token is still valid ✔");
+      //window.location.pathname.includes("generate_review") && createUI();
     })
     .catch(async function (error) {
       localStorage.setItem("access_token", null)
-      alert("Access token expired or is invalid. Proceeding to auth.");
+      alert("Access token expired or is invalid ❌. Proceeding to auth.");
       console.log(`%c Access token expired or is invalid`, "color: #f94144");
       //localStorage.removeItem("access_token");
       auth2Flow();
@@ -387,8 +388,7 @@ function highlightInputName(inputVal) {
 //Review Timer
 function reviewCounter() {
 
-  counterEl.className = "DBXFF-timer"
-
+  counterEl.className = "DBXFF-timer pulsate-fwd"
 
   //add 0 if only one decimal
   //reset seconds when > 59
