@@ -68,46 +68,25 @@ async function checkToken(dbx) {
   // while waiting for the method to complete
   loadingIndicator("show");
 
-  fetch("https://api.dropboxapi.com/2/auth/token/revoke", {
-    method: "POST",
-    headers: {
-      Authorization: "Bearer " + accessToken,
-    },
-  })
-    .then((response) => {
-      if (response.ok) {
-        console.log(`%c Access token is still valid`, "color: #7cb518");
-        //alert("Access token is still valid ✔");
-        loadingIndicator("hide");
-      } else {
-        localStorage.setItem("access_token", null);
-        alert("Access token expired or is invalid ❌. Proceeding to auth.");
-        console.log(`%c Access token expired or is invalid`, "color: #f94144");
-        //localStorage.removeItem("access_token");
-        auth2Flow();
-    
-        // Hide loading indicator or enable user interactions
-        loadingIndicator("hide");
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  try {
+    await dbx.usersGetCurrentAccount();
+    console.log(`%c Access token is still valid`, "color: #7cb518");
+    alert("Access token is still valid ✔");
+    //window.location.pathname.includes("generate_review") && createUI();
 
+    // Hide loading indicator or enable user interactions
+    loadingIndicator("hide");
+  } catch (error) {
+    localStorage.setItem("access_token", null);
+    alert("Access token expired or is invalid ❌. Proceeding to auth.");
+    console.log(`%c Access token expired or is invalid`, "color: #f94144");
+    //localStorage.removeItem("access_token");
+    auth2Flow();
 
-
-//   try {
-//     await dbx.usersGetCurrentAccount();
-//     console.log(`%c Access token is still valid`, "color: #7cb518");
-   
-//     //window.location.pathname.includes("generate_review") && createUI();
-
-//     // Hide loading indicator or enable user interactions
-   
-//   } catch (error) {
-   
-//   }
-// }
+    // Hide loading indicator or enable user interactions
+    loadingIndicator("hide");
+  }
+}
 
 
 //! Step 1.1: If needed, get access
