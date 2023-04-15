@@ -1,5 +1,6 @@
 let floatingElement = document.createElement("div");
 let counterEl = document.createElement("p");
+    counterEl.className = "DBXFF-timer pulsate-fwd"
 let inputField1 = document.createElement("input");
 let inputField2 = document.createElement("input");
 let StudentName = "";
@@ -388,7 +389,7 @@ function highlightInputName(inputVal) {
 //Review Timer
 function reviewCounter() {
 
-  counterEl.className = "DBXFF-timer pulsate-fwd"
+
 
   //add 0 if only one decimal
   //reset seconds when > 59
