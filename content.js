@@ -10,45 +10,41 @@ let combinedTime = 0
 let sec = 0
 let min = 0
 let hashParams = null;
-let accessToken = localStorage.getItem("access_token");
-
-console.log('accessToken === null', accessToken === null)
-
-//Stores token right after verification from the dashboard page
-if (accessToken === null) {
-  //extracts everything after "#" in url
-  hashParams = new URLSearchParams(window.location.hash.substr(1));
-  accessToken = hashParams.get("access_token"); //save token to variable
-  localStorage.setItem("access_token", accessToken);
-} 
-
-
-
 let rootPath = "";
 let fileName = "";
 let foundFiles = false;
 let storeToken = "";
-
-
 //! Dropbox credentials
 const dropboxClientId = "gsw6a2m0r2u44lt"; 
 const clientSecret = "nwpi7lk0yyp2v44"; 
 const redirectHomeUrl = "https://hyperiondev.cogrammar.com/reviewer/dashboard/"; // your redirect URI http://localhost:3000/testRoute/index.html
 
-// get access token from local storage
-let getStoredToken = localStorage.getItem("access_token");
-//console.log("getStoredToken", getStoredToken);
 
-let dbx = new Dropbox.Dropbox({
+let accessToken = localStorage.getItem("access_token");
+console.log('accessToken === null', accessToken === "null")
+
+console.log('window.location.pathname', window.location.pathname)
+
+//Stores token right after verification from the dashboard page
+if (accessToken === "null") {
+  //extracts everything after "#" in url
+  hashParams = new URLSearchParams(window.location.hash.substr(1));
+  accessToken = hashParams.get("access_token"); //save token to variable
+  localStorage.setItem("access_token", accessToken);
   
+} 
+
+//DBX object
+let dbx = new Dropbox.Dropbox({
   clientId: dropboxClientId,
   clientSecret: clientSecret,
   accessToken: accessToken,
 });
 
-if (window.location.pathname.includes("reviewer/dashboard/")) {
-  checkToken(dbx);
-}
+
+  if (window.location.pathname.includes("reviewer/dashboard/")) {
+    checkToken(dbx);
+  }
 
 //Don't check token on review page
 if (window.location.pathname.includes("generate_review")) {
@@ -58,6 +54,7 @@ if (window.location.pathname.includes("generate_review")) {
 
 //! 1 Check token validity
 async function checkToken(dbx) {
+  console.log('access_token', accessToken)
   console.log(`%c Checking token`, "color: #f078c0");
  await dbx
     .usersGetCurrentAccount()
@@ -70,7 +67,7 @@ async function checkToken(dbx) {
       alert("Access token expired or is invalid. Proceeding to auth.");
       console.log(`%c Access token expired or is invalid`, "color: #f94144");
       //localStorage.removeItem("access_token");
-    auth2Flow();
+      auth2Flow();
     });
 }
 
