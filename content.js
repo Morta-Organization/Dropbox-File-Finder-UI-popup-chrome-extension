@@ -49,6 +49,7 @@ let dbx = new Dropbox.Dropbox({
 });
 
 
+
   if (window.location.pathname.includes("reviewer/dashboard/")) {
     checkToken(dbx);
   }
@@ -77,11 +78,14 @@ async function checkToken(dbx) {
     // Hide loading indicator or enable user interactions
     loadingIndicator("hide");
   } catch (error) {
-    localStorage.setItem("access_token", null);
-    alert("Access token expired or is invalid ❌. Proceeding to auth.");
+ 
+    let getToken = confirm("Access token expired or is invalid ❌. Proceeding to auth.");
     console.log(`%c Access token expired or is invalid`, "color: #f94144");
-    //localStorage.removeItem("access_token");
-    auth2Flow();
+    if (getToken) {
+      localStorage.setItem("access_token", null);
+      auth2Flow();
+    }  
+   
 
     // Hide loading indicator or enable user interactions
     loadingIndicator("hide");
