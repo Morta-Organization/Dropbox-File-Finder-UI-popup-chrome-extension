@@ -6,6 +6,8 @@ floatingElement.prepend(timerContainer);
 
 let counterEl = document.createElement("p");
     counterEl.className = "DBXFF-timer pulsate-fwd"
+    timerContainer.prepend(counterEl);
+
 let inputField1 = document.createElement("input");
 let inputField2 = document.createElement("input");
 let StudentName = "";
@@ -247,8 +249,10 @@ async function filesSearch(studentNumber, taskName) {
   console.log(`%c Searching for files ${inc}`, "color: #5390d9");
   let root = studentNumber
   let retry = inc;
-  const query = taskName;
+  const query = taskName //.split("-")[1]?.trim();
   const path = inc > 0 ? root + ` (${retry})` : root;
+  console.log(`%c ${path}`, 'color: white')
+  console.log(`%c ${query}`, 'color: white')
 
   // Call the Dropbox API to search for a file
   await dbx.filesSearchV2({
@@ -266,8 +270,7 @@ async function filesSearch(studentNumber, taskName) {
       let results = response.result.matches;
 
       //if results are 0 and we did 3 searches already? stop
-      if (inc >= 3) {
-        currentRouteUI.innerHTML = `No files files with name ${fileName} was found`;
+      if (inc >= 4) {
         return;
       } else {
         if (!foundFiles) {
@@ -277,7 +280,7 @@ async function filesSearch(studentNumber, taskName) {
           results.forEach((item, i) => {
             let btnAndListContainer = document.createElement("div");
             btnAndListContainer.className = "DBXFF-btnAndListContainer";
-            let foundRes = document.createElement("p");
+            let foundRes = document.createElement("div");
             foundRes.textContent = item.metadata.metadata.path_display;
 
             let dlIcon = document.createElement("img");
@@ -321,7 +324,7 @@ async function filesSearch(studentNumber, taskName) {
           });
 
           //look in 2nd and 3rd folder
-          if (inc >= 3) {
+          if (inc >= 4) {
             return;
           }
           filesSearch(studentNumber, taskName);
@@ -439,7 +442,7 @@ function reviewCounter() {
   combinedTime = `${min > 9 ? "" : 0}${min}:${sec > 9 ? "" : 0}${sec}`;
   sec++;
   counterEl.textContent = combinedTime;
-  timerContainer.prepend(counterEl);
+  
 }
 
 
