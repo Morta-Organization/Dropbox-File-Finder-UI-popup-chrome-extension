@@ -1,23 +1,38 @@
 let floatingElement = document.createElement("div");
-let reviewCompleteBtn = document.querySelector("#submit-review-btn")
+let reviewCompleteBtn = document.querySelector("#submit-review-btn");
 let timerContainer = document.createElement("div");
 timerContainer.className = "DBXFF-timer-container";
+let timeResetIcon = document.createElement("img");
+timeResetIcon.src = chrome.runtime.getURL("images/reset.png");
+timeResetIcon.alt = "reset timer";
+timerContainer.appendChild(timeResetIcon);
 floatingElement.prepend(timerContainer);
 
+
+// Create the counter element
 let counterEl = document.createElement("p");
+// Initialize the counter and last saved time from local storage, or use default values
+let counter = parseInt(localStorage.getItem("counter")) || 0;
+let min = parseInt(localStorage.getItem("minutes")) || 0;
+let lastSavedTime = parseInt(localStorage.getItem("lastSavedTime")) || new Date().getTime();
+console.log('lastSavedTime', lastSavedTime)
+
+// Calculate the elapsed time since the last saved time and add it to the counter
+counter += Math.floor((new Date().getTime() - lastSavedTime) / 1000);  
+console.log('counter', counter)
+
     counterEl.className = "DBXFF-timer pulsate-fwd"
     timerContainer.prepend(counterEl);
+ 
 
 let inputField1 = document.createElement("input");
 let inputField2 = document.createElement("input");
 let StudentName = "";
 let routeList;
-let startTime;
 let reviewCount = 0
 let inc = 0;
 let combinedTime = 0
-let sec = 0
-let min = 0
+
 let hashParams = null;
 let rootPath = "";
 let fileName = "";
@@ -177,8 +192,8 @@ function createUI() {
   // Call function to get page values and update UI elements
 
   extractStudentNumber(); //! Step 2.1 : Call function to "Extract the student number"
-  startTime = setInterval(reviewCounter, 1000);//start the time
-  //reviewCounter()
+  
+  //reviewTimer()
   getReviewCounts()
 }
 
@@ -411,15 +426,28 @@ function highlightInputName(inputVal) {
 
 
 
-//Review Timer
-function reviewCounter() {
-  //add 0 if only one decimal
-  //reset seconds when > 59
-  //increment minutes ever 60sec
-  if (sec > 59) {
-    min++;
-    sec = 0;
-  }
+//====================================================Review Timer
+
+   /*
+
+   When the program is closed, it saves the current counter and
+    time to local storage using the beforeunload event, 
+    and clears the interval to stop incrementing the counter. 
+    When the program is restarted, it initializes the counter 
+    and last saved time from local storage again, and repeats 
+    the process to include the missing seconds and continue 
+    incrementing the counter.
+   */
+
+
+
+function reviewTimer() {
+  counter++;
+
+  if (counter > 59) {
+     min += Math.floor(counter / 60); // Increment 'min' by the quotient of counter divided by 60
+     counter %= 60; // Set 'counter' to the remainder of counter divided by 60
+   }
 
   //set time warning colors
   if (min < 5) {
@@ -439,15 +467,33 @@ function reviewCounter() {
   }
 
   //time UI
-  combinedTime = `${min > 9 ? "" : 0}${min}:${sec > 9 ? "" : 0}${sec}`;
-  sec++;
+  combinedTime = `${min > 9 ? "" : 0}${min}:${counter > 9 ? "" : 0}${counter}`;
   counterEl.textContent = combinedTime;
-  
 }
 
+const startTime = setInterval(reviewTimer, 1000);//start the time
+
+// Save the current counter and time to local storage when the program is closed
+window.addEventListener("beforeunload", () => {
+  localStorage.setItem("counter", counter);
+  localStorage.setItem("minutes", min)
+  localStorage.setItem("lastSavedTime", new Date().getTime());
+  clearInterval(startTime);
+ 
+});
+
+//reset timer
+timeResetIcon.addEventListener("click", () => {
+  counter = 0
+  min = 0
+  localStorage.setItem("minutes", null)
+  localStorage.setItem("counter", null);
+  reviewTimer()
+});
+//=====================================================
 
 // Increment review count when review is finished and save to local storage
-reviewCompleteBtn.addEventListener("click", () => {
+reviewCompleteBtn?.addEventListener("click", () => {
   reviewCount++
   localStorage.setItem("reviewCount", reviewCount)
 })
