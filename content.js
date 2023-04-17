@@ -50,14 +50,12 @@ let dbx = new Dropbox.Dropbox({
   accessToken: accessToken,
 });
 
-
-
   if (window.location.pathname.includes("reviewer/dashboard/")) {
     checkToken(dbx);
   }
 
 //Don't check token on review page
-if (window.location.pathname.includes("generate_review")) {
+if (window.location.pathname.includes("generate_review") || window.location.pathname.includes("generate_dfe_review") ) {
   createUI();
  
 } 
