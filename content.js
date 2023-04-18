@@ -10,22 +10,22 @@ timerContainer.appendChild(timeResetIcon);
 floatingElement.prepend(timerContainer);
 let foundTaskName;
 
-
 // Create the counter element
 let counterEl = document.createElement("p");
 // Initialize the counter and last saved time from local storage, or use default values
 let counter = parseInt(localStorage.getItem("counter")) || 0;
 let min = parseInt(localStorage.getItem("minutes")) || 0;
-let lastSavedTime = parseInt(localStorage.getItem("lastSavedTime")) || new Date().getTime();
-console.log('lastSavedTime', lastSavedTime)
+let lastSavedTime =
+  parseInt(localStorage.getItem("lastSavedTime")) || new Date().getTime();
+console.log("lastSavedTime", lastSavedTime);
 
 // Calculate the elapsed time since the last saved time and add it to the counter
-counter += Math.floor((new Date().getTime() - lastSavedTime) / 1000);  
-console.log('counter', counter)
+counter += Math.floor((new Date().getTime() - lastSavedTime) / 1000);
+console.log("counter", counter);
 
-    counterEl.className = "DBXFF-timer pulsate-fwd"
-    timerContainer.prepend(counterEl);
- 
+counterEl.className = "DBXFF-timer pulsate-fwd";
+timerContainer.prepend(counterEl);
+
 let reviewDetailsEl = document.createElement("div");
 reviewDetailsEl.className = "DBXFF-review-details";
 let studentNameEl = document.createElement("h4");
@@ -33,9 +33,9 @@ let studentNumberEl = document.createElement("h4");
 let taskNameEl = document.createElement("div");
 let StudentName = "";
 let routeList;
-let reviewCount = 0
+let reviewCount = 0;
 let inc = 0;
-let combinedTime = 0
+let combinedTime = 0;
 
 let hashParams = null;
 let rootPath = "";
@@ -43,15 +43,14 @@ let fileName = "";
 let foundFiles = false;
 let storeToken = "";
 //! Dropbox credentials
-const dropboxClientId = "gsw6a2m0r2u44lt"; 
-const clientSecret = "nwpi7lk0yyp2v44"; 
+const dropboxClientId = "gsw6a2m0r2u44lt";
+const clientSecret = "nwpi7lk0yyp2v44";
 const redirectHomeUrl = "https://hyperiondev.cogrammar.com/reviewer/dashboard/"; // your redirect URI http://localhost:3000/testRoute/index.html
 
-
 let accessToken = localStorage.getItem("access_token");
-console.log('accessToken === null', accessToken === "null")
+console.log("accessToken === null", accessToken === "null");
 
-console.log('window.location.pathname', window.location.pathname)
+console.log("window.location.pathname", window.location.pathname);
 
 //Stores token right after verification from the dashboard page
 if (accessToken === "null") {
@@ -59,8 +58,7 @@ if (accessToken === "null") {
   hashParams = new URLSearchParams(window.location.hash.substr(1));
   accessToken = hashParams.get("access_token"); //save token to variable
   localStorage.setItem("access_token", accessToken);
-  
-} 
+}
 
 //DBX object
 let dbx = new Dropbox.Dropbox({
@@ -69,22 +67,23 @@ let dbx = new Dropbox.Dropbox({
   accessToken: accessToken,
 });
 
-  if (window.location.pathname.includes("reviewer/dashboard/")) {
-    checkToken(dbx);
-  }
+if (window.location.pathname.includes("reviewer/dashboard/")) {
+  checkToken(dbx);
+}
 
 //Don't check token on review page
-if (window.location.pathname.includes("generate_review") || window.location.pathname.includes("generate_dfe_review") ) {
+if (
+  window.location.pathname.includes("generate_review") ||
+  window.location.pathname.includes("generate_dfe_review")
+) {
   createUI();
-
- 
-} 
+}
 
 //! 1 Check token validity
 async function checkToken(dbx) {
-  console.log('access_token', accessToken);
+  console.log("access_token", accessToken);
   console.log(`%c Checking token`, "color: #f078c0");
-  
+
   // Show loading indicator or disable user interactions
   // while waiting for the method to complete
   loadingIndicator("show");
@@ -98,20 +97,19 @@ async function checkToken(dbx) {
     // Hide loading indicator or enable user interactions
     loadingIndicator("hide");
   } catch (error) {
- 
-    let getToken = confirm("Access token expired or is invalid ❌. Proceeding to auth.");
+    let getToken = confirm(
+      "Access token expired or is invalid ❌. Proceeding to auth."
+    );
     console.log(`%c Access token expired or is invalid`, "color: #f94144");
     if (getToken) {
       localStorage.setItem("access_token", null);
       auth2Flow();
-    }  
-   
+    }
 
     // Hide loading indicator or enable user interactions
     loadingIndicator("hide");
   }
 }
-
 
 //! Step 1.1: If needed, get access
 function auth2Flow() {
@@ -149,7 +147,6 @@ if (window.location.pathname === "http://localhost:3000/testRoute/index.html") {
 
 //! Step 2:  Create Floating the UI elements
 function createUI() {
-  
   console.log(`%c Creating UI`, "color: red");
   // Create the floating element properties
   routeList = document.createElement("div");
@@ -157,7 +154,6 @@ function createUI() {
   routeList.textContent = "Results:";
   const inputContainer = document.createElement("div");
   inputContainer.className = "DBXFF-main-input-container";
-
 
   //const header = document.createElement("h1");
   //header.innerText = "Floating Element";
@@ -175,10 +171,9 @@ function createUI() {
   studentNumberEl.id = "DBXFF-mystudentNumberEl";
   taskNameEl.id = "DBXFF-mytaskNameEl";
 
-
   floatingElement.prepend(slideBtn);
   //floatingElement.appendChild(header);
-  studentNameEl.textContent =  extractStudentName()
+  studentNameEl.textContent = extractStudentName();
   reviewDetailsEl.appendChild(studentNameEl);
   reviewDetailsEl.appendChild(studentNumberEl);
   reviewDetailsEl.appendChild(taskNameEl);
@@ -192,12 +187,10 @@ function createUI() {
   // Call function to get page values and update UI elements
 
   extractStudentNumber(); //! Step 2.1 : Call function to "Extract the student number"
-  
+
   //reviewTimer()
-  getReviewCounts()
+  getReviewCounts();
 }
-
-
 
 //! Extracts the task name from the page elements
 function extractTaskName(studentNumber) {
@@ -211,8 +204,6 @@ function extractTaskName(studentNumber) {
   h6Tags.forEach((task) => {
     const text = task?.textContent?.trim();
     const index = text.indexOf("-") + 1;
-
-    
 
     // If the text contains "-", extract the text after "-" and check if it contains ":"
     if (index !== 0) {
@@ -241,21 +232,20 @@ function extractStudentNumber() {
   studentNumberEl.textContent = studentNumber;
 
   extractTaskName(studentNumber); //! Step 2.1 :  Call function to "Extracts the task name"
-  extractStudentName()
+  extractStudentName();
 }
 
 //! Extract the student name from the page elements
 function extractStudentName() {
   console.log(`%c  Extracting St Name`, "color: red");
 
-    // Select all h6 elements on the page
-    const h6Element = [...document.querySelectorAll("h6")].filter((task) =>
+  // Select all h6 elements on the page
+  const h6Element = [...document.querySelectorAll("h6")].filter((task) =>
     task.textContent.includes("Student:")
   );
   const stName = h6Element[0]?.textContent?.split(":")[1]?.trim();
   studentName = stName;
-  return stName
-
+  return stName;
 }
 
 //! Step 3 Find a specific file by name - Display results
@@ -264,17 +254,17 @@ function extractStudentName() {
 //between the brackets, and making up to 3 searches each time adding its results to the UI
 
 async function filesSearch(studentNumber, taskName) {
-
   console.log(`%c Searching for files ${inc}`, "color: #5390d9");
-  let root = studentNumber
+  let root = studentNumber;
   let retry = inc;
-  const query = taskName //.split("-")[1]?.trim();
+  const query = taskName; //.split("-")[1]?.trim();
   const path = inc > 0 ? root + ` (${retry})` : root;
-  console.log(`%c ${path}`, 'color: white')
-  console.log(`%c ${query}`, 'color: white')
+  console.log(`%c ${path}`, "color: white");
+  console.log(`%c ${query}`, "color: white");
 
   // Call the Dropbox API to search for a file
-  await dbx.filesSearchV2({
+  await dbx
+    .filesSearchV2({
       query: query,
       options: {
         path: "/" + path,
@@ -290,12 +280,12 @@ async function filesSearch(studentNumber, taskName) {
 
       //if results are 0 and we did 3 searches already? stop
       if (inc >= 4) {
-        highlightInputName()
+        highlightInputName();
         return;
       } else {
         if (!foundFiles) {
           //foundFiles = true;
-       
+
           console.log(`%c results found: ${results.length}`, "color: #2196f3");
           results.forEach((item, i) => {
             let btnAndListContainer = document.createElement("div");
@@ -341,12 +331,10 @@ async function filesSearch(studentNumber, taskName) {
             btnAndListContainer.appendChild(linkIcon);
             btnAndListContainer.appendChild(foundRes);
             routeList.appendChild(btnAndListContainer);
-          
           });
 
           //look in 2nd and 3rd folder
           if (inc >= 4) {
-    
             return;
           }
           filesSearch(studentNumber, taskName);
@@ -355,7 +343,7 @@ async function filesSearch(studentNumber, taskName) {
     })
     .catch(function (error) {
       console.log(error);
-      console.log(`%c Search ended`, 'color: hotpink')
+      console.log(`%c Search ended`, "color: hotpink");
       return;
     });
 }
@@ -403,7 +391,7 @@ function getDLLink(blob, name) {
   const url = window.URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = studentName+"_"+name;
+  link.download = studentName + "_" + name;
   document.body.appendChild(link);
   document.body.appendChild(link);
   link.click();
@@ -413,41 +401,34 @@ function getDLLink(blob, name) {
 
 //Extracts the word that matches the input name and only highlight that word.
 function highlightInputName() {
-  console.log('foundTaskName', foundTaskName)
-console.log(`%c ${foundTaskName}`, 'color: pink')
   // Get all the parent div elements
-const parentDivs = document.querySelectorAll('.DBXFF-foundRes');
+  const parentDivs = document.querySelectorAll(".DBXFF-foundRes");
 
-// Loop through each parent div
-parentDivs.forEach(div => {
+  // Loop through each parent div
+  parentDivs.forEach((div) => {
+    // Get the text content of the child div
+    let itemText = div.textContent?.toLowerCase()?.trim();
+    //split the words into an array
+    let wordsToHighlight = foundTaskName.split(" ");
 
-  // Get the text content of the child div
-  let itemText = div.textContent?.toLowerCase()?.trim();
-      //split the words into an array
-      let wordsToHighlight = foundTaskName.split(' ');
- 
-      
-      wordsToHighlight.forEach((word) => {
-        console.log('word', word)
-if (word.length > 2) {
-  if (itemText.includes(word.toLowerCase())) {
-    let found = div.innerHTML.replace(new RegExp(word, 'gi'),
-    `<b class="highlight">${word}</b>`);
-    div.innerHTML = found
-  }
+    wordsToHighlight.forEach((word) => {
+      console.log("word", word);
+      if (word.length > 2) {
+        if (itemText.includes(word.toLowerCase())) {
+          let found = div.innerHTML.replace(
+            new RegExp(word, "gi"),
+            `<b class="highlight">${word}</b>`
+          );
+          div.innerHTML = found;
+        }
+      }
+    });
+  });
 }
-       
-
-      });
-});
-
-}
-
-
 
 //====================================================Review Timer
 
-   /*
+/*
 
    When the program is closed, it saves the current counter and
     time to local storage using the beforeunload event, 
@@ -458,15 +439,13 @@ if (word.length > 2) {
     incrementing the counter.
    */
 
-
-
 function reviewTimer() {
   counter++;
 
   if (counter > 59) {
-     min += Math.floor(counter / 60); // Increment 'min' by the quotient of counter divided by 60
-     counter %= 60; // Set 'counter' to the remainder of counter divided by 60
-   }
+    min += Math.floor(counter / 60); // Increment 'min' by the quotient of counter divided by 60
+    counter %= 60; // Set 'counter' to the remainder of counter divided by 60
+  }
 
   //set time warning colors
   if (min < 5) {
@@ -494,39 +473,40 @@ function reviewTimer() {
 }
 
 //start the time
-const startTime = window.location.pathname.includes("generate_review") ? setInterval(reviewTimer, 1000) : null;
+const startTime = window.location.pathname.includes("generate_review")
+  ? setInterval(reviewTimer, 1000)
+  : null;
 
 // Save the current counter and time to local storage when the program is closed
 window.addEventListener("beforeunload", () => {
   localStorage.setItem("counter", counter);
-  localStorage.setItem("minutes", min)
+  localStorage.setItem("minutes", min);
   localStorage.setItem("lastSavedTime", new Date().getTime());
   clearInterval(startTime);
- 
 });
 
 //reset timer
 timeResetIcon.addEventListener("click", () => {
-  counter = 0
-  min = 0
-  localStorage.setItem("minutes", null)
+  counter = 0;
+  min = 0;
+  localStorage.setItem("minutes", null);
   localStorage.setItem("counter", null);
-  reviewTimer()
+  reviewTimer();
 });
 //=====================================================
 
 // Increment review count when review is finished and save to local storage
 reviewCompleteBtn?.addEventListener("click", () => {
-  reviewCount++
-  localStorage.setItem("reviewCount", reviewCount)
+  reviewCount++;
+  localStorage.setItem("reviewCount", reviewCount);
 
   //reset review timer
-  counter = 0
-  min = 0
-  localStorage.setItem("minutes", null)
+  counter = 0;
+  min = 0;
+  localStorage.setItem("minutes", null);
   localStorage.setItem("counter", null);
-  reviewTimer()
-})
+  reviewTimer();
+});
 
 //Get review count from local storage when page loads
 function getReviewCounts() {
@@ -538,6 +518,4 @@ function getReviewCounts() {
   floatingElement.prepend(reviewCountEl);
 }
 
-function loadingIndicator() {
-  
-}
+function loadingIndicator() {}
