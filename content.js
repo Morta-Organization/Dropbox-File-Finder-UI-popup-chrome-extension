@@ -203,10 +203,8 @@ function createUI() {
 function extractTaskName(studentNumber) {
   //look up in dropbox
   lookUpStudentBtn.addEventListener("click", () => {
-
-    let link = `https://www.dropbox.com/search/work?path=%2F&query=${studentNumber}&search_token=mUrM54J2SiALJes%2B%2Boc65k3O8pz4DOlJOX9WlhH8KKI%3D&typeahead_session_id=09702658948404806500012995044766`
+    let link = `https://www.dropbox.com/search/work?path=%2F&query=${studentNumber}&search_token=mUrM54J2SiALJes%2B%2Boc65k3O8pz4DOlJOX9WlhH8KKI%3D&typeahead_session_id=09702658948404806500012995044766`;
     window.open(link, "_blank");
-
   });
   console.log(`%c  Extracting Task name`, "color: red");
   // Find all h6 elements containing the word "Task"
@@ -519,7 +517,7 @@ reviewCompleteBtn?.addEventListener("click", () => {
 
   counterEl.style.color = "#8BC34A";
   counterEl.style.animationDuration = "1s";
-  
+
   //reset review timer
   counter = 0;
   min = 0;
