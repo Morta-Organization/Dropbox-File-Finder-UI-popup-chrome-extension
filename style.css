@@ -43,6 +43,18 @@
   background: #555; 
 }
 
+.DBXFF-review-details {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0px;
+  margin-top: 5px;
+  background-color: #c8d9f8;
+  box-shadow: 0px 0px 10px #c8d9f8, 0px 0px 10px #c8d9f8;
+  border-radius: 5px;
+  padding: 5px;
+}
+
 .DBXFF-slide-btn {
   position: absolute;
   right: 0;
@@ -174,6 +186,10 @@
   align-items: center;
   border-bottom: 2px solid #405c75;
   padding-bottom: 2px;
+}
+
+.DBXFF-btnAndListContainer > div {
+  word-break: break-all;
 }
 
 .DBXFF-btnAndListContainer:hover {
@@ -317,4 +333,8 @@
     top: 0;
     left: 50%;
     transform: translate(-50%, 0px);
+  }
+
+  .highlight {
+    background-color: #f6db77;
   }

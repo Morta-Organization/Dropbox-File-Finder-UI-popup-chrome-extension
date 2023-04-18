@@ -5,8 +5,10 @@ timerContainer.className = "DBXFF-timer-container";
 let timeResetIcon = document.createElement("img");
 timeResetIcon.src = chrome.runtime.getURL("images/reset.png");
 timeResetIcon.alt = "reset timer";
+timeResetIcon.title = "Reset timer";
 timerContainer.appendChild(timeResetIcon);
 floatingElement.prepend(timerContainer);
+let foundTaskName;
 
 
 // Create the counter element
@@ -24,9 +26,11 @@ console.log('counter', counter)
     counterEl.className = "DBXFF-timer pulsate-fwd"
     timerContainer.prepend(counterEl);
  
-
-let inputField1 = document.createElement("input");
-let inputField2 = document.createElement("input");
+let reviewDetailsEl = document.createElement("div");
+reviewDetailsEl.className = "DBXFF-review-details";
+let studentNameEl = document.createElement("h4");
+let studentNumberEl = document.createElement("h4");
+let taskNameEl = document.createElement("div");
 let StudentName = "";
 let routeList;
 let reviewCount = 0
@@ -72,6 +76,7 @@ let dbx = new Dropbox.Dropbox({
 //Don't check token on review page
 if (window.location.pathname.includes("generate_review") || window.location.pathname.includes("generate_dfe_review") ) {
   createUI();
+
  
 } 
 
@@ -167,20 +172,17 @@ function createUI() {
     slideBtn.classList.toggle("toggleBtn");
   });
 
-  inputField1.id = "DBXFF-myInputField1";
-  inputField1.type = "text";
-  inputField1.disabled = true;
-  inputField1.placeholder = "Student number";
+  studentNumberEl.id = "DBXFF-mystudentNumberEl";
+  taskNameEl.id = "DBXFF-mytaskNameEl";
 
-  inputField2.id = "DBXFF-myInputField2";
-  inputField2.type = "text";
-  inputField2.disabled = true;
-  inputField2.placeholder = "Task name / PDF name";
 
   floatingElement.prepend(slideBtn);
   //floatingElement.appendChild(header);
-  inputContainer.appendChild(inputField1);
-  inputContainer.appendChild(inputField2);
+  studentNameEl.textContent =  extractStudentName()
+  reviewDetailsEl.appendChild(studentNameEl);
+  reviewDetailsEl.appendChild(studentNumberEl);
+  reviewDetailsEl.appendChild(taskNameEl);
+  inputContainer.appendChild(reviewDetailsEl);
 
   inputContainer.appendChild(routeList);
   floatingElement.appendChild(inputContainer);
@@ -195,6 +197,8 @@ function createUI() {
   getReviewCounts()
 }
 
+
+
 //! Extracts the task name from the page elements
 function extractTaskName(studentNumber) {
   console.log(`%c  Extracting Task name`, "color: red");
@@ -208,21 +212,21 @@ function extractTaskName(studentNumber) {
     const text = task?.textContent?.trim();
     const index = text.indexOf("-") + 1;
 
-    let result;
+    
 
     // If the text contains "-", extract the text after "-" and check if it contains ":"
     if (index !== 0) {
-      result = text?.substring(index)?.trim();
+      foundTaskName = text?.substring(index)?.trim();
 
       // If the result contains ":", extract the text after the last ":" instead
-      if (result.includes(":")) {
-        const lastIndex = result.lastIndexOf(":") + 1;
-        result = result?.substring(lastIndex)?.trim();
+      if (foundTaskName.includes(":")) {
+        const lastIndex = foundTaskName.lastIndexOf(":") + 1;
+        foundTaskName = foundTaskName?.substring(lastIndex)?.trim();
       }
     }
 
-    inputField2.value = result;
-    filesSearch(studentNumber, result);
+    taskNameEl.textContent = foundTaskName;
+    filesSearch(studentNumber, foundTaskName);
   });
 }
 
@@ -234,12 +238,13 @@ function extractStudentNumber() {
     task.textContent.includes("Student number")
   );
   const studentNumber = h6Element[0]?.textContent?.split(":")[1]?.trim();
-  inputField1.value = studentNumber;
+  studentNumberEl.textContent = studentNumber;
 
   extractTaskName(studentNumber); //! Step 2.1 :  Call function to "Extracts the task name"
   extractStudentName()
 }
 
+//! Extract the student name from the page elements
 function extractStudentName() {
   console.log(`%c  Extracting St Name`, "color: red");
 
@@ -249,6 +254,7 @@ function extractStudentName() {
   );
   const stName = h6Element[0]?.textContent?.split(":")[1]?.trim();
   studentName = stName;
+  return stName
 
 }
 
@@ -294,6 +300,7 @@ async function filesSearch(studentNumber, taskName) {
             let btnAndListContainer = document.createElement("div");
             btnAndListContainer.className = "DBXFF-btnAndListContainer";
             let foundRes = document.createElement("div");
+            foundRes.className = "DBXFF-foundRes";
             foundRes.textContent = item.metadata.metadata.path_display;
 
             let dlIcon = document.createElement("img");
@@ -333,11 +340,12 @@ async function filesSearch(studentNumber, taskName) {
             btnAndListContainer.appendChild(linkIcon);
             btnAndListContainer.appendChild(foundRes);
             routeList.appendChild(btnAndListContainer);
-            highlightInputName(inputField2.value);
+          
           });
 
           //look in 2nd and 3rd folder
           if (inc >= 4) {
+    
             return;
           }
           filesSearch(studentNumber, taskName);
@@ -403,24 +411,52 @@ function getDLLink(blob, name) {
 }
 
 //Extracts the word that matches the input name and only highlight that word.
-function highlightInputName(inputVal) {
-  console.log(
-    `%c  Highlighting related words in display results`,
-    "color: red"
-  );
-  const elements = document.getElementsByTagName("p");
+function highlightInputName() {
+  console.log('foundTaskName', foundTaskName)
+console.log(`%c ${foundTaskName}`, 'color: pink')
+  // Get all the parent div elements
+const parentDivs = document.querySelectorAll('.DBXFF-foundRes');
 
-  for (let i = 0; i < elements.length; i++) {
-    const text = elements[i].innerText;
-    if (text.includes(inputVal)) {
-      const highlightedText = text.replace(
-        new RegExp(inputVal, "gi"),
-        "<mark>$&</mark>"
-      );
-      elements[i].innerHTML = highlightedText;
-    }
-  }
+// Loop through each parent div
+parentDivs.forEach(div => {
+
+  // Get the text content of the child div
+  let itemText = div.textContent?.toLowerCase()?.replaceAll("-", "").trim();
+
+  // Log out the text content of the child div
+      //lowercase each word
+    
+  
+      //split the words into an array
+      let wordsToHighlight = foundTaskName.split(' ');
+ 
+      
+      wordsToHighlight.forEach((word) => {
+        if (itemText.includes(word.toLowerCase())) {
+          let found = div.innerHTML.replace(new RegExp(word, 'gi'),
+          `<span class="highlight">${word}</span>`);
+          div.innerHTML = found
+        }
+      });
+});
+
 }
+
+function wait(time) {
+    return new Promise(resolve => {
+        setTimeout(resolve, time)
+    })
+}
+
+//highlight task names after page load
+wait(3000).then(()=>  highlightInputName())
+
+function wait(time) {
+    return new Promise(resolve => {
+        setTimeout(resolve, time)
+    })
+}
+
 
 
 
@@ -462,6 +498,9 @@ function reviewTimer() {
   } else if (min < 15) {
     counterEl.style.color = "#f44336";
     counterEl.style.animationDuration = ".2s";
+  } else {
+    counterEl.style.color = "red";
+    counterEl.style.animationDuration = ".2s";
   }
 
   //time UI
@@ -469,7 +508,8 @@ function reviewTimer() {
   counterEl.textContent = combinedTime;
 }
 
-const startTime = setInterval(reviewTimer, 1000);//start the time
+//start the time
+const startTime = window.location.pathname.includes("generate_review") ? setInterval(reviewTimer, 1000) : null;
 
 // Save the current counter and time to local storage when the program is closed
 window.addEventListener("beforeunload", () => {
@@ -494,6 +534,13 @@ timeResetIcon.addEventListener("click", () => {
 reviewCompleteBtn?.addEventListener("click", () => {
   reviewCount++
   localStorage.setItem("reviewCount", reviewCount)
+
+  //reset review timer
+  counter = 0
+  min = 0
+  localStorage.setItem("minutes", null)
+  localStorage.setItem("counter", null);
+  reviewTimer()
 })
 
 //Get review count from local storage when page loads
