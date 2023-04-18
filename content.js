@@ -29,6 +29,11 @@ timerContainer.prepend(counterEl);
 let reviewDetailsEl = document.createElement("div");
 reviewDetailsEl.className = "DBXFF-review-details";
 let studentNameEl = document.createElement("h4");
+let studentNumberContainerEl = document.createElement("div");
+studentNumberContainerEl.className = "DBXFF-student-number-container";
+let lookUpStudentBtn = document.createElement("img");
+lookUpStudentBtn.src = chrome.runtime.getURL("images/externalLink.png");
+lookUpStudentBtn.title = "Look up number in dropbox";
 let studentNumberEl = document.createElement("h4");
 let taskNameEl = document.createElement("div");
 let StudentName = "";
@@ -175,7 +180,9 @@ function createUI() {
   //floatingElement.appendChild(header);
   studentNameEl.textContent = extractStudentName();
   reviewDetailsEl.appendChild(studentNameEl);
-  reviewDetailsEl.appendChild(studentNumberEl);
+  studentNumberContainerEl.appendChild(lookUpStudentBtn);
+  studentNumberContainerEl.appendChild(studentNumberEl);
+  reviewDetailsEl.appendChild(studentNumberContainerEl);
   reviewDetailsEl.appendChild(taskNameEl);
   inputContainer.appendChild(reviewDetailsEl);
 
@@ -194,6 +201,13 @@ function createUI() {
 
 //! Extracts the task name from the page elements
 function extractTaskName(studentNumber) {
+  //look up in dropbox
+  lookUpStudentBtn.addEventListener("click", () => {
+
+    let link = `https://www.dropbox.com/search/work?path=%2F&query=${studentNumber}&search_token=mUrM54J2SiALJes%2B%2Boc65k3O8pz4DOlJOX9WlhH8KKI%3D&typeahead_session_id=09702658948404806500012995044766`
+    window.open(link, "_blank");
+
+  });
   console.log(`%c  Extracting Task name`, "color: red");
   // Find all h6 elements containing the word "Task"
   let h6Tags = [...document.querySelectorAll("h6")].filter((task) =>
@@ -381,7 +395,7 @@ async function downloadFileBob(path) {
       //displayFiles(response.result.fileBlob);
     })
     .catch(function (error) {
-      console.error(error);
+      console.log(error);
     });
 }
 
@@ -464,6 +478,7 @@ function reviewTimer() {
     counterEl.style.animationDuration = ".2s";
   } else {
     counterEl.style.color = "red";
+    counterEl.style.textShadow = "0px 0px 2px white, 0px 0px 2px white";
     counterEl.style.animationDuration = ".2s";
   }
 
@@ -487,6 +502,8 @@ window.addEventListener("beforeunload", () => {
 
 //reset timer
 timeResetIcon.addEventListener("click", () => {
+  counterEl.style.color = "#8BC34A";
+  counterEl.style.animationDuration = "1s";
   counter = 0;
   min = 0;
   localStorage.setItem("minutes", null);
@@ -500,6 +517,9 @@ reviewCompleteBtn?.addEventListener("click", () => {
   reviewCount++;
   localStorage.setItem("reviewCount", reviewCount);
 
+  counterEl.style.color = "#8BC34A";
+  counterEl.style.animationDuration = "1s";
+  
   //reset review timer
   counter = 0;
   min = 0;
@@ -512,10 +532,24 @@ reviewCompleteBtn?.addEventListener("click", () => {
 function getReviewCounts() {
   let prevCounts = localStorage.getItem("reviewCount");
   reviewCount = prevCounts ? prevCounts : 0;
+  let counterContainerEl = document.createElement("div");
+  counterContainerEl.className = "DBXFF-counter-container";
   let reviewCountEl = document.createElement("p");
   reviewCountEl.className = "DBXFF-review-count";
   reviewCountEl.textContent = `Reviews done: ${reviewCount}`;
-  floatingElement.prepend(reviewCountEl);
+
+  let reviewReset = document.createElement("img");
+  reviewReset.src = chrome.runtime.getURL("images/reset.png");
+  reviewReset.alt = "reviewReset";
+  reviewReset.title = "Reset";
+  reviewReset.addEventListener("click", () => {
+    localStorage.setItem("reviewCount", 0);
+    reviewCountEl.textContent = `Reviews done: 0`;
+  });
+
+  counterContainerEl.prepend(reviewReset);
+  counterContainerEl.prepend(reviewCountEl);
+  floatingElement.prepend(counterContainerEl);
 }
 
 function loadingIndicator() {}

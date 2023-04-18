@@ -44,7 +44,9 @@
 }
 
 .DBXFF-review-details {
+  min-height: 130px;
   display: flex;
+  justify-content: center;
   flex-direction: column;
   width: 100%;
   gap: 0px;
@@ -62,16 +64,19 @@
   border-radius: 10px;
   border-top-left-radius: 0px;
   margin: 5px;
-  transition: .5s cubic-bezier(0.215, 0.610, 0.355, 1);
+  transition: .1s cubic-bezier(0.215, 0.610, 0.355, 1);
   font-size: 8px;
     font-weight: 700;
-    border: 1px solid azure;
+    border-color: #ffeb99;
+    background-color: #ffeb99;
+    box-shadow: 1px 1px 2px #00000052;
     padding: 2px;
     cursor: pointer;
 }
 
 .DBXFF-slide-btn:hover {
-  background-color: #37a77c;
+  transition: .1s;
+  background-color: #bfb2d2;
   color: white;
 }
 
@@ -200,6 +205,7 @@
   width: 20px;
   margin-left: 5px;
   cursor: pointer;
+  filter: drop-shadow(0px 1px 1px #00000045);;
 }
 
 .DBXFF-query-results {
@@ -216,11 +222,23 @@
 }
 
 
-/* mark {
-  background-color: #FFEB3B !;
-
-} */
-
+.DBXFF-student-number-container {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  
+}
+.DBXFF-student-number-container img {
+  vertical-align: middle;
+  border-style: none;
+  filter: drop-shadow(0px 1px 1px #00000045);;
+  width: 25px;
+  cursor: pointer;
+}
+#DBXFF-mystudentNumberEl {
+  margin: 0px;
+}
 
 
 .pulsate-fwd {
@@ -303,6 +321,7 @@
 
   .DBXFF-timer-container{
     flex-direction: row;
+    height: 25px;
     justify-content: space-around;
     padding: 0px 2px;
     position: absolute;
@@ -312,7 +331,7 @@
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
     margin: 0;
-    background-color: #343a40;
+    background-color: #405c75;
     width: 70px;
     display: flex;
 
@@ -322,19 +341,42 @@
   .DBXFF-timer-container img {
     right: 5px;
     top: 50%;
+    filter: drop-shadow(0px 0px 1px white);
     position: absolute;
     transform: translate(0px, -50%);
-    width: 12px;
+    width: 10px;
     cursor: pointer;
   }
 
-  .DBXFF-review-count {
+  .DBXFF-counter-container {
     position: absolute;
     top: 0;
     left: 50%;
+    height: 25px;
     transform: translate(-50%, 0px);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    gap: 3px;
+    background-color: #405c75;
+    color: white;
+    padding: 0px 3px;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+  }
+
+  .DBXFF-counter-container img {
+    cursor: pointer;
+    width: 10px;
+    filter: drop-shadow(0px 0px 1px white);
+  }
+  .DBXFF-counter-container p {
+    margin: 0;
   }
 
   .highlight {
     background-color: rgb(246 219 119 / 43%);
   }
+
