@@ -290,6 +290,7 @@ async function filesSearch(studentNumber, taskName) {
 
       //if results are 0 and we did 3 searches already? stop
       if (inc >= 4) {
+        highlightInputName()
         return;
       } else {
         if (!foundFiles) {
@@ -421,42 +422,26 @@ const parentDivs = document.querySelectorAll('.DBXFF-foundRes');
 parentDivs.forEach(div => {
 
   // Get the text content of the child div
-  let itemText = div.textContent?.toLowerCase()?.replaceAll("-", "").trim();
-
-  // Log out the text content of the child div
-      //lowercase each word
-    
-  
+  let itemText = div.textContent?.toLowerCase()?.trim();
       //split the words into an array
       let wordsToHighlight = foundTaskName.split(' ');
  
       
       wordsToHighlight.forEach((word) => {
-        if (itemText.includes(word.toLowerCase())) {
-          let found = div.innerHTML.replace(new RegExp(word, 'gi'),
-          `<span class="highlight">${word}</span>`);
-          div.innerHTML = found
-        }
+        console.log('word', word)
+if (word.length > 2) {
+  if (itemText.includes(word.toLowerCase())) {
+    let found = div.innerHTML.replace(new RegExp(word, 'gi'),
+    `<b class="highlight">${word}</b>`);
+    div.innerHTML = found
+  }
+}
+       
+
       });
 });
 
 }
-
-function wait(time) {
-    return new Promise(resolve => {
-        setTimeout(resolve, time)
-    })
-}
-
-//highlight task names after page load
-wait(3000).then(()=>  highlightInputName())
-
-function wait(time) {
-    return new Promise(resolve => {
-        setTimeout(resolve, time)
-    })
-}
-
 
 
 
