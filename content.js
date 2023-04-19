@@ -504,6 +504,7 @@ window.addEventListener("beforeunload", () => {
 timeResetIcon.addEventListener("click", () => {
   counterEl.style.color = "#8BC34A";
   counterEl.style.animationDuration = "1s";
+  counterEl.style.textShadow = "none";
   counter = 0;
   min = 0;
   localStorage.setItem("minutes", null);
