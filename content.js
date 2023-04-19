@@ -163,14 +163,18 @@ function createUI() {
   //const header = document.createElement("h1");
   //header.innerText = "Floating Element";
   floatingElement.className = "DBXFF-box-layout DBXFF-slide-in-left";
-
+  floatingElement.style.backgroundImage = `url(${chrome.runtime.getURL('./images/nav-bg.gif')})`;
   //create the toggle button
   let slideBtn = document.createElement("div");
   slideBtn.className = "DBXFF-slide-btn ";
-  slideBtn.textContent = "Toggle Slide";
+  slideBtn.textContent = "Hide";
+  let hide = false
   slideBtn.addEventListener("click", () => {
     floatingElement.classList.toggle("DBXFF-slide-out-left");
     slideBtn.classList.toggle("toggleBtn");
+    hide = !hide
+    hide ? slideBtn.textContent = "Show" : slideBtn.textContent = "Hide";
+    console.log('slideBtn.textContent', slideBtn.textContent)
   });
 
   studentNumberEl.id = "DBXFF-mystudentNumberEl";
@@ -476,7 +480,6 @@ function reviewTimer() {
     counterEl.style.animationDuration = ".2s";
   } else {
     counterEl.style.color = "red";
-    counterEl.style.textShadow = "0px 0px 2px white, 0px 0px 2px white";
     counterEl.style.animationDuration = ".2s";
   }
 
@@ -502,7 +505,6 @@ window.addEventListener("beforeunload", () => {
 timeResetIcon.addEventListener("click", () => {
   counterEl.style.color = "#8BC34A";
   counterEl.style.animationDuration = "1s";
-  counterEl.style.textShadow = "none";
   counter = 0;
   min = 0;
   localStorage.setItem("minutes", null);

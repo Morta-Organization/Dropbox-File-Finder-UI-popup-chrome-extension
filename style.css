@@ -3,7 +3,7 @@
   left: 0;
   top: 20%;
   position: fixed;
-  width: 350px;
+  width: auto;
   z-index: 9999;
   background-color: #57cea0;
   display: flex;
@@ -21,6 +21,7 @@
   height: 555px;
   overflow: auto;
   padding: 25px 5px;
+  color: #9e9e9e;
 }
 
 /* width */
@@ -51,24 +52,22 @@
   width: 100%;
   gap: 0px;
   margin-top: 5px;
-  background-color: #c8d9f8;
-  box-shadow: 0px 0px 10px #c8d9f8, 0px 0px 10px #c8d9f8;
-  border-radius: 5px;
+  box-shadow: 0px 0px 2px black;
+    border-radius: 2px;
+    background-image: linear-gradient(to right bottom, #2f3134, #262628, #1c1b1d, #121111, #000000);
   padding: 5px;
 }
 
 .DBXFF-slide-btn {
+  background-image: linear-gradient(to top, #2f3134, #262628, #1c1b1d, #121111, #000000);
   position: absolute;
   right: 0;
   top: 0;
-  border-radius: 10px;
-  border-top-left-radius: 0px;
   margin: 5px;
   transition: .1s cubic-bezier(0.215, 0.610, 0.355, 1);
   font-size: 8px;
     font-weight: 700;
-    border-color: #ffeb99;
-    background-color: #ffeb99;
+    border-radius: 2px;
     box-shadow: 1px 1px 2px #00000052;
     padding: 2px;
     cursor: pointer;
@@ -81,9 +80,7 @@
 }
 
 .toggleBtn {
-  border-radius: 10px;
-  border-top-left-radius: 10px;
-  border-bottom-right-radius: 0px; 
+  border-radius: 2px;
   transition: .5s cubic-bezier(0.215, 0.610, 0.355, 1);
 }
 
@@ -150,7 +147,7 @@
   100% {
     -webkit-transform: translateX(-290px);
             transform: translateX(-290px);
-    opacity: 1;
+    opacity: .5;
   }
 }
 @keyframes DBXFF-slide-out-left {
@@ -162,7 +159,7 @@
   100% {
     -webkit-transform: translateX(-290px);
             transform: translateX(-290px);
-    opacity: 1;
+    opacity: .5;
   }
 }
 
@@ -190,6 +187,8 @@
     flex-wrap: wrap;
   align-items: center;
   border-bottom: 2px solid #405c75;
+  border-image: linear-gradient(270deg,#1d1a1a 0,#c1c1c15c 50%,#1d1a1a);
+  border-image-slice: 1;
   padding-bottom: 2px;
 }
 
@@ -198,14 +197,14 @@
 }
 
 .DBXFF-btnAndListContainer:hover {
-  background-color: #cdf1e3;
+  background-color: #0000002b;
 }
 
 .DBXFF-btnAndListContainer img {
   width: 20px;
   margin-left: 5px;
   cursor: pointer;
-  filter: drop-shadow(0px 1px 1px #00000045);;
+  filter: drop-shadow(0px 1px 1px #00000045) grayscale(0.5);
 }
 
 .DBXFF-query-results {
@@ -232,7 +231,7 @@
 .DBXFF-student-number-container img {
   vertical-align: middle;
   border-style: none;
-  filter: drop-shadow(0px 1px 1px #00000045);;
+  filter: drop-shadow(0px 1px 1px #00000045) grayscale(0.5);
   width: 25px;
   cursor: pointer;
 }
@@ -326,15 +325,14 @@
     padding: 0px 2px;
     position: absolute;
     top: 0;
-    left: 21px;
+    left: 5px;
     height: 25px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
     margin: 0;
-    background-color: #405c75;
+    background-color: #f0f8ff0d;
     width: 70px;
     display: flex;
-
     align-items: center;
   }
 
@@ -354,13 +352,13 @@
     left: 50%;
     height: 25px;
     transform: translate(-50%, 0px);
+    width: 170px;
     display: flex;
-    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
-    justify-content: center;
     align-content: center;
     gap: 3px;
-    background-color: #405c75;
+    background-color: #f0f8ff0d;
     color: white;
     padding: 0px 3px;
     border-bottom-right-radius: 3px;
@@ -377,6 +375,7 @@
   }
 
   .highlight {
-    background-color: rgb(246 219 119 / 43%);
+    
+    color: #009688;
   }
 
