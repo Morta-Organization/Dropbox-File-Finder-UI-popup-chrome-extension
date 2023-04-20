@@ -41,7 +41,7 @@ let routeList;
 let reviewCount = 0;
 let inc = 0;
 let combinedTime = 0;
-
+let removeSpinner = false;
 let hashParams = null;
 let rootPath = "";
 let fileName = "";
@@ -154,27 +154,38 @@ if (window.location.pathname === "http://localhost:3000/testRoute/index.html") {
 function createUI() {
   console.log(`%c Creating UI`, "color: red");
   // Create the floating element properties
+  let resultsLoaderEl = document.createElement("span");
+  resultsLoaderEl.className = "result_loader";
+
   routeList = document.createElement("div");
   routeList.className = "DBXFF-query-results";
-  routeList.textContent = "Results:";
+  routeList.innerHTML = `<span class="result_loader"></span>`;
   const inputContainer = document.createElement("div");
   inputContainer.className = "DBXFF-main-input-container";
 
   //const header = document.createElement("h1");
   //header.innerText = "Floating Element";
   floatingElement.className = "DBXFF-box-layout DBXFF-slide-in-left";
-  floatingElement.style.backgroundImage = `url(${chrome.runtime.getURL('./images/nav-bg.gif')})`;
+  floatingElement.style.backgroundImage = `url(${chrome.runtime.getURL(
+    "./images/nav-bg.gif"
+  )})`;
   //create the toggle button
   let slideBtn = document.createElement("div");
   slideBtn.className = "DBXFF-slide-btn ";
   slideBtn.textContent = "Hide";
-  let hide = false
+  let hide = false;
   slideBtn.addEventListener("click", () => {
     floatingElement.classList.toggle("DBXFF-slide-out-left");
     slideBtn.classList.toggle("toggleBtn");
-    hide = !hide
-    hide ? slideBtn.textContent = "Show" : slideBtn.textContent = "Hide";
-    console.log('slideBtn.textContent', slideBtn.textContent)
+    hide = !hide;
+
+    if (hide) {
+      slideBtn.textContent = "Show";
+      timerContainer.classList.add("DBXFF-timer-container-fixed", "fade-in");
+    } else {
+      slideBtn.textContent = "Hide";
+      timerContainer.classList.remove("DBXFF-timer-container-fixed", "fade-in");
+    }
   });
 
   studentNumberEl.id = "DBXFF-mystudentNumberEl";
@@ -196,7 +207,6 @@ function createUI() {
   document.body.appendChild(floatingElement);
 
   // Call function to get page values and update UI elements
-
   extractStudentNumber(); //! Step 2.1 : Call function to "Extract the student number"
 
   //reviewTimer()
@@ -233,6 +243,10 @@ function extractTaskName(studentNumber) {
     }
 
     taskNameEl.textContent = foundTaskName;
+
+    //remove the loader before getting results
+
+    removeSpinner = true;
     filesSearch(studentNumber, foundTaskName);
   });
 }
@@ -289,6 +303,10 @@ async function filesSearch(studentNumber, taskName) {
       },
     })
     .then(function (response) {
+      if (removeSpinner) {
+        routeList.innerHTML = "";
+        removeSpinner = false;
+      }
       //console.log('response', response)
       console.log(`%c  making request: ${inc}`, "color: orange");
       inc++; //after 1rst request look for a 2nd folder
@@ -309,7 +327,8 @@ async function filesSearch(studentNumber, taskName) {
             let foundRes = document.createElement("div");
             foundRes.className = "DBXFF-foundRes";
             foundRes.textContent = item.metadata.metadata.path_display;
-
+            let dlIconContainer = document.createElement("div");
+            dlIconContainer.className = "DBXFF-dlIconContainer";
             let dlIcon = document.createElement("img");
             let linkIcon = document.createElement("img");
             linkIcon.title = "Open Task Folder in dropbox";
@@ -338,12 +357,15 @@ async function filesSearch(studentNumber, taskName) {
             dlIcon.className = "DBXFF-dl-icon-list";
             dlIcon.title = "Download Task folder";
             dlIcon.addEventListener("click", async (e) => {
+              dlIcon.classList.add("rotate-center");
+              dlIcon.src = chrome.runtime.getURL("images/loader.png");
               e.stopPropagation(); //prevent the route from being selected
               //! Download selected Folder or file
-              downloadFolder(item.metadata.metadata); //folder
+              downloadFolder(item.metadata.metadata, dlIcon); //folder
             });
 
-            btnAndListContainer.appendChild(dlIcon);
+            dlIconContainer.appendChild(dlIcon);
+            btnAndListContainer.appendChild(dlIconContainer);
             btnAndListContainer.appendChild(linkIcon);
             btnAndListContainer.appendChild(foundRes);
             routeList.appendChild(btnAndListContainer);
@@ -365,7 +387,7 @@ async function filesSearch(studentNumber, taskName) {
 }
 
 //Download the Folder
-function downloadFolder(dir) {
+function downloadFolder(dir, dlIcon) {
   console.log(`%c  creating Download Folder path`, "color: red");
   let pdfExists = false;
   if (dir.path_display.endsWith(".pdf")) {
@@ -376,15 +398,15 @@ function downloadFolder(dir) {
   if (pdfExists) {
     const lastIndex = dir.path_display.lastIndexOf("/");
     const folderPath = dir.path_display.substring(0, lastIndex);
-    downloadFileBob(folderPath);
+    downloadFileBob(folderPath, dlIcon);
   } else {
     //download the  directory
-    downloadFileBob(dir.path_display);
+    downloadFileBob(dir.path_display, dlIcon);
   }
 }
 
 //download the selected fine in zip format
-async function downloadFileBob(path) {
+async function downloadFileBob(path, dlIcon) {
   console.log(`%c  Creating download folder blob/zip`, "color: red");
   await dbx
     .filesDownloadZip({ path: path })
@@ -399,6 +421,9 @@ async function downloadFileBob(path) {
     .catch(function (error) {
       console.log(error);
     });
+
+  dlIcon.classList.remove("rotate-center");
+  dlIcon.src = chrome.runtime.getURL("images/dlFOlder.png");
 }
 
 //Add href download link for folder to button
@@ -554,3 +579,9 @@ function getReviewCounts() {
 }
 
 function loadingIndicator() {}
+
+function wait(time) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, time);
+  });
+}
