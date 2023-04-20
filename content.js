@@ -47,15 +47,14 @@ let rootPath = "";
 let fileName = "";
 let foundFiles = false;
 let storeToken = "";
+
 //! Dropbox credentials
 const dropboxClientId = "gsw6a2m0r2u44lt";
 const clientSecret = "nwpi7lk0yyp2v44";
 const redirectHomeUrl = "https://hyperiondev.cogrammar.com/reviewer/dashboard/"; // your redirect URI http://localhost:3000/testRoute/index.html
 
+//Get token from local storage
 let accessToken = localStorage.getItem("access_token");
-console.log("accessToken === null", accessToken === "null");
-
-console.log("window.location.pathname", window.location.pathname);
 
 //Stores token right after verification from the dashboard page
 if (accessToken === "null") {
@@ -73,7 +72,7 @@ let dbx = new Dropbox.Dropbox({
 });
 
 if (window.location.pathname.includes("reviewer/dashboard/")) {
-  checkToken(dbx);
+  //checkToken(dbx);
 }
 
 //Don't check token on review page
@@ -86,7 +85,6 @@ if (
 
 //! 1 Check token validity
 async function checkToken(dbx) {
-  console.log("access_token", accessToken);
   console.log(`%c Checking token`, "color: #f078c0");
 
   // Show loading indicator or disable user interactions
@@ -102,9 +100,11 @@ async function checkToken(dbx) {
     // Hide loading indicator or enable user interactions
     loadingIndicator("hide");
   } catch (error) {
-    let getToken = confirm(
-      "Access token expired or is invalid ❌. Proceeding to auth."
-    );
+    if (removeSpinner) {
+      routeList.innerHTML = "Token Expired";
+      removeSpinner = false;
+    }
+    let getToken = confirm("Token expired ❌. Proceeding to Auth.");
     console.log(`%c Access token expired or is invalid`, "color: #f94144");
     if (getToken) {
       localStorage.setItem("access_token", null);
@@ -118,7 +118,7 @@ async function checkToken(dbx) {
 
 //! Step 1.1: If needed, get access
 function auth2Flow() {
-  console.log(`%c  Auth2Flow`, "color: red");
+  console.log(`%c Auth2Flow`, "color: red");
   // Remove the token from the URL
   //replaceState() method modifies the browser's history object
   history.replaceState({}, document.title, window.location.href.split("#")[0]);
@@ -138,7 +138,7 @@ function auth2Flow() {
 if (window.location.pathname === "http://localhost:3000/testRoute/index.html") {
   const hashParams = new URLSearchParams(window.location.hash.substr(1));
   const accessToken = hashParams.get("access_token");
-  console.log(`%c  Token stored to localStorage`, "color: red");
+  console.log(`%c Token stored to localStorage`, "color: #a7c957");
   // save token to local storage
   localStorage.setItem("access_token", accessToken);
 
@@ -220,7 +220,7 @@ function extractTaskName(studentNumber) {
     let link = `https://www.dropbox.com/search/work?path=%2F&query=${studentNumber}&search_token=mUrM54J2SiALJes%2B%2Boc65k3O8pz4DOlJOX9WlhH8KKI%3D&typeahead_session_id=09702658948404806500012995044766`;
     window.open(link, "_blank");
   });
-  console.log(`%c  Extracting Task name`, "color: red");
+  console.log(`%c Extracting Task Name`, "color: red");
   // Find all h6 elements containing the word "Task"
   let h6Tags = [...document.querySelectorAll("h6")].filter((task) =>
     task.textContent.includes("Task")
@@ -253,7 +253,7 @@ function extractTaskName(studentNumber) {
 
 //! Extract the student number from the page elements
 function extractStudentNumber() {
-  console.log(`%c  Extracting St Number`, "color: red");
+  console.log(`%c Extracting St Number`, "color: red");
   // Select all h6 elements on the page
   const h6Element = [...document.querySelectorAll("h6")].filter((task) =>
     task.textContent.includes("Student number")
@@ -267,7 +267,7 @@ function extractStudentNumber() {
 
 //! Extract the student name from the page elements
 function extractStudentName() {
-  console.log(`%c  Extracting St Name`, "color: red");
+  console.log(`%c Extracting St Name`, "color: red");
 
   // Select all h6 elements on the page
   const h6Element = [...document.querySelectorAll("h6")].filter((task) =>
@@ -289,8 +289,6 @@ async function filesSearch(studentNumber, taskName) {
   let retry = inc;
   const query = taskName; //.split("-")[1]?.trim();
   const path = inc > 0 ? root + ` (${retry})` : root;
-  console.log(`%c ${path}`, "color: white");
-  console.log(`%c ${query}`, "color: white");
 
   // Call the Dropbox API to search for a file
   await dbx
@@ -381,7 +379,13 @@ async function filesSearch(studentNumber, taskName) {
     })
     .catch(function (error) {
       console.log(error);
+      if (removeSpinner) {
+        routeList.innerHTML = "No files were found. Try looking up the student number in dopbox";
+        removeSpinner = false;
+      }
       console.log(`%c Search ended`, "color: hotpink");
+      checkToken(dbx);
+     
       return;
     });
 }
@@ -407,7 +411,6 @@ function downloadFolder(dir, dlIcon) {
 
 //download the selected fine in zip format
 async function downloadFileBob(path, dlIcon) {
-  console.log(`%c  Creating download folder blob/zip`, "color: red");
   await dbx
     .filesDownloadZip({ path: path })
     .then(function (response) {
@@ -420,6 +423,7 @@ async function downloadFileBob(path, dlIcon) {
     })
     .catch(function (error) {
       console.log(error);
+      alert("Error downloading file. Download folder could be containing more than 100 files");
     });
 
   dlIcon.classList.remove("rotate-center");
@@ -428,7 +432,6 @@ async function downloadFileBob(path, dlIcon) {
 
 //Add href download link for folder to button
 function getDLLink(blob, name) {
-  console.log(`%c  Creating download link`, "color: red");
   const url = window.URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
@@ -453,7 +456,6 @@ function highlightInputName() {
     let wordsToHighlight = foundTaskName.split(" ");
 
     wordsToHighlight.forEach((word) => {
-      console.log("word", word);
       if (word.length > 2) {
         if (itemText.includes(word.toLowerCase())) {
           let found = div.innerHTML.replace(
