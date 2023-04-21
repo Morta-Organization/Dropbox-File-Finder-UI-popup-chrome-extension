@@ -10,6 +10,8 @@ timerContainer.appendChild(timeResetIcon);
 floatingElement.prepend(timerContainer);
 let foundTaskName;
 
+let updateLink = document.createElement("p");
+
 // Create the counter element
 let counterEl = document.createElement("p");
 // Initialize the counter and last saved time from local storage, or use default values
@@ -587,3 +589,17 @@ function wait(time) {
     setTimeout(resolve, time);
   });
 }
+
+
+function highlightTRs() {
+  /* Adds hover effect to reviewer dashboard table rows */
+  let rows = document.querySelectorAll("tr");
+  let path = window.location.href//only add effect to dashboard table
+  console.log('path', path)
+ 
+  if (path.includes("reviewer/dashboard")) {
+      for (let i = 0; i < rows.length; i++) {
+       rows[i].classList.add("tr-hover")
+      }}
+  
+}highlightTRs()

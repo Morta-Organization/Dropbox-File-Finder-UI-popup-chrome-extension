@@ -447,3 +447,13 @@
 
   color: #009688;
 }
+
+/* Adds hover effect to reviewer dashboard table */
+.tr-hover:hover {
+  background-color: rgb(113 213 175 / 45%) !important;
+}
+
+
+.DBXFF-update-link {
+  
+}
