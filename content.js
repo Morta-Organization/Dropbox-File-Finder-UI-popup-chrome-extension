@@ -104,7 +104,7 @@ async function checkToken(dbx) {
       routeList.innerHTML = "Token Expired";
       removeSpinner = false;
     }
-    let getToken = confirm('Tokens only last 4 hour.This token might have expired ❌. Proceeding to "Auth" to get a new one.');
+    let getToken = confirm('Tokens only last 4 hour. This token might have expired ❌. Proceeding to "Auth" to get a new one.');
     console.log(`%c Access token expired or is invalid`, "color: #f94144");
     if (getToken) {
       localStorage.setItem("access_token", null);
