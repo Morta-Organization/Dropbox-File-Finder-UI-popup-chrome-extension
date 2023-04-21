@@ -104,7 +104,7 @@ async function checkToken(dbx) {
       routeList.innerHTML = "Token Expired";
       removeSpinner = false;
     }
-    let getToken = confirm("Token expired ❌. Proceeding to Auth.");
+    let getToken = confirm('Tokens only last 4 hour.This token might have expired ❌. Proceeding to "Auth" to get a new one.');
     console.log(`%c Access token expired or is invalid`, "color: #f94144");
     if (getToken) {
       localStorage.setItem("access_token", null);
@@ -380,7 +380,7 @@ async function filesSearch(studentNumber, taskName) {
     .catch(function (error) {
       console.log(error);
       if (removeSpinner) {
-        routeList.innerHTML = "No files were found. Try looking up the student number in dopbox";
+        routeList.innerHTML = "Either the token has expired or, no files were found. Try looking up the student number in Dropbox";
         removeSpinner = false;
       }
       console.log(`%c Search ended`, "color: hotpink");
