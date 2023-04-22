@@ -12,8 +12,8 @@
     ],
     "content_scripts": [{
       "matches": ["https://hyperiondev.cogrammar.com/reviewer/dashboard/", "https://hyperiondev.cogrammar.com/reviewer/generate_dfe_review/", "https://*.hyperiondev.cogrammar.com/reviewer/generate_review/*"],
-      "css": ["style.css", "loaders.css"],
-      "js": ["Dropbox-sdk.min.js","content.js"]
+      "css": ["style.css", "loaders.css", "feedbackFields.css"],
+      "js": ["Dropbox-sdk.min.js","content.js", "feedbackFields.js"]
     }],
     "action": {
         "default_popup": "popup.html"

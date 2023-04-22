@@ -22,14 +22,20 @@ dashboard when this is done.
 - Starts a timer as soon as the review page is loaded. The time can also be reset at any time.
 - Counts all completed reviews. The review counter can also be rest.
 - Finds all the files that have the current task name included, in the student's root folder.
-- Download the subfolder of each found result
-- Open the subfolder directly in Dropbox in a new tab
+- Download the subfolder of each found result.
+- Open the subfolder directly in Dropbox in a new tab.
 - Hide the app while still displaying the timer.
+- Count and remeber text flied words.
 
 ## How to stay updated 🚀  
-Select the extension icon to open the popup, their you will find a link. 
+- Select the extension icon to open the popup, their you will find a link. 
 The link will bring you back to this back to this page.
+- In this repository, select the dropdown option on the "watch/unwatch" button in the top right corner. 
+Here you customize how to receive notifications on this repo.
 
 ## Latest updates
-- Added hover effect to dashboard table rows.
-- Updated the popup UI. 
+#### v2.1.0
+- Added a word counter label to review text fields. 
+To keep track of each word entered.
+- Each text field has a clear button, to instantly clear all text from it.
+- Saves text field text to local storage. Reinserts text on page/browser reload.

@@ -1,0 +1,49 @@
+.DBXFF-reset-field-button {
+    width: 50px;
+    height: 20px;
+    border-radius: 3px;
+    border: solid 1px #57cea0;
+    background: #57cea0;
+    align-items: center;
+    justify-content: center;
+    right: 0;
+    cursor: pointer;
+    user-select: none;
+    font-size: medium;
+    color: white;
+    font-weight: bold;
+    font-family: inherit;
+    position: inherit;
+    display: inline-flex;
+    margin-left: 20px;
+    vertical-align: bottom;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.DBXFF-reset-field-button:active {
+    font-size: small;
+}
+
+.DBXFF-reset-field-button:hover {
+    background-color: #39c38e;
+}
+
+.DBXFF-word-counter {
+    position: inherit;
+    margin-left: 75%;
+    font-size: medium;
+    border-radius: 3px;
+    color: white !important;
+    font-weight: bold;
+    width: 85px;
+    height: 20px;
+    background-color: #57cea0;
+    user-select: none;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    display: inline-block;
+    margin-left: 55%;
+    vertical-align: bottom;
+}
+

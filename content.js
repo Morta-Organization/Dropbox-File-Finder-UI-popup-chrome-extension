@@ -73,9 +73,6 @@ let dbx = new Dropbox.Dropbox({
   accessToken: accessToken,
 });
 
-if (window.location.pathname.includes("reviewer/dashboard/")) {
-  //checkToken(dbx);
-}
 
 //Don't check token on review page
 if (
