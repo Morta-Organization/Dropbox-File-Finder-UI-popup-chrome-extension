@@ -15,15 +15,10 @@ let updateLink = document.createElement("p");
 // Create the counter element
 let counterEl = document.createElement("p");
 // Initialize the counter and last saved time from local storage, or use default values
-let counter = parseInt(localStorage.getItem("counter")) || 0;
-let min = parseInt(localStorage.getItem("minutes")) || 0;
-let lastSavedTime =
-  parseInt(localStorage.getItem("lastSavedTime")) || new Date().getTime();
-console.log("lastSavedTime", lastSavedTime);
+let counter;
+let min;
+let lastSavedTime;
 
-// Calculate the elapsed time since the last saved time and add it to the counter
-counter += Math.floor((new Date().getTime() - lastSavedTime) / 1000);
-console.log("counter", counter);
 
 counterEl.className = "DBXFF-timer pulsate-fwd";
 timerContainer.prepend(counterEl);
@@ -73,7 +68,6 @@ let dbx = new Dropbox.Dropbox({
   accessToken: accessToken,
 });
 
-
 //Don't check token on review page
 if (
   window.location.pathname.includes("generate_review") ||
@@ -103,7 +97,9 @@ async function checkToken(dbx) {
       routeList.innerHTML = "Token Expired";
       removeSpinner = false;
     }
-    let getToken = confirm('Tokens only last 4 hour. This token might have expired ❌. Proceeding to "Auth" to get a new one.');
+    let getToken = confirm(
+      'Tokens only last 4 hour. This token might have expired ❌. Proceeding to "Auth" to get a new one.'
+    );
     console.log(`%c Access token expired or is invalid`, "color: #f94144");
     if (getToken) {
       localStorage.setItem("access_token", null);
@@ -379,12 +375,13 @@ async function filesSearch(studentNumber, taskName) {
     .catch(function (error) {
       console.log(error);
       if (removeSpinner) {
-        routeList.innerHTML = "Either the token has expired or, no files were found. Try looking up the student number in Dropbox";
+        routeList.innerHTML =
+          "Either the token has expired or, no files were found. Try looking up the student number in Dropbox";
         removeSpinner = false;
       }
       console.log(`%c Search ended`, "color: hotpink");
       checkToken(dbx);
-     
+
       return;
     });
 }
@@ -422,7 +419,9 @@ async function downloadFileBob(path, dlIcon) {
     })
     .catch(function (error) {
       console.log(error);
-      alert("Error downloading file. Download folder could be containing more than 100 files");
+      alert(
+        "Error downloading file. Download folder could be containing more than 100 files"
+      );
     });
 
   dlIcon.classList.remove("rotate-center");
@@ -469,8 +468,14 @@ function highlightInputName() {
 }
 
 //====================================================Review Timer
+//start the time on review
+if (window.location.pathname.includes("generate_review")) {
+  loadTimer();
+}
 
-/*
+function loadTimer() {
+  let startInterval = setInterval(() => reviewTimer(), 1000);
+  /*
 
    When the program is closed, it saves the current counter and
     time to local storage using the beforeunload event, 
@@ -481,63 +486,93 @@ function highlightInputName() {
     incrementing the counter.
    */
 
-function reviewTimer() {
-  counter++;
-
-  if (counter > 59) {
-    min += Math.floor(counter / 60); // Increment 'min' by the quotient of counter divided by 60
-    counter %= 60; // Set 'counter' to the remainder of counter divided by 60
+  if (window.location.pathname.includes("generate_review")) {
+    // Start the interval when the page is visible
+    document.addEventListener("visibilitychange", () => {
+        
+      if (document.visibilityState === "visible") {
+        clearInterval(startInterval);
+        loadTimer();
+      } else {
+        clearInterval(startInterval);
+      }
+    });
   }
 
-  //set time warning colors
-  if (min < 5) {
+
+       // Initialize the counter and last saved time from local storage, or use default values
+       counter = parseInt(localStorage.getItem("counter")) || 0;
+       min = parseInt(localStorage.getItem("minutes")) || 0;
+       lastSavedTime = parseInt(localStorage.getItem("lastSavedTime")) || new Date().getTime();
+
+       // Calculate the elapsed time since the last saved time and add it to the counter
+       counter += Math.floor((new Date().getTime() - lastSavedTime) / 1000);
+
+
+
+
+
+  function reviewTimer() {
+    counter++;
+
+    if (counter > 59) {
+      min += Math.floor(counter / 60); // Increment 'min' by the quotient of counter divided by 60
+      counter %= 60; // Set 'counter' to the remainder of counter divided by 60
+    }
+
+    //set time warning colors
+    if (min < 5) {
+      counterEl.style.color = "#8BC34A";
+    } else if (min < 7) {
+      counterEl.style.color = "#ffeb3b";
+      counterEl.style.animationDuration = "1s";
+    } else if (min < 11) {
+      counterEl.style.color = "#ff9800";
+      counterEl.style.animationDuration = ".5s";
+    } else if (min < 13) {
+      counterEl.style.color = "#ff5722";
+      counterEl.style.animationDuration = ".3s";
+    } else if (min < 15) {
+      counterEl.style.color = "#f44336";
+      counterEl.style.animationDuration = ".2s";
+    } else {
+      counterEl.style.color = "red";
+      counterEl.style.animationDuration = ".2s";
+    }
+
+    //time UI
+    combinedTime = `${min > 9 ? "" : 0}${min}:${
+      counter > 9 ? "" : 0
+    }${counter}`;
+
+    counterEl.textContent = combinedTime;
+
+    localStorage.setItem("counter", counter);
+    localStorage.setItem("minutes", min);
+    localStorage.setItem("lastSavedTime", new Date().getTime());
+  }
+
+  // Save the current counter and time to local storage when the program is closed
+
+  window.addEventListener("beforeunload", () => {
+    localStorage.setItem("counter", counter);
+    localStorage.setItem("minutes", min);
+    localStorage.setItem("lastSavedTime", new Date().getTime());
+    clearInterval(startInterval);
+  });
+
+  //reset timer
+  timeResetIcon.addEventListener("click", () => {
     counterEl.style.color = "#8BC34A";
-  } else if (min < 7) {
-    counterEl.style.color = "#ffeb3b";
     counterEl.style.animationDuration = "1s";
-  } else if (min < 11) {
-    counterEl.style.color = "#ff9800";
-    counterEl.style.animationDuration = ".5s";
-  } else if (min < 13) {
-    counterEl.style.color = "#ff5722";
-    counterEl.style.animationDuration = ".3s";
-  } else if (min < 15) {
-    counterEl.style.color = "#f44336";
-    counterEl.style.animationDuration = ".2s";
-  } else {
-    counterEl.style.color = "red";
-    counterEl.style.animationDuration = ".2s";
-  }
-
-  //time UI
-  combinedTime = `${min > 9 ? "" : 0}${min}:${counter > 9 ? "" : 0}${counter}`;
-  counterEl.textContent = combinedTime;
+    counter = 0;
+    min = 0;
+    localStorage.setItem("minutes", null);
+    localStorage.setItem("counter", null);
+  });
 }
 
-//start the time
-const startTime = window.location.pathname.includes("generate_review")
-  ? setInterval(reviewTimer, 1000)
-  : null;
-
-// Save the current counter and time to local storage when the program is closed
-window.addEventListener("beforeunload", () => {
-  localStorage.setItem("counter", counter);
-  localStorage.setItem("minutes", min);
-  localStorage.setItem("lastSavedTime", new Date().getTime());
-  clearInterval(startTime);
-});
-
-//reset timer
-timeResetIcon.addEventListener("click", () => {
-  counterEl.style.color = "#8BC34A";
-  counterEl.style.animationDuration = "1s";
-  counter = 0;
-  min = 0;
-  localStorage.setItem("minutes", null);
-  localStorage.setItem("counter", null);
-  reviewTimer();
-});
-//=====================================================
+//===================================================== review count
 
 // Increment review count when review is finished and save to local storage
 reviewCompleteBtn?.addEventListener("click", () => {
@@ -552,7 +587,7 @@ reviewCompleteBtn?.addEventListener("click", () => {
   min = 0;
   localStorage.setItem("minutes", null);
   localStorage.setItem("counter", null);
-  reviewTimer();
+  clearInterval(startInterval);
 });
 
 //Get review count from local storage when page loads
@@ -587,16 +622,16 @@ function wait(time) {
   });
 }
 
-
 function highlightTRs() {
   /* Adds hover effect to reviewer dashboard table rows */
   let rows = document.querySelectorAll("tr");
-  let path = window.location.href//only add effect to dashboard table
-  console.log('path', path)
- 
+  let path = window.location.href; //only add effect to dashboard table
+  console.log("path", path);
+
   if (path.includes("reviewer/dashboard")) {
-      for (let i = 0; i < rows.length; i++) {
-       rows[i].classList.add("tr-hover")
-      }}
-  
-}highlightTRs()
+    for (let i = 0; i < rows.length; i++) {
+      rows[i].classList.add("tr-hover");
+    }
+  }
+}
+highlightTRs();

@@ -34,8 +34,7 @@ The link will bring you back to this back to this page.
 Here you customize how to receive notifications on this repo.
 
 ## Latest updates
-#### v2.1.0
-- Added a word counter label to review text fields. 
-To keep track of each word entered.
-- Each text field has a clear button, to instantly clear all text from it.
-- Saves text field text to local storage. Reinserts text on page/browser reload.
+#### v2.2.2
+- Increased word counter label width. 
+- Improved timer counter, to include the elapsed time when switching tabs -as chrome tabs freeze/unload the 
+code when tabs are inactive or returning to page or reloading page.
