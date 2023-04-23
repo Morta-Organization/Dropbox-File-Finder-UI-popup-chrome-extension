@@ -4,15 +4,6 @@ if (
   window.location.pathname.includes("generate_review") ||
   window.location.pathname.includes("generate_dfe_review")
 ) {
-  //submit review btn
-  let submitReviewBtn = document.querySelector("#submit-review-btn");
-
-  //clear text fields form local storage when review is complete.
-  submitReviewBtn.addEventListener("click", () => {
-    // localStorage.setItem('id_improve_comments', null);
-    // localStorage.setItem('id_positive_comments', null);
-    // localStorage.setItem('id_overall_comments', null);
-  });
 
   // save any text in fields to local storage
   //load any text from local storage to respective fields

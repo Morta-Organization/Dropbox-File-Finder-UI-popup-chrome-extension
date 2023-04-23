@@ -14,13 +14,12 @@ let updateLink = document.createElement("p");
 
 // Create the counter element
 let counterEl = document.createElement("p");
+counterEl.className = "DBXFF-timer pulsate-fwd";
 // Initialize the counter and last saved time from local storage, or use default values
 let counter;
 let min;
 let lastSavedTime;
 
-
-counterEl.className = "DBXFF-timer pulsate-fwd";
 timerContainer.prepend(counterEl);
 
 let reviewDetailsEl = document.createElement("div");
@@ -350,9 +349,9 @@ async function filesSearch(studentNumber, taskName) {
             dlIcon.className = "DBXFF-dl-icon-list";
             dlIcon.title = "Download Task folder";
             dlIcon.addEventListener("click", async (e) => {
+              e.stopPropagation(); //prevent the route from being selected
               dlIcon.classList.add("rotate-center");
               dlIcon.src = chrome.runtime.getURL("images/loader.png");
-              e.stopPropagation(); //prevent the route from being selected
               //! Download selected Folder or file
               downloadFolder(item.metadata.metadata, dlIcon); //folder
             });
@@ -469,12 +468,13 @@ function highlightInputName() {
 
 //====================================================Review Timer
 //start the time on review
+let startInterval;
 if (window.location.pathname.includes("generate_review")) {
   loadTimer();
+  startInterval = setInterval(() => reviewTimer(), 1000);
 }
 
 function loadTimer() {
-  let startInterval = setInterval(() => reviewTimer(), 1000);
   /*
 
    When the program is closed, it saves the current counter and
@@ -489,75 +489,31 @@ function loadTimer() {
   if (window.location.pathname.includes("generate_review")) {
     // Start the interval when the page is visible
     document.addEventListener("visibilitychange", () => {
-        
       if (document.visibilityState === "visible") {
         clearInterval(startInterval);
+        startInterval = setInterval(() => reviewTimer(), 1000);
         loadTimer();
       } else {
         clearInterval(startInterval);
       }
     });
+  } else {
+    clearInterval(startInterval);
   }
 
+  // Initialize the counter and last saved time from local storage, or use default values
+  counter = parseInt(localStorage.getItem("counter")) || 0;
+  min = parseInt(localStorage.getItem("minutes")) || 0;
+  lastSavedTime =
+    parseInt(localStorage.getItem("lastSavedTime")) || new Date().getTime();
 
-       // Initialize the counter and last saved time from local storage, or use default values
-       counter = parseInt(localStorage.getItem("counter")) || 0;
-       min = parseInt(localStorage.getItem("minutes")) || 0;
-       lastSavedTime = parseInt(localStorage.getItem("lastSavedTime")) || new Date().getTime();
-
-       // Calculate the elapsed time since the last saved time and add it to the counter
-       counter += Math.floor((new Date().getTime() - lastSavedTime) / 1000);
-
-
-
-
-
-  function reviewTimer() {
-    counter++;
-
-    if (counter > 59) {
-      min += Math.floor(counter / 60); // Increment 'min' by the quotient of counter divided by 60
-      counter %= 60; // Set 'counter' to the remainder of counter divided by 60
-    }
-
-    //set time warning colors
-    if (min < 5) {
-      counterEl.style.color = "#8BC34A";
-    } else if (min < 7) {
-      counterEl.style.color = "#ffeb3b";
-      counterEl.style.animationDuration = "1s";
-    } else if (min < 11) {
-      counterEl.style.color = "#ff9800";
-      counterEl.style.animationDuration = ".5s";
-    } else if (min < 13) {
-      counterEl.style.color = "#ff5722";
-      counterEl.style.animationDuration = ".3s";
-    } else if (min < 15) {
-      counterEl.style.color = "#f44336";
-      counterEl.style.animationDuration = ".2s";
-    } else {
-      counterEl.style.color = "red";
-      counterEl.style.animationDuration = ".2s";
-    }
-
-    //time UI
-    combinedTime = `${min > 9 ? "" : 0}${min}:${
-      counter > 9 ? "" : 0
-    }${counter}`;
-
-    counterEl.textContent = combinedTime;
-
-    localStorage.setItem("counter", counter);
-    localStorage.setItem("minutes", min);
-    localStorage.setItem("lastSavedTime", new Date().getTime());
-  }
+  // Calculate the elapsed time since the last saved time and add it to the counter
+  counter += Math.floor((new Date().getTime() - lastSavedTime) / 1000);
 
   // Save the current counter and time to local storage when the program is closed
 
   window.addEventListener("beforeunload", () => {
-    localStorage.setItem("counter", counter);
-    localStorage.setItem("minutes", min);
-    localStorage.setItem("lastSavedTime", new Date().getTime());
+    saveTimeValues();
     clearInterval(startInterval);
   });
 
@@ -570,6 +526,64 @@ function loadTimer() {
     localStorage.setItem("minutes", null);
     localStorage.setItem("counter", null);
   });
+
+  //From the "Review Submit" page, reset timer when returning to dashboard
+  let myWord = "Return to dashboard";
+  let aTags = document.querySelectorAll("a");
+  aTags?.forEach((item) => {
+    if (item?.textContent.includes(myWord)) {
+      item.addEventListener("click", () => {
+        counter = 0;
+        min = 0;
+        localStorage.setItem("minutes", null);
+        localStorage.setItem("counter", null);
+        localStorage.setItem("lastSavedTime", null);
+        clearInterval(startInterval);
+      });
+    }
+  });
+}
+
+function reviewTimer() {
+  counter++;
+
+  if (counter > 59) {
+    min += Math.floor(counter / 60); // Increment 'min' by the quotient of counter divided by 60
+    counter %= 60; // Set 'counter' to the remainder of counter divided by 60
+  }
+
+  //set time warning colors
+  if (min < 5) {
+    counterEl.style.color = "#8BC34A";
+  } else if (min < 7) {
+    counterEl.style.color = "#ffeb3b";
+    counterEl.style.animationDuration = "1s";
+  } else if (min < 11) {
+    counterEl.style.color = "#ff9800";
+    counterEl.style.animationDuration = ".5s";
+  } else if (min < 13) {
+    counterEl.style.color = "#ff5722";
+    counterEl.style.animationDuration = ".3s";
+  } else if (min < 15) {
+    counterEl.style.color = "#f44336";
+    counterEl.style.animationDuration = ".2s";
+  } else {
+    counterEl.style.color = "red";
+    counterEl.style.animationDuration = ".2s";
+  }
+
+  //time UI
+  combinedTime = `${min > 9 ? "" : 0}${min}:${counter > 9 ? "" : 0}${counter}`;
+
+  counterEl.textContent = combinedTime;
+
+  saveTimeValues();
+}
+
+function saveTimeValues() {
+  localStorage.setItem("counter", counter);
+  localStorage.setItem("minutes", min);
+  localStorage.setItem("lastSavedTime", new Date().getTime());
 }
 
 //===================================================== review count
@@ -580,9 +594,9 @@ reviewCompleteBtn?.addEventListener("click", () => {
   localStorage.setItem("reviewCount", reviewCount);
 
   counterEl.style.color = "#8BC34A";
-  counterEl.style.animationDuration = "1s";
+  counterEl.style.animationDuration = "3s !important";
 
-  //reset review timer
+  //reset timer
   counter = 0;
   min = 0;
   localStorage.setItem("minutes", null);
@@ -604,9 +618,15 @@ function getReviewCounts() {
   reviewReset.src = chrome.runtime.getURL("images/reset.png");
   reviewReset.alt = "reviewReset";
   reviewReset.title = "Reset";
+  
+  //Reset review count
   reviewReset.addEventListener("click", () => {
-    localStorage.setItem("reviewCount", 0);
-    reviewCountEl.textContent = `Reviews done: 0`;
+    let sure = confirm("Are you sure you want to reset the review count?");
+    if (sure) {
+      localStorage.setItem("reviewCount", 0);
+      reviewCountEl.textContent = `Reviews done: 0`;
+    }
+ 
   });
 
   counterContainerEl.prepend(reviewReset);

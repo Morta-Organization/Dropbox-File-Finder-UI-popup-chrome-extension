@@ -34,6 +34,12 @@ The link will bring you back to this back to this page.
 Here you customize how to receive notifications on this repo.
 
 ## Latest updates
+
+#### v2.2.3
+- Fixed the issue where the timer would not be accurate when returning back to the review tab. Turns out 
+that Chrome freezes all the code when a tab is not visible/inactive.
+- Fixed the issue where the timer was skipping 1 second ahead when returning to the review tab.
+
 #### v2.2.2
 - Increased word counter label width. 
 - Improved timer counter, to include the elapsed time when switching tabs -as chrome tabs freeze/unload the 
