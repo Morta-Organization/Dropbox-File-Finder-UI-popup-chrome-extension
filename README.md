@@ -35,10 +35,9 @@ Here you customize how to receive notifications on this repo.
 
 ## Latest updates
 
+#### v2.2.5
+- Fixed issue where UI wasn't loading on dfe review page.
+
 #### v2.2.4
 - Fixed an issue where the review counter wouldn't correctly reset.
 
-#### v2.2.3
-- Fixed the issue where the timer would not be accurate when returning back to the review tab. Turns out 
-that Chrome freezes all the code when a tab is not visible/inactive.
-- Fixed the issue where the timer was skipping 1 second ahead when returning to the review tab.
