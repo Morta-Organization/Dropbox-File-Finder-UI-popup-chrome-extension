@@ -35,13 +35,15 @@ Here you customize how to receive notifications on this repo.
 
 ## Latest updates
 
+#### v2.5.8
+- In reference to "v2.2.6" You can now choose to remember your review for each textfield with a checkbox. If checked, the review text will persist after reloading the page or starting a new review.
+
 #### v2.4.8
 
 - Fixed an issue where the timer would display on the build your brand review page
 - Updated the element max heigh properties and scroll-bar CSS.
 
-#### v2.3.7
-- Fixed an issue whe the build your brand tasks would'nt load.
+
 
 
 

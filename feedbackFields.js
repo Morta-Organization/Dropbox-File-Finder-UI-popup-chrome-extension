@@ -16,16 +16,13 @@ if (
     resetFieldBtn.addEventListener("click", () => {
       field.value = "";
       localStorage.setItem(field.id, "");
-
-      let words = field.value.trim().split(/\s+/);
       wordCounter.innerHTML = "words: 0";
     });
 
-    // create word counter
+    //! Word counter - also saves words to local storage
     let wordCounter = document.createElement("div");
     wordCounter.className = "DBXFF-word-counter";
 
-    //! Restore - retrieve the text value from local storage and set it to the field value
     let storedTextValue = localStorage.getItem(field.id); // Use the field's ID as the localStorage key
     if (storedTextValue) {
       field.value = storedTextValue;
@@ -45,6 +42,27 @@ if (
       localStorage.setItem(field.id, field.value);
     });
 
+
+    //! Load word into text field
+    let rememberWordsLabel = document.createElement("label");
+    rememberWordsLabel.className = "DBXFF-remember-words-label";
+    rememberWordsLabel.textContent = "Remember Review";
+    let rememberWords = document.createElement("input");
+    rememberWords.className = "DBXFF-remember-words";
+    rememberWords.type = "checkbox";
+    rememberWords.title = "If checked, text will persist after reloading the page or starting a new review.";
+    rememberWords.checked = localStorage.getItem(field.id) ? true : "";
+    rememberWords.addEventListener("change", () => {
+    
+      if (rememberWords.checked) {
+        localStorage.getItem(field.id);
+      } else {
+        localStorage.setItem(field.id, "");
+      }
+
+    });
+    rememberWordsLabel.appendChild(rememberWords);
+    field.parentNode.insertBefore(rememberWordsLabel, field);
     field.parentNode.insertBefore(resetFieldBtn, field);
     field.parentNode.insertBefore(wordCounter, field.previousSibling);
   });

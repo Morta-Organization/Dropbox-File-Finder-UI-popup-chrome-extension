@@ -78,7 +78,7 @@ if (
 //! 1 Check token validity
 async function checkToken(dbx) {
   console.log(`%c Checking token`, "color: #f078c0");
-
+  console.log('removeSpinner', removeSpinner)
   // Show loading indicator or disable user interactions
   // while waiting for the method to complete
   loadingIndicator("show");
@@ -92,7 +92,9 @@ async function checkToken(dbx) {
     // Hide loading indicator or enable user interactions
     loadingIndicator("hide");
   } catch (error) {
+    console.log('removeSpinner', removeSpinner)
     if (removeSpinner) {
+    
       routeList.innerHTML = "Token Expired";
       removeSpinner = false;
     }
@@ -206,6 +208,7 @@ function createUI() {
 
   //reviewTimer()
   getReviewCounts();
+  
 }
 
 //! Extracts the task name from the page elements
@@ -551,9 +554,9 @@ function loadTimer() {
         localStorage.setItem("counter", null);
         localStorage.setItem("lastSavedTime", null);
         clearInterval(startInterval);
-        localStorage.setItem("id_improve_comments", "");
-        localStorage.setItem("id_positive_comments", "");
-        localStorage.setItem("id_overall_comments", "");
+        // localStorage.setItem("id_improve_comments", "");
+        // localStorage.setItem("id_positive_comments", "");
+        // localStorage.setItem("id_overall_comments", "");
       });
     }
   });
@@ -649,13 +652,42 @@ function getReviewCounts() {
   floatingElement.prepend(counterContainerEl);
 }
 
-function loadingIndicator() {}
+//Remember previous review input fields text
+// function rememberReviewText() {
 
-function wait(time) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, time);
-  });
-}
+// /* 
+//      <label>
+//         <input type="checkbox" class="filled-in" checked="checked" />
+//         <span>Filled in</span>
+//       </label>
+//  */
+
+//   let inputMemoryEl = document.createElement("input");
+//   inputMemoryEl.type = "checkbox";
+//   inputMemoryEl.className = "DBXFF-checkbox";
+//   inputMemoryEl.checked = true;
+//   inputMemoryEl.title = "Remember review text";
+// inputMemoryEl.addEventListener('click', () => {
+//  // inputMemoryEl.checked = !inputMemoryEl.checked;
+
+// console.log('inputMemoryEl.checked = true: ',inputMemoryEl.checked)
+
+//   // if (inputMemoryEl.checked = true) {
+//   //   localStorage.setItem("id_improve_comments", id_improve_comments.value);
+//   //   localStorage.setItem("id_positive_comments", id_positive_comments.value);
+//   //   localStorage.setItem("id_overall_comments", id_overall_comments.value);
+//   // } else {
+//   //   localStorage.setItem("id_improve_comments", "");
+//   //   localStorage.setItem("id_positive_comments", "");
+//   //   localStorage.setItem("id_overall_comments", "");
+//   // }
+
+// });
+//   floatingElement.prepend(inputMemoryEl);
+// }
+
+
+function loadingIndicator() {}
 
 function highlightTRs() {
   /* Adds hover effect to reviewer dashboard table rows */
