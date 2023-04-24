@@ -481,7 +481,7 @@ function highlightInputName() {
 //====================================================Review Timer
 //start the time on review
 let startInterval;
-if (window.location.pathname.includes("generate_review")) {
+if (window.location.pathname.includes("generate_review") || window.location.pathname.includes("generate_dfe_review") ) {
   loadTimer();
   startInterval = setInterval(() => reviewTimer(), 1000);
 }

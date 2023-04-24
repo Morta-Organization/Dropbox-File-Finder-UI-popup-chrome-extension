@@ -1,9 +1,9 @@
 .DBXFF-box-layout {
   left: 0;
-
   top: 50%;
   position: fixed;
   width: auto;
+  max-height: 485px;
   z-index: 9999;
   background-color: rgb(48, 48, 48);
   display: flex;
@@ -50,6 +50,7 @@
   position: absolute;
   right: 0;
   top: 0;
+  color: #039183;
   margin: 5px;
   transition: .1s cubic-bezier(0.215, 0.610, 0.355, 1);
   font-size: 8px;
@@ -63,7 +64,7 @@
 .DBXFF-slide-btn:hover {
   transition: .1s;
   background-color: #bfb2d2;
-  color: white;
+  color: #04e0ca;
 }
 
 .toggleBtn {
@@ -240,28 +241,31 @@
   overflow: auto;
   min-height: 200px;
   font-size: 13px;
+  max-height: 345px;
 }
 
 /* width */
 .DBXFF-query-results::-webkit-scrollbar {
   width: 5px;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 /* Track */
 .DBXFF-query-results::-webkit-scrollbar-track {
-  background: #283b34;
-  border-radius: 10px;
+  background: #233a31;
+  border-radius: 5px;
 }
 
 /* Handle */
 .DBXFF-query-results::-webkit-scrollbar-thumb {
-  background: #3a3a3a;
+  background: #305e4c;
+  border-radius: 5px;
 }
 
 /* Handle on hover */
 .DBXFF-query-results::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #078075;
+  border-radius: 5px;
 }
 
 .DBXFF-query-results p {
