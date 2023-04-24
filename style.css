@@ -5,7 +5,7 @@
   position: fixed;
   width: auto;
   z-index: 9999;
-  background-color: #57cea0;
+  background-color: rgb(48, 48, 48);
   display: flex;
   flex-direction: column;
   align-items: center;

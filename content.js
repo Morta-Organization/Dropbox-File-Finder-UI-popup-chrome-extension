@@ -539,6 +539,9 @@ function loadTimer() {
         localStorage.setItem("counter", null);
         localStorage.setItem("lastSavedTime", null);
         clearInterval(startInterval);
+        localStorage.setItem("id_improve_comments", "");
+        localStorage.setItem("id_positive_comments", "");
+        localStorage.setItem("id_overall_comments", "");
       });
     }
   });
@@ -618,16 +621,15 @@ function getReviewCounts() {
   reviewReset.src = chrome.runtime.getURL("images/reset.png");
   reviewReset.alt = "reviewReset";
   reviewReset.title = "Reset";
-  
+
   //Reset review count
   reviewReset.addEventListener("click", () => {
     let sure = confirm("Are you sure you want to reset the review count?");
     if (sure) {
-      reviewCount = 0
+      reviewCount = 0;
       localStorage.setItem("reviewCount", 0);
       reviewCountEl.textContent = `Reviews done: 0`;
     }
- 
   });
 
   counterContainerEl.prepend(reviewReset);
