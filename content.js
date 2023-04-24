@@ -623,6 +623,7 @@ function getReviewCounts() {
   reviewReset.addEventListener("click", () => {
     let sure = confirm("Are you sure you want to reset the review count?");
     if (sure) {
+      reviewCount = 0
       localStorage.setItem("reviewCount", 0);
       reviewCountEl.textContent = `Reviews done: 0`;
     }
