@@ -25,7 +25,7 @@ dashboard when this is done.
 - Download the subfolder of each found result.
 - Open the subfolder directly in Dropbox in a new tab.
 - Hide the app while still displaying the timer.
-- Count and remeber text flied words.
+- Count and remember text flied words.
 
 ## How to stay updated 🚀  
 - Select the extension icon to open the popup, their you will find a link. 
