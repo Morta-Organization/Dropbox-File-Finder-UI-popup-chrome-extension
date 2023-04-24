@@ -35,10 +35,11 @@ Here you customize how to receive notifications on this repo.
 
 ## Latest updates
 
+#### v2.3.6
+- Changed extension icons
+
 #### v2.2.6
 - When returning  to the dash after completing a review, the review text fields are also cleared now.
 
-#### v2.2.5
-- Fixed issue where UI wasn't loading on dfe review page.
 
 
