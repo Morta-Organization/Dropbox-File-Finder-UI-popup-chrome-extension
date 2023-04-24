@@ -36,7 +36,7 @@ Here you customize how to receive notifications on this repo.
 ## Latest updates
 
 #### v2.2.6
-- When retuning to the dash after completing a review, the review text fields are also cleared now.
+- When returning  to the dash after completing a review, the review text fields are also cleared now.
 
 #### v2.2.5
 - Fixed issue where UI wasn't loading on dfe review page.
