@@ -35,11 +35,12 @@ Here you customize how to receive notifications on this repo.
 
 ## Latest updates
 
+#### v2.3.7
+- Fixed an issue whe the build your brand tasks would'nt load.
+
 #### v2.3.6
 - Changed extension icons
 
-#### v2.2.6
-- When returning  to the dash after completing a review, the review text fields are also cleared now.
 
 
 

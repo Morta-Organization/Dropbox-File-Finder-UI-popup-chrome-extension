@@ -144,7 +144,7 @@ if (window.location.pathname === "http://localhost:3000/testRoute/index.html") {
   }
 }
 
-//! Step 2:  Create Floating the UI elements
+//! Step 2:  Create Floating UI popup
 function createUI() {
   console.log(`%c Creating UI`, "color: red");
   // Create the floating element properties
@@ -163,6 +163,7 @@ function createUI() {
   floatingElement.style.backgroundImage = `url(${chrome.runtime.getURL(
     "./images/nav-bg.gif"
   )})`;
+
   //create the toggle button
   let slideBtn = document.createElement("div");
   slideBtn.className = "DBXFF-slide-btn ";
@@ -278,10 +279,21 @@ function extractStudentName() {
 //between the brackets, and making up to 3 searches each time adding its results to the UI
 
 async function filesSearch(studentNumber, taskName) {
+
+  let query = taskName;
+ 
+    //update "build your brand" strings
+    let pattern = /build your brand/i;
+
+    if (query.match(pattern)) {
+      query = replaceRomanNumeralsWithNumbers(query).toLowerCase();
+    }
+
+
   console.log(`%c Searching for files ${inc}`, "color: #5390d9");
   let root = studentNumber;
   let retry = inc;
-  const query = taskName; //.split("-")[1]?.trim();
+  
   const path = inc > 0 ? root + ` (${retry})` : root;
 
   // Call the Dropbox API to search for a file
@@ -299,7 +311,7 @@ async function filesSearch(studentNumber, taskName) {
         routeList.innerHTML = "";
         removeSpinner = false;
       }
-      //console.log('response', response)
+
       console.log(`%c  making request: ${inc}`, "color: orange");
       inc++; //after 1rst request look for a 2nd folder
       let results = response.result.matches;
@@ -658,3 +670,27 @@ function highlightTRs() {
   }
 }
 highlightTRs();
+
+//Build your brand tasks string manipulation
+// Define a function to replace Roman numerals with corresponding numbers
+function replaceRomanNumeralsWithNumbers(inputString) {
+  // Define a mapping of Roman numerals to numbers
+  const romanToNumberMap = {
+    "I": "01",
+    "II": "02",
+    "III": "03",
+    "IV": "04",
+    "V": "05",
+    "VI": "06"
+    // Add more Roman numerals and their corresponding numbers as needed
+  };
+  //console.log('romanToNumberMap', romanToNumberMap.I)
+
+  // Define a regular expression to match Roman numerals
+  const romanNumeralRegex = /\b(I|II|III|IV|V|VI)\b/g;
+
+  // Use the replace() method with a callback function to replace Roman numerals with numbers
+  return inputString.replace(romanNumeralRegex, (match, romanNumeral) => {
+    return romanToNumberMap[romanNumeral] || match;
+  });
+}
