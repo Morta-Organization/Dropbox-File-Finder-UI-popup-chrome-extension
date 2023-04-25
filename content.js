@@ -554,9 +554,9 @@ function loadTimer() {
         localStorage.setItem("counter", null);
         localStorage.setItem("lastSavedTime", null);
         clearInterval(startInterval);
-        // localStorage.setItem("id_improve_comments", "");
-        // localStorage.setItem("id_positive_comments", "");
-        // localStorage.setItem("id_overall_comments", "");
+        localStorage.setItem("id_improve_comments", "");
+        localStorage.setItem("id_positive_comments", "");
+        localStorage.setItem("id_overall_comments", "");
       });
     }
   });
@@ -653,38 +653,37 @@ function getReviewCounts() {
 }
 
 //Remember previous review input fields text
-// function rememberReviewText() {
+function rememberReviewText() {
 
-// /* 
-//      <label>
-//         <input type="checkbox" class="filled-in" checked="checked" />
-//         <span>Filled in</span>
-//       </label>
-//  */
+/* 
+     <label>
+        <input type="checkbox" class="filled-in" checked="checked" />
+        <span>Filled in</span>
+      </label>
+ */
 
-//   let inputMemoryEl = document.createElement("input");
-//   inputMemoryEl.type = "checkbox";
-//   inputMemoryEl.className = "DBXFF-checkbox";
-//   inputMemoryEl.checked = true;
-//   inputMemoryEl.title = "Remember review text";
-// inputMemoryEl.addEventListener('click', () => {
-//  // inputMemoryEl.checked = !inputMemoryEl.checked;
+  let inputMemoryEl = document.createElement("input");
+  inputMemoryEl.type = "checkbox";
+  inputMemoryEl.className = "DBXFF-checkbox";
+  inputMemoryEl.checked = true;
+  inputMemoryEl.title = "Remember review text";
+inputMemoryEl.addEventListener('click', () => {
 
-// console.log('inputMemoryEl.checked = true: ',inputMemoryEl.checked)
+console.log('inputMemoryEl.checked = true: ',inputMemoryEl.checked)
 
-//   // if (inputMemoryEl.checked = true) {
-//   //   localStorage.setItem("id_improve_comments", id_improve_comments.value);
-//   //   localStorage.setItem("id_positive_comments", id_positive_comments.value);
-//   //   localStorage.setItem("id_overall_comments", id_overall_comments.value);
-//   // } else {
-//   //   localStorage.setItem("id_improve_comments", "");
-//   //   localStorage.setItem("id_positive_comments", "");
-//   //   localStorage.setItem("id_overall_comments", "");
-//   // }
+  if (inputMemoryEl.checked == true) {
+    localStorage.setItem("id_improve_comments", id_improve_comments.value);
+    localStorage.setItem("id_positive_comments", id_positive_comments.value);
+    localStorage.setItem("id_overall_comments", id_overall_comments.value);
+  } else {
+    localStorage.setItem("id_improve_comments", "");
+    localStorage.setItem("id_positive_comments", "");
+    localStorage.setItem("id_overall_comments", "");
+  }
 
-// });
-//   floatingElement.prepend(inputMemoryEl);
-// }
+});
+  floatingElement.prepend(inputMemoryEl);
+}
 
 
 function loadingIndicator() {}

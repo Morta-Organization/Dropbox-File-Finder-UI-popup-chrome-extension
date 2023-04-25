@@ -8,7 +8,10 @@ if (
   // save any text in fields to local storage
   //load any text from local storage to respective fields
   let fields = document.querySelectorAll(".focus-field");
+  generateFields()
+  function generateFields() {
   fields.forEach((field) => {
+    
     //!RESET - clear field button
     let resetFieldBtn = document.createElement("div");
     resetFieldBtn.className = "DBXFF-reset-field-button";
@@ -43,27 +46,28 @@ if (
     });
 
 
-    //! Load word into text field
-    let rememberWordsLabel = document.createElement("label");
-    rememberWordsLabel.className = "DBXFF-remember-words-label";
-    rememberWordsLabel.textContent = "Remember Review";
-    let rememberWords = document.createElement("input");
-    rememberWords.className = "DBXFF-remember-words";
-    rememberWords.type = "checkbox";
-    rememberWords.title = "If checked, text will persist after reloading the page or starting a new review.";
-    rememberWords.checked = localStorage.getItem(field.id) ? true : "";
-    rememberWords.addEventListener("change", () => {
+    // //! Load word into text field
+    // let rememberWordsLabel = document.createElement("label");
+    // rememberWordsLabel.className = "DBXFF-remember-words-label";
+    // rememberWordsLabel.textContent = "Remember Review";
+    // let rememberWords = document.createElement("input");
+    // rememberWords.className = "DBXFF-remember-words";
+    // rememberWords.type = "checkbox";
+    // rememberWords.title = "If checked, text will persist after reloading the page or starting a new review.";
+    // rememberWords.checked = localStorage.getItem(field.id) ? true : "";
+    // rememberWords.addEventListener("change", () => {
     
-      if (rememberWords.checked) {
-        localStorage.getItem(field.id);
-      } else {
-        localStorage.setItem(field.id, "");
-      }
+    //   if (rememberWords.checked) {
+    //     localStorage.getItem(field.id, field.value);
+    //   } else {
+    //     localStorage.setItem(field.id, "");
+    //   }
 
-    });
-    rememberWordsLabel.appendChild(rememberWords);
-    field.parentNode.insertBefore(rememberWordsLabel, field);
+    // });
+    // rememberWordsLabel.appendChild(rememberWords);
+    // field.parentNode.insertBefore(rememberWordsLabel, field);
     field.parentNode.insertBefore(resetFieldBtn, field);
     field.parentNode.insertBefore(wordCounter, field.previousSibling);
   });
+}
 }
