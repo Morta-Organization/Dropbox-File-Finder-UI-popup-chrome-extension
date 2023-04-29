@@ -11,7 +11,8 @@ if (
   generateFields()
   function generateFields() {
   fields.forEach((field) => {
-    
+      // field.value = localStorage.getItem("rememberReview")  || " ";
+      // console.log('localStorage.getItem(rememberReview)', localStorage.getItem("rememberReview"))
     //!RESET - clear field button
     let resetFieldBtn = document.createElement("div");
     resetFieldBtn.className = "DBXFF-reset-field-button";
@@ -26,7 +27,14 @@ if (
     let wordCounter = document.createElement("div");
     wordCounter.className = "DBXFF-word-counter";
 
-    let storedTextValue = localStorage.getItem(field.id); // Use the field's ID as the localStorage key
+    // Use the field's ID as the localStorage key
+    let storedTextValue
+    if (localStorage.getItem("rememberReview") == "true") {
+      storedTextValue = localStorage.getItem("rememberReview") == "true" ? localStorage.getItem(field.id): " " 
+    } else {
+      storedTextValue = localStorage.getItem(field.id);
+    }
+
     if (storedTextValue) {
       field.value = storedTextValue;
       let words = storedTextValue.trim().split(/\s+/);
@@ -68,6 +76,28 @@ if (
     // field.parentNode.insertBefore(rememberWordsLabel, field);
     field.parentNode.insertBefore(resetFieldBtn, field);
     field.parentNode.insertBefore(wordCounter, field.previousSibling);
+  });//loop end
+
+  //Remember previous review input fields text
+function rememberReviewText() {
+  let inputMemoryEl = document.createElement("input");
+  inputMemoryEl.type = "checkbox";
+  inputMemoryEl.className = "DBXFF-checkbox";
+  inputMemoryEl.checked = localStorage.getItem("rememberReview") == "true" ? true : false;
+  inputMemoryEl.title = "Remember review text";
+  inputMemoryEl.addEventListener("click", (e) => {
+
+    if (inputMemoryEl.checked == true) {
+      console.log('inputMemoryEl.checked', inputMemoryEl.checked)
+      localStorage.setItem("rememberReview", e.target.checked);
+    } else {
+      console.log('inputMemoryEl.checked', inputMemoryEl.checked)
+      localStorage.setItem("rememberReview", e.target.checked);
+    }
   });
+  floatingElement.prepend(inputMemoryEl);
+  return localStorage.getItem("rememberReview")
+}
+rememberReviewText()
 }
 }

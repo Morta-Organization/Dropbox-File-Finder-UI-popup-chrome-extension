@@ -19,13 +19,13 @@ dashboard when this is done.
 
  
 # Main Features 
+- Finds all the files in Dropbox of the current task, in the student's root folder.
+- You can open the task folder or download it.
 - Starts a timer as soon as the review page is loaded. The time can also be reset at any time.
 - Counts all completed reviews. The review counter can also be rest.
-- Finds all the files that have the current task name included, in the student's root folder.
-- Download the subfolder of each found result.
-- Open the subfolder directly in Dropbox in a new tab.
-- Hide the app while still displaying the timer.
-- Count and remember text flied words.
+- Hide the app while still displaying the timer. - Adds a word counter label to each review text field.
+- Review text is automatically stored in case of a page reloads, the browser tab is closed or CoGrammar fails to submit a completed review.
+- A checkbox to store your current review text and re-insert it into your next review text fields.
 
 ## How to stay updated 🚀  
 - Select the extension icon to open the popup, their you will find a link. 
@@ -35,13 +35,13 @@ Here you customize how to receive notifications on this repo.
 
 ## Latest updates
 
-#### v2.5.8
-- In reference to "v2.2.6" You can now choose to remember your review for each textfield with a checkbox. If checked, the review text will persist after reloading the page or starting a new review.
+#### v2.6.10
+- Added a checkbox option to remember the current review text and re-inserts them on the next review.
+- If unchecked, review will be remembered as normal
+- Increased the timer font size
+- Updated the popup html code with the apps features in its descriptions
 
-#### v2.4.8
 
-- Fixed an issue where the timer would display on the build your brand review page
-- Updated the element max heigh properties and scroll-bar CSS.
 
 
 

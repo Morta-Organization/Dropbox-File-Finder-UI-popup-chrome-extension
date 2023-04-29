@@ -383,11 +383,13 @@
   margin: 0px;
   position: absolute;
   left: 5px;
+  font-size: 1.3em !important;
 }
 
 .DBXFF-timer-container {
   flex-direction: row;
   height: 25px;
+  width: 80px;
   justify-content: space-around;
   padding: 0px 2px;
   position: absolute;
@@ -398,7 +400,6 @@
   border-bottom-right-radius: 3px;
   margin: 0;
   background-color: #f0f8ff0d;
-  width: 70px;
   display: flex;
   align-items: center;
 }
@@ -424,7 +425,7 @@
 .DBXFF-counter-container {
   position: absolute;
   top: 0;
-  left: 50%;
+  left: 54%;
   height: 25px;
   transform: translate(-50%, 0px);
   width: 170px;
