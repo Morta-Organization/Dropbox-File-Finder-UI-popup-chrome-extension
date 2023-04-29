@@ -36,10 +36,10 @@ Here you customize how to receive notifications on this repo.
 ## Latest updates
 
 #### v2.6.10
-- Added a checkbox option to remember the current review text and re-inserts them on the next review.
-- If unchecked, review will be remembered as normal
+- Added a checkbox option to remember the current review text and re-insert them on the next review.
+- If unchecked, the review will be remembered as normal
 - Increased the timer font size
-- Updated the popup html code with the apps features in its descriptions
+- Updated the popup HTML code with the app's features in its descriptions
 
 
 
