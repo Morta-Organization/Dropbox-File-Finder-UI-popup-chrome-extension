@@ -16,7 +16,7 @@ function reviewCounterEl() {
   // select the h3 tag " '>' = direct child"
 const h3Tag = document.querySelector('div > div > h3');
 
-if (h3Tag.textContent.includes('Code submissions waiting to be reviewed')){
+if (h3Tag?.textContent.includes('Code submissions waiting to be reviewed')){
 
 // create a new h3 tag
 const newH3Tag = document.createElement('h3');

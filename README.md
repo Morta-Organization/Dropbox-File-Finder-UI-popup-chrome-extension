@@ -35,10 +35,11 @@ Here you customize how to receive notifications on this repo.
 
 ## Latest updates
 
-#### v2.8.11
+#### v2.8.12
 - Added the review counter to the dashboard.
 - Added a marker to highlight all the words that say "Resub" on the dashboard.
 - Fix the issue where the remember review checkbox option would automatically work the first time, by setting the initial value to false.
+- Fixed "h3Tag?.textContent" console error.
 
 #### v2.6.10
 - Added a checkbox option to remember the current review text and re-insert them on the next review.
