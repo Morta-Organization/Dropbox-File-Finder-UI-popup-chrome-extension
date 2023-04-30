@@ -1,5 +1,11 @@
 //Adds word count and reset button to text fields in the 3 feedback forms
 
+
+//initialize local storage for rememberReview
+if (localStorage.getItem("rememberReview") == null) {
+  localStorage.setItem("rememberReview", "false");
+}
+
 if (
   window.location.pathname.includes("generate_review") ||
   window.location.pathname.includes("generate_dfe_review")
