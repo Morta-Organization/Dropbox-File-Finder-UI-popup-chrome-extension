@@ -245,7 +245,7 @@
   overflow: auto;
   min-height: 200px;
   font-size: 13px;
-  max-height: 345px;
+  max-height: 330px !important;
 }
 
 /* width */
@@ -522,7 +522,12 @@ mark {
     border-top: 2px solid #71d5af; */
 }
 
-.DBXFF-review-counter-h3 b {
-  color: #00ca7d;
+.DBXFF-review-counter-h3 p {
+  /* color: #00ca7d; */
   font-family: system-ui, sans-serif, Arial;
+  cursor: pointer;
+}
+
+.DBXFF-review-counter-h3 p:hover {
+text-decoration: underline;
 }

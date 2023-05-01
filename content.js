@@ -489,7 +489,7 @@ if (window.location.pathname.includes("generate_review") || window.location.path
   startInterval = setInterval(() => reviewTimer(), 1000);
 }
 
-function loadTimer() {
+async function loadTimer() {
   /*
 
    When the program is closed, it saves the current counter and
@@ -503,13 +503,13 @@ function loadTimer() {
 
   if (window.location.pathname.includes("generate_review")) {
     // Start the interval when the page is visible
-    document.addEventListener("visibilitychange", () => {
+    document.addEventListener("visibilitychange", async () => {
       if (document.visibilityState === "visible") {
         clearInterval(startInterval);
         startInterval = setInterval(() => reviewTimer(), 1000);
-        loadTimer();
+       await loadTimer();
       } else {
-        clearInterval(startInterval);
+          clearInterval(startInterval);
       }
     });
   } else {
@@ -527,7 +527,7 @@ function loadTimer() {
 
   // Save the current counter and time to local storage when the program is closed
 
-  window.addEventListener("beforeunload", () => {
+  window.addEventListener("beforeunload", async () => {
     saveTimeValues();
     clearInterval(startInterval);
   });

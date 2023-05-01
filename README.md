@@ -35,17 +35,17 @@ Here you customize how to receive notifications on this repo.
 
 ## Latest updates
 
+#### v2.11.13
+- Added a green highlight around all the "Resub" words in the table.
+- Added a bold tag around all the "Capstone" words in the table.
+- Added the review counter to the dashboard, above the table.
+- Fixed an issue where the tab would freeze after retuning to it after an hour -related to the counter.
+
 #### v2.8.12
 - Added the review counter to the dashboard.
 - Added a marker to highlight all the words that say "Resub" on the dashboard.
 - Fix the issue where the remember review checkbox option would automatically work the first time, by setting the initial value to false.
 - Fixed "h3Tag?.textContent" console error.
-
-#### v2.6.10
-- Added a checkbox option to remember the current review text and re-insert them on the next review.
-- If unchecked, the review will be remembered as normal
-- Increased the timer font size
-- Updated the popup HTML code with the app's features in its descriptions
 
 
 
