@@ -35,17 +35,19 @@ Here you customize how to receive notifications on this repo.
 
 ## Latest updates
 
+#### v2.15.15
+- On the review page, I added the word "Resub" to tasks that have been resubmitted. This helps reviewers quickly identify tasks that need to be reviewed again.
+- To further improve the identification of resubmitted tasks on the dashboard, I changed the color of the "Resub" word to red.
+- I also added color to all occurrences of the word "Capstone" on the dashboard to make it easier for reviewers to quickly identify capstone projects.
+- I modified the dashboard table's code to ensure that tasks due first are displayed at the top of the list based on their date and time. This should help users prioritize their work more effectively.
+- I also fixed an issue when the student name would overlap and display outside the popup element.
+
 #### v2.11.13
 - Added a green highlight around all the "Resub" words in the table.
 - Added a bold tag around all the "Capstone" words in the table.
 - Added the review counter to the dashboard, above the table.
 - Fixed an issue where the tab would freeze after retuning to it after an hour -related to the counter.
 
-#### v2.8.12
-- Added the review counter to the dashboard.
-- Added a marker to highlight all the words that say "Resub" on the dashboard.
-- Fix the issue where the remember review checkbox option would automatically work the first time, by setting the initial value to false.
-- Fixed "h3Tag?.textContent" console error.
 
 
 

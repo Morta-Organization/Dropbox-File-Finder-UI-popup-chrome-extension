@@ -661,20 +661,6 @@ function getReviewCounts() {
 
 function loadingIndicator() {}
 
-function highlightTRs() {
-  /* Adds hover effect to reviewer dashboard table rows */
-  let rows = document.querySelectorAll("tr");
-  let path = window.location.href; //only add effect to dashboard table
-  console.log("path", path);
-
-  if (path.includes("reviewer/dashboard")) {
-    for (let i = 0; i < rows.length; i++) {
-      rows[i].classList.add("tr-hover");
-    }
-  }
-}
-highlightTRs();
-
 //Build your brand tasks string manipulation
 // Define a function to replace Roman numerals with corresponding numbers
 function replaceRomanNumeralsWithNumbers(inputString) {
