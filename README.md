@@ -39,7 +39,7 @@ Here you customize how to receive notifications on this repo.
 - On the review page, I added the word "Resub" to tasks that have been resubmitted. This helps reviewers quickly identify tasks that need to be reviewed again.
 - To further improve the identification of resubmitted tasks on the dashboard, I changed the color of the "Resub" word to red.
 - I also added color to all occurrences of the word "Capstone" on the dashboard to make it easier for reviewers to quickly identify capstone projects.
-- I modified the dashboard table's code to ensure that tasks due first are displayed at the top of the list based on their date and time. This should help users prioritize their work more effectively.
+- I modified the dashboard table's code to ensure that tasks that are due first will always be at the top of the list based on their date and time. This should help reviewers prioritize their work more effectively.
 - I also fixed an issue when the student name would overlap and display outside the popup element.
 
 #### v2.11.13
