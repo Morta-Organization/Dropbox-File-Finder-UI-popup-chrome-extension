@@ -36,7 +36,7 @@ Here you customize how to receive notifications on this repo.
 ## Latest updates
 
 #### v2.15.16
-- Fixed an issue when the page would freez when retuning to it, this was related to the "visibilitychange" event.
+- Fixed an issue when the page would freeze when returning to it, this was related to the "visibilitychange" event.
 
 #### v2.15.15
 - On the review page, I added the word "Resub" to tasks that have been resubmitted. This helps reviewers quickly identify tasks that need to be reviewed again.

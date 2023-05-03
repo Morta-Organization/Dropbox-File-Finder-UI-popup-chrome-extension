@@ -92,13 +92,14 @@ function sortTable() {
 
 // ! show the Resub word on the review page
 function isReSub() {
+  localStorage.setItem('resub', 'false');//initialize the resub value to false
   const firstTable = document.querySelector('table:first-of-type');
   const reviewLinks = firstTable.querySelectorAll('a[href*="/reviewer/generate_review"]');
   
   reviewLinks.forEach(link => {
     link.addEventListener('click', event => {
       //event.preventDefault();
-      const currentTd = event.target.closest('tr').children[4];
+      const currentTd = event.target.closest('tr').children[4];//targets the "Review Link" column
     
       const containsResub = currentTd.textContent.includes('Resub');
       if (containsResub) {
@@ -112,6 +113,7 @@ function isReSub() {
 }
 
 function addResubWord() {
+
 // Find all h6 elements on the page
 const h6Elements = document.querySelectorAll('h6');
 

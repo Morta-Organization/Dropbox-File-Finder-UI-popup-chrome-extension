@@ -78,7 +78,7 @@ if (
 //! 1 Check token validity
 async function checkToken(dbx) {
   console.log(`%c Checking token`, "color: #f078c0");
-  console.log('removeSpinner', removeSpinner)
+  console.log("removeSpinner", removeSpinner);
   // Show loading indicator or disable user interactions
   // while waiting for the method to complete
   loadingIndicator("show");
@@ -92,9 +92,8 @@ async function checkToken(dbx) {
     // Hide loading indicator or enable user interactions
     loadingIndicator("hide");
   } catch (error) {
-    console.log('removeSpinner', removeSpinner)
+    console.log("removeSpinner", removeSpinner);
     if (removeSpinner) {
-    
       routeList.innerHTML = "Token Expired";
       removeSpinner = false;
     }
@@ -208,7 +207,6 @@ function createUI() {
 
   //reviewTimer()
   getReviewCounts();
-  
 }
 
 //! Extracts the task name from the page elements
@@ -282,21 +280,19 @@ function extractStudentName() {
 //between the brackets, and making up to 3 searches each time adding its results to the UI
 
 async function filesSearch(studentNumber, taskName) {
-
   let query = taskName;
- 
-    //update "build your brand" strings
-    let pattern = /build your brand/i;
 
-    if (query.match(pattern)) {
-      query = replaceRomanNumeralsWithNumbers(query).toLowerCase();
-    }
+  //update "build your brand" strings
+  let pattern = /build your brand/i;
 
+  if (query.match(pattern)) {
+    query = replaceRomanNumeralsWithNumbers(query).toLowerCase();
+  }
 
   console.log(`%c Searching for files ${inc}`, "color: #5390d9");
   let root = studentNumber;
   let retry = inc;
-  
+
   const path = inc > 0 ? root + ` (${retry})` : root;
 
   // Call the Dropbox API to search for a file
@@ -484,7 +480,10 @@ function highlightInputName() {
 //====================================================Review Timer
 //start the time on review
 let startInterval;
-if (window.location.pathname.includes("generate_review") || window.location.pathname.includes("generate_dfe_review") ) {
+if (
+  window.location.pathname.includes("generate_review") ||
+  window.location.pathname.includes("generate_dfe_review")
+) {
   loadTimer();
   startInterval = setInterval(() => reviewTimer(), 1000);
 }
@@ -503,15 +502,21 @@ async function loadTimer() {
 
   if (window.location.pathname.includes("generate_review")) {
     // Start the interval when the page is visible
-    document.addEventListener("visibilitychange", async () => {
+    const handleVisibilityChange = async () => {
       if (document.visibilityState === "visible") {
         clearInterval(startInterval);
         startInterval = setInterval(() => reviewTimer(), 1000);
-       await loadTimer();
+        await loadTimer();
+        document.removeEventListener(
+          "visibilitychange",
+          handleVisibilityChange
+        );//remove event listener to avoid multiple executions
       } else {
-          clearInterval(startInterval);
+        clearInterval(startInterval);
       }
-    });
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
   } else {
     clearInterval(startInterval);
   }
@@ -555,11 +560,10 @@ async function loadTimer() {
         localStorage.setItem("lastSavedTime", null);
         clearInterval(startInterval);
         if (localStorage.getItem("rememberReview") == "false") {
-           localStorage.setItem("id_improve_comments", "");
+          localStorage.setItem("id_improve_comments", "");
           localStorage.setItem("id_positive_comments", "");
           localStorage.setItem("id_overall_comments", "");
         }
-       
       });
     }
   });
@@ -655,10 +659,6 @@ function getReviewCounts() {
   floatingElement.prepend(counterContainerEl);
 }
 
-
-
-
-
 function loadingIndicator() {}
 
 //Build your brand tasks string manipulation
@@ -666,12 +666,12 @@ function loadingIndicator() {}
 function replaceRomanNumeralsWithNumbers(inputString) {
   // Define a mapping of Roman numerals to numbers
   const romanToNumberMap = {
-    "I": "01",
-    "II": "02",
-    "III": "03",
-    "IV": "04",
-    "V": "05",
-    "VI": "06"
+    I: "01",
+    II: "02",
+    III: "03",
+    IV: "04",
+    V: "05",
+    VI: "06",
     // Add more Roman numerals and their corresponding numbers as needed
   };
   //console.log('romanToNumberMap', romanToNumberMap.I)
