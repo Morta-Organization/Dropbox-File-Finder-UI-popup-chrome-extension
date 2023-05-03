@@ -35,21 +35,12 @@ Here you customize how to receive notifications on this repo.
 
 ## Latest updates
 
+#### v2.15.18
+- Fixed an issue where only "Capstone" would be styled when both "Resub and Capstone" was in the same test.
+- Fixed an issue where, if more the one "-" appeared in the task string, it would only extract the text after the first "-". Now it always gets the test after the last "-".
+
 #### v2.15.16
 - Fixed an issue when the page would freeze when returning to it, this was related to the "visibilitychange" event.
-
-#### v2.15.15
-- On the review page, I added the word "Resub" to tasks that have been resubmitted. This helps reviewers quickly identify tasks that need to be reviewed again.
-- To further improve the identification of resubmitted tasks on the dashboard, I changed the color of the "Resub" word to red.
-- I also added color to all occurrences of the word "Capstone" on the dashboard to make it easier for reviewers to quickly identify capstone projects.
-- I modified the dashboard table's code to ensure that tasks that are due first will always be at the top of the list based on their date and time. This should help reviewers prioritize their work more effectively.
-- I also fixed an issue when the student name would overlap and display outside the popup element.
-
-#### v2.11.13
-- Added a green highlight around all the "Resub" words in the table.
-- Added a bold tag around all the "Capstone" words in the table.
-- Added the review counter to the dashboard, above the table.
-- Fixed an issue where the tab would freeze after retuning to it after an hour -related to the counter.
 
 
 

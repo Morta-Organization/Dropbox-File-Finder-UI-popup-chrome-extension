@@ -225,7 +225,7 @@ function extractTaskName(studentNumber) {
   // Loop through each h6 element and extract the text after "-"
   h6Tags.forEach((task) => {
     const text = task?.textContent?.trim();
-    const index = text.indexOf("-") + 1;
+    const index = text.lastIndexOf("-") +1;
 
     // If the text contains "-", extract the text after "-" and check if it contains ":"
     if (index !== 0) {
@@ -502,7 +502,7 @@ async function loadTimer() {
 
   if (window.location.pathname.includes("generate_review")) {
     // Start the interval when the page is visible
-    const handleVisibilityChange = async () => {
+   async function handleVisibilityChange() {
       if (document.visibilityState === "visible") {
         clearInterval(startInterval);
         startInterval = setInterval(() => reviewTimer(), 1000);
