@@ -4,11 +4,15 @@
     padding-bottom: 5px;
 }
 
+.navbar-fixed-top {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
 .DBXFF-review-counter-p {
-    position: fixed;
+    position: absolute;
     line-height: normal;
     transition: all 0.2s ease-in-out;
-    bottom: 0px;
+    bottom: -30px;
     background-image: linear-gradient(to top, #2f3134, #262628, #1c1b1d, #121111, #000000);
     left: 50%;
     transform: translate(-50%, 0px);
@@ -28,7 +32,9 @@
     width: 300px;
     cursor: pointer;
     animation: border-animation 3s linear infinite alternate;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
+
 
 /* Define the animation */
 @keyframes border-animation {

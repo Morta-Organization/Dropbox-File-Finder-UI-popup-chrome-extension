@@ -318,7 +318,7 @@ async function filesSearch(studentNumber, taskName) {
 
       //if results are 0 and we did 3 searches already? stop
       if (inc >= 4) {
-        highlightInputName();
+        highlightTaskName(query);
         return;
       } else {
         if (!foundFiles) {
@@ -452,9 +452,9 @@ function getDLLink(blob, name) {
   //loadingImage.style.display = "none";
 }
 
-//Extracts the word that matches the input name and only highlight that word.
-function highlightInputName() {
-  // Get all the parent div elements
+//Extracts the words that matches the task name and only highlight those words.
+function highlightTaskName(taskName) {
+  // Get all the  elements that contains the entire path name
   const parentDivs = document.querySelectorAll(".DBXFF-foundRes");
 
   // Loop through each parent div
@@ -462,7 +462,7 @@ function highlightInputName() {
     // Get the text content of the child div
     let itemText = div.textContent?.toLowerCase()?.trim();
     //split the words into an array
-    let wordsToHighlight = foundTaskName.split(" ");
+    let wordsToHighlight = taskName.split(" ");
 
     wordsToHighlight.forEach((word) => {
       if (word.length > 2) {

@@ -36,8 +36,8 @@ function resub() {
 
 //! Display the number of reviews completed H3 Element
 function reviewCounterEl() {
-  // select the h3 tag " '>' = direct child"
-  const body = document.querySelector(".body-margin");
+  // append the counter inside the NavBar
+  const nav = document.querySelector(".navbar");
 
   // create a new h3 tag
   const newH3Tag = document.createElement("h3");
@@ -46,15 +46,15 @@ function reviewCounterEl() {
   bTag.className = "DBXFF-review-counter-p";
   bTag.textContent = `Reviews Completed: ${localStorage.getItem(
     "reviewCount"
-  )} / ${reviewRows()}`;
+  )} / ${reviewRows()} left`;
 
   // Change text on hover
   bTag.addEventListener('mouseover', () => {
-    bTag.textContent = 'Reset count';
+    bTag.textContent = 'Click to reset count';
   });
   
   bTag.addEventListener('mouseout', () => {
-    bTag.textContent = `Reviews Completed: ${localStorage.getItem("reviewCount")} / ${reviewRows()}`;
+    bTag.textContent = `Reviews Completed: ${localStorage.getItem("reviewCount")} / ${reviewRows()} left`;
   });
 
   bTag.addEventListener("click", () => {
@@ -68,7 +68,7 @@ function reviewCounterEl() {
   });
 
   newH3Tag.className = "DBXFF-review-counter-h3";
-  body.appendChild(bTag);
+  nav.appendChild(bTag); //After the element
 
   // create a new div element
   //const newDiv = document.createElement("div");
@@ -196,15 +196,26 @@ function highlightTRs() {
 
 //! Count all the review rows and add the number to the reviewer counter UI
 function reviewRows() {
-  // Get all table elements
-  const tables = document.querySelectorAll("tbody");
-  // Count "tr" tags in the first two tables
+  // // Get all table elements
+  // const tables = document.querySelectorAll("tbody");
+  // // Count "tr" tags in the first two tables
+  // let count = 0;
+  // for (let i = 0; i < 2 && i < tables.length; i++) {
+  //   const rows = tables[i].querySelectorAll("tr");
+  //   count += rows.length;
+  // }
+  // return count;
+
+  const tds = document.querySelectorAll('td');
   let count = 0;
-  for (let i = 0; i < 2 && i < tables.length; i++) {
-    const rows = tables[i].querySelectorAll("tr");
-    count += rows.length;
+  for (let i = 0; i < tds.length; i++) {
+    if (tds[i].textContent.includes('Start Time') || tds[i].textContent.includes('Review')) {
+      count++;
+    }
   }
   return count;
+
+
 }
 
 //Call functions based on the path
