@@ -37,39 +37,48 @@ function resub() {
 //! Display the number of reviews completed H3 Element
 function reviewCounterEl() {
   // select the h3 tag " '>' = direct child"
-  const h3Tag = document.querySelector("div > div > h3");
+  const body = document.querySelector(".body-margin");
 
-  if (h3Tag?.textContent.includes("Code submissions waiting to be reviewed")) {
-    // create a new h3 tag
-    const newH3Tag = document.createElement("h3");
-    const bTag = document.createElement("p");
-    bTag.title = "Click to reset the review counter";
-    bTag.textContent = `Reviews Completed: ${localStorage.getItem(
-      "reviewCount"
-    )}`;
-    bTag.addEventListener("click", () => {
-      let reset = confirm("Are you sure you want to reset the review counter?");
-      if (reset) {
-        localStorage.setItem("reviewCount", 0);
-        bTag.textContent = `Reviews Completed: ${localStorage.getItem(
-          "reviewCount"
-        )}`;
-      }
-    });
+  // create a new h3 tag
+  const newH3Tag = document.createElement("h3");
+  const bTag = document.createElement("p");
+  bTag.title = "Click to reset the review counter";
+  bTag.className = "DBXFF-review-counter-p";
+  bTag.textContent = `Reviews Completed: ${localStorage.getItem(
+    "reviewCount"
+  )} / ${reviewRows()}`;
 
-    newH3Tag.className = "DBXFF-review-counter-h3";
-    newH3Tag.appendChild(bTag);
+  // Change text on hover
+  bTag.addEventListener('mouseover', () => {
+    bTag.textContent = 'Reset count';
+  });
+  
+  bTag.addEventListener('mouseout', () => {
+    bTag.textContent = `Reviews Completed: ${localStorage.getItem("reviewCount")} / ${reviewRows()}`;
+  });
 
-    // create a new div element
-    const newDiv = document.createElement("div");
+  bTag.addEventListener("click", () => {
+    let reset = confirm("Are you sure you want to reset the review counter?");
+    if (reset) {
+      localStorage.setItem("reviewCount", 0);
+      bTag.textContent = `Reviews Completed: ${localStorage.getItem(
+        "reviewCount"
+      )}`;
+    }
+  });
 
-    // append the new h3 tag to the new div element
-    newDiv.appendChild(newH3Tag);
+  newH3Tag.className = "DBXFF-review-counter-h3";
+  body.appendChild(bTag);
 
-    // wrap the original h3 tag with the new div element
-    h3Tag.parentNode.insertBefore(newDiv, h3Tag);
-    newDiv.appendChild(h3Tag);
-  }
+  // create a new div element
+  //const newDiv = document.createElement("div");
+
+  // append the new h3 tag to the new div element
+  //body.appendChild(newH3Tag);
+
+  // wrap the original h3 tag with the new div element
+  // h3Tag.parentNode.insertBefore(newDiv, h3Tag);
+  // newDiv.appendChild(h3Tag);
 }
 
 //! Shorts the table by deadline in its correct order
@@ -109,7 +118,7 @@ function sortTable() {
   rows.forEach((row) => tableBody[1].appendChild(row));
 }
 
-// ! show the Resub word on the review page
+//! Show the "Resub" word on the review page
 function isReSub() {
   localStorage.setItem("resub", "false"); //initialize the resub value to false
   const firstTable = document.querySelector("table:first-of-type");
@@ -132,17 +141,20 @@ function isReSub() {
   });
 }
 
+//! Adds the "Resub" word to the review page after the task name
 function addResubWord() {
   // Find all h6 elements on the page
   const h6Elements = document.querySelectorAll("h6");
 
   // Loop through each h6 element
   h6Elements.forEach((h6) => {
+    h6.style.fontSize = "1.2rem";
     // Check if the inner text of the h6 element contains the word "Task"
     if (h6.innerText.includes("Task:")) {
       // Create a new span element with the text "Resub" in red
       const resubSpan = document.createElement("span");
       resubSpan.style.color = "red";
+      resubSpan.style.fontWeight = "bold";
       resubSpan.textContent = " Resub";
 
       // Find the index of the word "Task" in the inner text of the h6 element
@@ -182,6 +194,19 @@ function highlightTRs() {
   }
 }
 
+//! Count all the review rows and add the number to the reviewer counter UI
+function reviewRows() {
+  // Get all table elements
+  const tables = document.querySelectorAll("tbody");
+  // Count "tr" tags in the first two tables
+  let count = 0;
+  for (let i = 0; i < 2 && i < tables.length; i++) {
+    const rows = tables[i].querySelectorAll("tr");
+    count += rows.length;
+  }
+  return count;
+}
+
 //Call functions based on the path
 if (
   window.location.pathname.includes("generate_review") ||
@@ -198,6 +223,5 @@ if (window.location.pathname.includes("reviewer/dashboard")) {
   resub();
   isReSub();
   sortTable();
+  reviewRows();
 }
-
-

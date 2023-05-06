@@ -1,0 +1,38 @@
+.score-button:hover {
+    box-shadow: 0px 0px 0px 2px rgba(0, 150, 135, 0.493);
+    transition: .2s ease-in-out;
+    border-radius: 1px;
+}
+
+.score-button {
+    transition: .2s ease-in-out;
+}
+
+tr td button {
+    font-size: small !important;
+}
+
+.criteria {
+    text-align: center;
+    /* border: 1px solid #D7BDE2 !important; */
+    font-size: medium !important;
+}
+
+.category th {
+    text-align: center;
+    padding-left: 0xp !important;
+    padding-bottom: 20px;
+    font-size: small;
+}
+
+.form-group:first-of-type {
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+}
+
+.top-container {
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px !important;
+}
+
+.review-nav .nav-item .nav-link {
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset !important;
+}

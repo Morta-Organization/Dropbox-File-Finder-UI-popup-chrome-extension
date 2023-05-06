@@ -300,8 +300,8 @@
 
 
 .pulsate-fwd {
-  -webkit-animation: pulsate-fwd 3s ease-in-out infinite both;
-  animation: pulsate-fwd 3s ease-in-out infinite both;
+  -webkit-animation: pulsate-fwd ease-in-out infinite both;
+  animation: pulsate-fwd ease-in-out infinite both;
 }
 
 .blink-1 {
@@ -316,37 +316,37 @@
  */
 @-webkit-keyframes pulsate-fwd {
   0% {
-    -webkit-font-size: 1rem;
-    font-size: 1rem;
+    -webkit-font-size: 1.2rem;
+    font-size: 1.2rem;
   }
 
   50% {
-    -webkit-font-size: 1.05rem;
-    font-size: 1.05rem;
+    -webkit-font-size: 1.3rem;
+    font-size: 1.3rem;
   }
 
   100% {
-    -webkit-font-size: 1rem;
-    font-size: 1rem
+    -webkit-font-size: 1.2rem;
+    font-size: 1.2rem
   }
 }
 
 @keyframes pulsate-fwd {
   0% {
-    -webkit-font-size: 1rem;
+    -webkit-font-size: 1.2rem;
     ;
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 
   50% {
-    -webkit-font-size: 1.05rem;
-    font-size: 1.05rem;
+    -webkit-font-size: 1.3rem;
+    font-size: 1.3rem;
   }
 
   100% {
-    -webkit-font-size: 1rem;
+    -webkit-font-size: 1.2rem;
     ;
-    font-size: 1rem;
+    font-size: 1.2rem;
     ;
   }
 }
@@ -387,9 +387,13 @@
 .DBXFF-timer {
   margin: 0px;
   position: absolute;
-  left: 5px;
-  font-size: 1.3em !important;
+  left: 0px;
+  text-align: center;
+  width: 60px;
+  /* font-size: 1.3em !important; */
 }
+
+
 
 .DBXFF-timer-container {
   flex-direction: row;
@@ -532,3 +536,4 @@ mark {
 .DBXFF-review-counter-h3 p:hover {
 text-decoration: underline;
 }
+

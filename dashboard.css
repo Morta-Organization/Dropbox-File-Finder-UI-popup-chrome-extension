@@ -1,0 +1,44 @@
+
+
+.body-margin {
+    padding-bottom: 5px;
+}
+
+.DBXFF-review-counter-p {
+    position: fixed;
+    line-height: normal;
+    transition: all 0.2s ease-in-out;
+    bottom: 0px;
+    background-image: linear-gradient(to top, #2f3134, #262628, #1c1b1d, #121111, #000000);
+    left: 50%;
+    transform: translate(-50%, 0px);
+    height: 30px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #03abab;
+    font-family: system-ui, -apple-system, inherit;
+    /* clip-path: polygon(90% 0, 90% 0%, 100% 100%, 0 100%, 0 100%, 10% 0); */
+    border: 3px solid;
+    border-left-width: 0px;
+    border-right-width: 0px;
+    border-image: linear-gradient(270deg, rgb(29, 26, 26) 0px, #009688 50%, rgb(29, 26, 26)) 1 / 1 / 0 stretch;
+    font-size: large;
+    width: 300px;
+    cursor: pointer;
+    animation: border-animation 3s linear infinite alternate;
+}
+
+/* Define the animation */
+@keyframes border-animation {
+    0% {
+      border-image-slice: 1;
+      border-image: linear-gradient(270deg, rgb(29, 26, 26) 0px, #003b34 50%, rgb(29, 26, 26)) 1 / 1 / 0 stretch;
+    }
+    100% {
+      border-image-slice: 1;
+      border-image: linear-gradient(270deg, rgb(29, 26, 26) 0px, #009688 50%, rgb(29, 26, 26)) 1 / 1 / 0 stretch;
+    }
+   
+  }

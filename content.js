@@ -14,7 +14,8 @@ let updateLink = document.createElement("p");
 
 // Create the counter element
 let counterEl = document.createElement("p");
-counterEl.className = "DBXFF-timer pulsate-fwd";
+counterEl.className = "DBXFF-timer";
+counterEl.classList.add("pulsate-fwd");
 // Initialize the counter and last saved time from local storage, or use default values
 let counter;
 let min;
@@ -81,7 +82,7 @@ async function checkToken(dbx) {
   console.log("removeSpinner", removeSpinner);
   // Show loading indicator or disable user interactions
   // while waiting for the method to complete
-  loadingIndicator("show");
+  //loadingIndicator("show");
 
   try {
     await dbx.usersGetCurrentAccount();
@@ -90,7 +91,7 @@ async function checkToken(dbx) {
     //window.location.pathname.includes("generate_review") && createUI();
 
     // Hide loading indicator or enable user interactions
-    loadingIndicator("hide");
+   // loadingIndicator("hide");
   } catch (error) {
     console.log("removeSpinner", removeSpinner);
     if (removeSpinner) {
@@ -107,7 +108,7 @@ async function checkToken(dbx) {
     }
 
     // Hide loading indicator or enable user interactions
-    loadingIndicator("hide");
+    //loadingIndicator("hide");
   }
 }
 
@@ -225,7 +226,7 @@ function extractTaskName(studentNumber) {
   // Loop through each h6 element and extract the text after "-"
   h6Tags.forEach((task) => {
     const text = task?.textContent?.trim();
-    const index = text.lastIndexOf("-") +1;
+    const index = text.lastIndexOf("-") + 1;
 
     // If the text contains "-", extract the text after "-" and check if it contains ":"
     if (index !== 0) {
@@ -479,13 +480,13 @@ function highlightInputName() {
 
 //====================================================Review Timer
 //start the time on review
-let startInterval;
+let startTimer;
 if (
   window.location.pathname.includes("generate_review") ||
   window.location.pathname.includes("generate_dfe_review")
 ) {
   loadTimer();
-  startInterval = setInterval(() => reviewTimer(), 1000);
+  startTimer = setInterval(() => reviewTimer(), 1000);
 }
 
 async function loadTimer() {
@@ -502,23 +503,23 @@ async function loadTimer() {
 
   if (window.location.pathname.includes("generate_review")) {
     // Start the interval when the page is visible
-   async function handleVisibilityChange() {
+    async function handleVisibilityChange() {
       if (document.visibilityState === "visible") {
-        clearInterval(startInterval);
-        startInterval = setInterval(() => reviewTimer(), 1000);
+        clearInterval(startTimer);
+        startTimer = setInterval(() => reviewTimer(), 1000);
         await loadTimer();
         document.removeEventListener(
           "visibilitychange",
           handleVisibilityChange
-        );//remove event listener to avoid multiple executions
+        ); //remove event listener to avoid multiple executions
       } else {
-        clearInterval(startInterval);
+        clearInterval(startTimer);
       }
-    };
+    }
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
   } else {
-    clearInterval(startInterval);
+    clearInterval(startTimer);
   }
 
   // Initialize the counter and last saved time from local storage, or use default values
@@ -534,17 +535,12 @@ async function loadTimer() {
 
   window.addEventListener("beforeunload", async () => {
     saveTimeValues();
-    clearInterval(startInterval);
+    clearInterval(startTimer);
   });
 
   //reset timer
   timeResetIcon.addEventListener("click", () => {
-    counterEl.style.color = "#8BC34A";
-    counterEl.style.animationDuration = "1s";
-    counter = 0;
-    min = 0;
-    localStorage.setItem("minutes", null);
-    localStorage.setItem("counter", null);
+    resetTimer();
   });
 
   //From the "Review Submit" page, reset timer when returning to dashboard
@@ -558,7 +554,7 @@ async function loadTimer() {
         localStorage.setItem("minutes", null);
         localStorage.setItem("counter", null);
         localStorage.setItem("lastSavedTime", null);
-        clearInterval(startInterval);
+        clearInterval(startTimer);
         if (localStorage.getItem("rememberReview") == "false") {
           localStorage.setItem("id_improve_comments", "");
           localStorage.setItem("id_positive_comments", "");
@@ -572,39 +568,75 @@ async function loadTimer() {
 function reviewTimer() {
   counter++;
 
+  // Check if the value of 'counter' has exceeded 59 seconds
   if (counter > 59) {
-    min += Math.floor(counter / 60); // Increment 'min' by the quotient of counter divided by 60
-    counter %= 60; // Set 'counter' to the remainder of counter divided by 60
+    // Calculate the number of full minutes that have elapsed
+    // and add it to the 'min' variable
+    // The Math.floor() method is used to round down to the nearest integer
+    // e.g. if 'counter' is 75 seconds, the quotient of counter / 60 is 1.25,
+    // but we only want to add 1 full minute to 'min'
+    min += Math.floor(counter / 60);
+
+    // Calculate the remaining seconds after removing the full minutes
+    // and set the value of 'counter' to this value
+    // The modulus operator (%) returns the remainder of the division
+    // e.g. if 'counter' is 75 seconds, the remainder of counter % 60 is 15,
+    // which represents the number of seconds that have elapsed after 1 full minute
+    counter %= 60;
   }
 
   //set time warning colors
   if (min < 5) {
     counterEl.style.color = "#8BC34A";
+    counterEl.style.animationDuration = "10s";
   } else if (min < 7) {
     counterEl.style.color = "#ffeb3b";
-    counterEl.style.animationDuration = "1s";
+    counterEl.style.animationDuration = "5s";
   } else if (min < 11) {
     counterEl.style.color = "#ff9800";
-    counterEl.style.animationDuration = ".5s";
+    counterEl.style.animationDuration = "2s";
   } else if (min < 13) {
     counterEl.style.color = "#ff5722";
-    counterEl.style.animationDuration = ".3s";
+    counterEl.style.animationDuration = "1s";
   } else if (min < 15) {
     counterEl.style.color = "#f44336";
     counterEl.style.animationDuration = ".2s";
   } else {
-    counterEl.style.color = "red";
+    counterEl.style.color = "#f44336";
     counterEl.style.animationDuration = ".2s";
   }
 
-  //time UI
+  //Combine minutes and seconds into one string
   combinedTime = `${min > 9 ? "" : 0}${min}:${counter > 9 ? "" : 0}${counter}`;
+
+  //Stop timer at 60 minutes
+  if (min > 60) {
+    counterEl.style.color = "#f44336";
+    counterEl.style.animationDuration = ".2s ";
+    combinedTime = "59:00";
+    clearInterval(startTimer);
+  }
 
   counterEl.textContent = combinedTime;
 
+  // Save the current counter and time to local storage every second
   saveTimeValues();
 }
 
+//Reset timer
+function resetTimer() {
+  counter = 0;
+  min = 0;
+  localStorage.setItem("minutes", null);
+  localStorage.setItem("counter", null);
+  combinedTime = 0;
+  clearInterval(startTimer);
+ setTimeout(() => {
+  startTimer = setInterval(() => reviewTimer(), 1000);
+ }, 500);
+}
+
+// Save the current counter and time to local storage
 function saveTimeValues() {
   localStorage.setItem("counter", counter);
   localStorage.setItem("minutes", min);
@@ -619,17 +651,12 @@ reviewCompleteBtn?.addEventListener("click", () => {
   localStorage.setItem("reviewCount", reviewCount);
 
   counterEl.style.color = "#8BC34A";
-  counterEl.style.animationDuration = "3s !important";
+  counterEl.style.animationDuration = "3s";
 
-  //reset timer
-  counter = 0;
-  min = 0;
-  localStorage.setItem("minutes", null);
-  localStorage.setItem("counter", null);
-  clearInterval(startInterval);
+  resetTimer();
 });
 
-//Get review count from local storage when page loads
+// Get review count from local storage and display it
 function getReviewCounts() {
   let prevCounts = localStorage.getItem("reviewCount");
   reviewCount = prevCounts ? prevCounts : 0;
@@ -659,7 +686,6 @@ function getReviewCounts() {
   floatingElement.prepend(counterContainerEl);
 }
 
-function loadingIndicator() {}
 
 //Build your brand tasks string manipulation
 // Define a function to replace Roman numerals with corresponding numbers
