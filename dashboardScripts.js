@@ -118,9 +118,10 @@ function sortTable() {
   rows.forEach((row) => tableBody[1].appendChild(row));
 }
 
-//! Show the "Resub" word on the review page
+//! Show the "Resub or " word on the review page
 function isReSub() {
   localStorage.setItem("resub", "false"); //initialize the resub value to false
+  localStorage.setItem("isCapstone", "false") //initialize the capstone value to false
   const firstTable = document.querySelector("table:first-of-type");
   const reviewLinks = firstTable.querySelectorAll(
     'a[href*="/reviewer/generate_review"]'
@@ -131,12 +132,22 @@ function isReSub() {
       //event.preventDefault();
       const currentTd = event.target.closest("tr").children[4]; //targets the "Review Link" column
 
+      //If the column contains the word "Capstone or Resub" then set there value to true
       const containsResub = currentTd.textContent.includes("Resub");
       if (containsResub) {
         localStorage.setItem("resub", "true");
       } else {
         localStorage.setItem("resub", "false");
       }
+
+      const containsCapstone = currentTd.textContent.includes("Capstone");
+      if (containsCapstone) {
+        localStorage.setItem("isCapstone", "true");
+      } else {
+        localStorage.setItem("isCapstone", "false");
+      }
+
+
     });
   });
 }
@@ -178,6 +189,39 @@ function addResubWord() {
       h6.prepend(taskAfterSpan);
     }
   });
+}
+
+function addCapstoneWord() {
+  // Define the search words
+let myWords = "Capstone Project";
+
+  // Find all h6 elements on the page
+  const h6Elements = document.querySelectorAll("h6");
+  // Loop through each list item
+h6Elements.forEach((item) => {
+
+  // Split the search words into an array
+  let wordsToHighlight = myWords.split(' ');
+
+  // Loop through each search word
+  wordsToHighlight.forEach((word) => {
+
+    // Create a regular expression with the search word and the 'gi' flags
+    let regex = new RegExp(word, 'gi');
+
+    // Test if the search word is found in the list item's text content
+    if (regex.test(item.textContent)) {
+
+      // If the search word is found, replace it with a highlighted version
+      //"$&"" is a special replacement string in JavaScript's String.replace() method that represents the matched substring.
+      let found = item.innerHTML.replace(regex, `<b class="capstoneText">$&</b>`);
+
+      // Replace the original list item HTML with the highlighted version
+      item.innerHTML = found;
+    }
+  });
+});
+  
 }
 
 // ! Highlight table rows on reviewer dashboard
@@ -225,6 +269,9 @@ if (
 ) {
   if (localStorage.getItem("resub") === "true") {
     addResubWord();
+  }
+  if (localStorage.getItem("isCapstone") === "true") {
+    addCapstoneWord();
   }
 }
 

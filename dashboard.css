@@ -48,3 +48,9 @@
     }
    
   }
+
+  .capstoneText {
+    color: #6eccf6;
+    text-shadow: 0px 0px 2px black, 0px 0px 2px black, 0px 0px 2px black, 0px 0px 2px black;
+    letter-spacing: 2px;
+  }
