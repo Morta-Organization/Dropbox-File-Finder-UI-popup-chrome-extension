@@ -35,15 +35,16 @@ Here you customize how to receive notifications on this repo.
 
 ## Latest updates
 
+#### v3.18.20
+- Fixed the time jump issue when the "reset timer" icon was clicked.
+- Fixed issue where reset timer function would run x2 every time it was called.
+
 #### v3.18.18
 - Added a Ui for the review counter on the main co-grammar dashboard.
 - Review counter now includes the number of reviews left.
 - Made a few mall UI improvements on the dashboard and reviewer page.
 - Made a few small improvements to the popup UI.
 
-#### v2.15.18
-- Fixed an issue where only "Capstone" would be styled when both "Resub and Capstone" was in the same test.
-- Fixed an issue where, if more the one "-" appeared in the task string, it would only extract the text after the first "-". Now it always gets the test after the last "-".
 
 
 

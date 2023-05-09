@@ -522,6 +522,7 @@ async function loadTimer() {
     clearInterval(startTimer);
   }
 
+
   // Initialize the counter and last saved time from local storage, or use default values
   counter = parseInt(localStorage.getItem("counter")) || 0;
   min = parseInt(localStorage.getItem("minutes")) || 0;
@@ -538,10 +539,7 @@ async function loadTimer() {
     clearInterval(startTimer);
   });
 
-  //reset timer
-  timeResetIcon.addEventListener("click", () => {
-    resetTimer();
-  });
+
 
   //From the "Review Submit" page, reset timer when returning to dashboard
   let myWord = "Return to dashboard";
@@ -624,17 +622,21 @@ function reviewTimer() {
 }
 
 //Reset timer
-function resetTimer() {
-  counter = 0;
-  min = 0;
-  localStorage.setItem("minutes", null);
-  localStorage.setItem("counter", null);
-  combinedTime = 0;
-  clearInterval(startTimer);
- setTimeout(() => {
-  startTimer = setInterval(() => reviewTimer(), 1000);
- }, 500);
-}
+  timeResetIcon.addEventListener("click", async () => {
+    console.log(`%c timer reset`, 'color: #ffba08')
+    clearInterval(startTimer);
+  
+    counter = 0;
+    min = 0;
+    localStorage.setItem("minutes", null);
+    localStorage.setItem("counter", null);
+    combinedTime = 0;
+  
+      
+    startTimer = setInterval(() => reviewTimer(), 1000);
+    await loadTimer();
+
+  });
 
 // Save the current counter and time to local storage
 function saveTimeValues() {
@@ -653,7 +655,7 @@ reviewCompleteBtn?.addEventListener("click", () => {
   counterEl.style.color = "#8BC34A";
   counterEl.style.animationDuration = "3s";
 
-  resetTimer();
+ 
 });
 
 // Get review count from local storage and display it
@@ -710,3 +712,5 @@ function replaceRomanNumeralsWithNumbers(inputString) {
     return romanToNumberMap[romanNumeral] || match;
   });
 }
+
+

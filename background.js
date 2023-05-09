@@ -5,3 +5,10 @@
 //       chrome.tabs.executeScript({ code: 'window.find("Task : 2")' });
 //     }
 //   });
+
+// chrome.tabs.onCreated.addListener(function(tab) {
+//     // When a new tab is created, open the Find popup and search for "hello"
+//     chrome.tabs.executeScript(tab.id, {
+//       code: window.find("hello", false, true, true, false, true)
+//     });
+//   });
