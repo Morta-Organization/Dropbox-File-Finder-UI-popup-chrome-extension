@@ -50,17 +50,30 @@ function reviewCounterEl() {
 
   // Change text on hover
   bTag.addEventListener('mouseover', () => {
-    bTag.textContent = 'Click to reset count';
+    bTag.textContent = 'Click to reset count / Right click to edit';
+    bTag.style.fontSize = '1.5rem';
   });
   
   bTag.addEventListener('mouseout', () => {
     bTag.textContent = `Reviews Completed: ${localStorage.getItem("reviewCount")} / ${reviewRows()} left`;
+    bTag.style.fontSize = 'initial';
   });
 
   bTag.addEventListener("click", () => {
     let reset = confirm("Are you sure you want to reset the review counter?");
     if (reset) {
       localStorage.setItem("reviewCount", 0);
+      bTag.textContent = `Reviews Completed: ${localStorage.getItem(
+        "reviewCount"
+      )}`;
+    }
+  });
+
+  bTag.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+    let newCount = prompt("Enter a new review count");
+    if (newCount) {
+      localStorage.setItem("reviewCount", newCount);
       bTag.textContent = `Reviews Completed: ${localStorage.getItem(
         "reviewCount"
       )}`;

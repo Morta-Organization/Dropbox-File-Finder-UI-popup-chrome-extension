@@ -35,15 +35,15 @@ Here you customize how to receive notifications on this repo.
 
 ## Latest updates
 
+#### v3.20.20
+- Added a option to "right click to edit review count" on the review counter label.
+- Task number is also highlighted yellow in search results.
+
 #### v3.18.20
 - Fixed the time jump issue when the "reset timer" icon was clicked.
 - Fixed issue where reset timer function would run x2 every time it was called.
 
-#### v3.18.18
-- Added a Ui for the review counter on the main co-grammar dashboard.
-- Review counter now includes the number of reviews left.
-- Made a few mall UI improvements on the dashboard and reviewer page.
-- Made a few small improvements to the popup UI.
+
 
 
 

@@ -9,6 +9,7 @@ timeResetIcon.title = "Reset timer";
 timerContainer.appendChild(timeResetIcon);
 floatingElement.prepend(timerContainer);
 let foundTaskName;
+let taskNumber;
 
 let updateLink = document.createElement("p");
 
@@ -218,13 +219,34 @@ function extractTaskName(studentNumber) {
     window.open(link, "_blank");
   });
   console.log(`%c Extracting Task Name`, "color: red");
-  // Find all h6 elements containing the word "Task"
+
+  // Only extract the h6 elements that contain the word "Task"
   let h6Tags = [...document.querySelectorAll("h6")].filter((task) =>
     task.textContent.includes("Task")
   );
 
-  // Loop through each h6 element and extract the text after "-"
+  //extract the "Task #digit" from after the firs ":" = Task: Task 7 - Database Interaction
+  // Loop through each list item
+  h6Tags.forEach((item) => {
+
+    // Create a regular expression to match "Task" followed by a space, one or more digits, and a hyphen "-"
+    let regex = /Task \d+/gi;
+
+    // Test if the search word is found in the list item's text content
+    if (regex.test(item.textContent)) {
+
+      // If the search word is found, replace it with a highlighted version
+      taskNum = item.textContent.match(regex)[0].split(" ")[1];
+      
+    }
+  });
+
+
+
+
+  // Loop through each h6 element and extract the text after "-" = Task: Task 7 - Database Interaction
   h6Tags.forEach((task) => {
+    console.log('task', task)
     const text = task?.textContent?.trim();
     const index = text.lastIndexOf("-") + 1;
 
@@ -244,7 +266,7 @@ function extractTaskName(studentNumber) {
     //remove the loader before getting results
 
     removeSpinner = true;
-    filesSearch(studentNumber, foundTaskName);
+    filesSearch(studentNumber, foundTaskName, taskNum);
   });
 }
 
@@ -267,6 +289,7 @@ function extractStudentName() {
   console.log(`%c Extracting St Name`, "color: red");
 
   // Select all h6 elements on the page
+  // Filter the selected h6 elements to only include those that contain the text "Student:"
   const h6Element = [...document.querySelectorAll("h6")].filter((task) =>
     task.textContent.includes("Student:")
   );
@@ -319,6 +342,7 @@ async function filesSearch(studentNumber, taskName) {
       //if results are 0 and we did 3 searches already? stop
       if (inc >= 4) {
         highlightTaskName(query);
+
         return;
       } else {
         if (!foundFiles) {
@@ -454,15 +478,35 @@ function getDLLink(blob, name) {
 
 //Extracts the words that matches the task name and only highlight those words.
 function highlightTaskName(taskName) {
+  console.log('taskNumOnly', taskNum)
   // Get all the  elements that contains the entire path name
   const parentDivs = document.querySelectorAll(".DBXFF-foundRes");
 
   // Loop through each parent div
   parentDivs.forEach((div) => {
+
+    
     // Get the text content of the child div
     let itemText = div.textContent?.toLowerCase()?.trim();
     //split the words into an array
     let wordsToHighlight = taskName.split(" ");
+
+//FInd the task number, asn highlight it yellow
+ let numbersToHighlight = taskNum.split(" ");
+    //highlight the task number
+    numbersToHighlight.forEach((num) => {
+      if (num.length > 0) {
+        if (itemText.includes(num.toLowerCase())) {
+          let found = div.innerHTML.replace(
+            new RegExp(num, "gi"),
+            `<b style="font-weight: 100; color: #FFC107">${num}</b>`
+          );
+          div.innerHTML = found;
+        }
+      }
+    });
+
+
 
     wordsToHighlight.forEach((word) => {
       if (word.length > 2) {
@@ -476,6 +520,8 @@ function highlightTaskName(taskName) {
       }
     });
   });
+
+  //highlightTaskNumber(taskNum)
 }
 
 //====================================================Review Timer
@@ -714,3 +760,21 @@ function replaceRomanNumeralsWithNumbers(inputString) {
 }
 
 
+function highlightTaskNumber(){
+  // Loop through each list item
+listItems.forEach((item) => {
+
+  // Create a regular expression to match "Task" followed by a space, one or more digits, and a hyphen "-"
+  let regex = /Task \d+/gi;
+
+  // Test if the search word is found in the list item's text content
+  if (regex.test(item.textContent)) {
+
+    // If the search word is found, replace it with a highlighted version
+    let found = item.innerHTML.replace(regex, `<b class="highlight">$&</b>`);
+
+    // Replace the original list item HTML with the highlighted version
+    item.innerHTML = found;
+  }
+});
+}
