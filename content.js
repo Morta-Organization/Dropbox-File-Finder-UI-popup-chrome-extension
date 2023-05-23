@@ -9,7 +9,6 @@ timeResetIcon.title = "Reset timer";
 timerContainer.appendChild(timeResetIcon);
 floatingElement.prepend(timerContainer);
 let foundTaskName;
-let taskNumber;
 
 let updateLink = document.createElement("p");
 
@@ -228,15 +227,19 @@ function extractTaskName(studentNumber) {
   //extract the "Task #digit" from after the firs ":" = Task: Task 7 - Database Interaction
   // Loop through each list item
   h6Tags.forEach((item) => {
-
+    
     // Create a regular expression to match "Task" followed by a space, one or more digits, and a hyphen "-"
     let regex = /Task \d+/gi;
+ 
 
     // Test if the search word is found in the list item's text content
     if (regex.test(item.textContent)) {
 
       // If the search word is found, replace it with a highlighted version
       taskNum = item.textContent.match(regex)[0].split(" ")[1];
+
+      localStorage.setItem("taskNumber", `Task ${taskNum}`);//save task number to local storage
+ 
       
     }
   });
@@ -246,7 +249,7 @@ function extractTaskName(studentNumber) {
 
   // Loop through each h6 element and extract the text after "-" = Task: Task 7 - Database Interaction
   h6Tags.forEach((task) => {
-    console.log('task', task)
+
     const text = task?.textContent?.trim();
     const index = text.lastIndexOf("-") + 1;
 
@@ -478,7 +481,6 @@ function getDLLink(blob, name) {
 
 //Extracts the words that matches the task name and only highlight those words.
 function highlightTaskName(taskName) {
-  console.log('taskNumOnly', taskNum)
   // Get all the  elements that contains the entire path name
   const parentDivs = document.querySelectorAll(".DBXFF-foundRes");
 
@@ -521,7 +523,6 @@ function highlightTaskName(taskName) {
     });
   });
 
-  //highlightTaskNumber(taskNum)
 }
 
 //====================================================Review Timer

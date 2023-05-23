@@ -1,0 +1,78 @@
+.DBXFF-options-button {
+    position: absolute;
+    right: 25px;
+    top: 4px;
+    z-index: 34;
+    opacity: 1;
+    right: 43px;
+    top: 7px;
+    accent-color: #06897c;
+    width: 15px;
+    cursor: pointer;
+    transform: rotate(13deg) translate(3px, -3px);
+    width: 18px;
+}
+
+
+.DBXFF-options-dialog {
+    width: 50%;
+    height: fit-content;
+    border-radius: 3px;
+    border: 1px solid #06897c;
+}
+
+
+dialog::backdrop {
+    background-color: rgba(89, 192, 158, 0.603);
+}
+
+
+
+
+
+/* Remember Review */
+
+.DBXFF-remember-review-container {
+
+}
+
+.DBXFF-options-dialog h1 {
+    text-shadow: 0px 0px 3px #06897c, 0px 0px 3px #06897c, 0px 0px 10px #06897c;
+    color: aliceblue;
+}
+
+.DBXFF-close-button {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 20px;
+    cursor: pointer;
+}
+
+
+/* 
+.top-container {}
+.bottom-container{}
+.category th {}
+tr td {}
+background-color: #292929;
+    color: #9E9E9E;
+
+
+[type=button] {
+filter: brightness(0.5);
+}
+    input fields
+    .upload-container {
+         background-color: #727272;
+    }
+    .form-control {
+          color: #ededed;
+    background-color: #727272;
+    }
+    .form-control:focus {
+        color: azure;
+    background-color: #939191;
+    }
+  
+*/

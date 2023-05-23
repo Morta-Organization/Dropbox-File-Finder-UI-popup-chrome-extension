@@ -15,8 +15,8 @@
   animation-name: slide-in;
   animation-duration: 0.5s;
   animation-timing-function: ease-out;
-  border-bottom-right-radius: 10px;
-  border-top-right-radius: 10px;
+  border-bottom-right-radius:3px;
+  border-top-right-radius: 3px;
   box-shadow: rgba(0, 0, 0, 0.76) 0px 0px 7px, inset 10px 0px 5px -10px #000000;
   height: auto;
   padding-bottom: 10px !important;
@@ -477,7 +477,7 @@
 
 
 .DBXFF-checkbox {
-  position: absolute;
+/*   position: absolute; */
   right: 25px;
   top: 4px;
   z-index: 34;
@@ -485,7 +485,7 @@
   right: 43px;
   top: 7px;
   accent-color: #06897c;
-  width: 10px;
+  width: 15px;
 }
 
 .DBXFF-remember-words {}

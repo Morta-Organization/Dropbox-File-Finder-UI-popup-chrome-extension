@@ -35,13 +35,15 @@ Here you customize how to receive notifications on this repo.
 
 ## Latest updates
 
+#### v3.23.20
+- On the student_review_page, I added a feature that will auto-scroll the current task. Reducing the time to look up the resubmitted task.
+- Added a feature to make the text areas auto-adjust to the text when entered.
+- Added an option button to add more options later.
+
 #### v3.20.20
 - Added a option to "right click to edit review count" on the review counter label.
 - Task number is also highlighted yellow in search results.
 
-#### v3.18.20
-- Fixed the time jump issue when the "reset timer" icon was clicked.
-- Fixed issue where reset timer function would run x2 every time it was called.
 
 
 

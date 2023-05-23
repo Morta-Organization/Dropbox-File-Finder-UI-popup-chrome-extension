@@ -16,94 +16,116 @@ if (
   let fields = document.querySelectorAll(".focus-field");
   generateFields()
   function generateFields() {
-  fields.forEach((field) => {
+    fields.forEach((field) => {
       // field.value = localStorage.getItem("rememberReview")  || " ";
       // console.log('localStorage.getItem(rememberReview)', localStorage.getItem("rememberReview"))
-    //!RESET - clear field button
-    let resetFieldBtn = document.createElement("div");
-    resetFieldBtn.className = "DBXFF-reset-field-button";
-    resetFieldBtn.textContent = "clear";
-    resetFieldBtn.addEventListener("click", () => {
-      field.value = "";
-      localStorage.setItem(field.id, "");
-      wordCounter.innerHTML = "words: 0";
-    });
-
-    //! Word counter - also saves words to local storage
-    let wordCounter = document.createElement("div");
-    wordCounter.className = "DBXFF-word-counter";
-
-    // Use the field's ID as the localStorage key
-    let storedTextValue
-    if (localStorage.getItem("rememberReview") == "true") {
-      storedTextValue = localStorage.getItem("rememberReview") == "true" ? localStorage.getItem(field.id): " " 
-    } else {
-      storedTextValue = localStorage.getItem(field.id);
-    }
-
-    if (storedTextValue) {
-      field.value = storedTextValue;
-      let words = storedTextValue.trim().split(/\s+/);
-      wordCounter.innerHTML = "words: " + words.length;
-    } else {
+      //!RESET - clear field button
+      let resetFieldBtn = document.createElement("div");
+      resetFieldBtn.className = "DBXFF-reset-field-button";
+      resetFieldBtn.textContent = "clear";
+      resetFieldBtn.addEventListener("click", () => {
+        field.value = "";
+        localStorage.setItem(field.id, "");
         wordCounter.innerHTML = "words: 0";
-    }
+        field.style.height = ""; // Reset the height to allow recalculation
+        field.style.height = field.scrollHeight + "px"; // Set the height to the scroll height of the content
+      });
 
-    // Save the text value to local storage when input event is triggered
-    field.addEventListener("input", () => {
-      // Split the string by any whitespace character using a regular expression
-      let words = field.value.trim().split(/\s+/);
-      wordCounter.innerHTML = "words: " + words.length;
+      //! Word counter - also saves words to local storage
+      let wordCounter = document.createElement("div");
+      wordCounter.className = "DBXFF-word-counter";
 
       // Use the field's ID as the localStorage key
-      localStorage.setItem(field.id, field.value);
-    });
+      let storedTextValue
+      if (localStorage.getItem("rememberReview") == "true") {
+        storedTextValue = localStorage.getItem("rememberReview") == "true" ? localStorage.getItem(field.id) : " "
+      } else {
+        storedTextValue = localStorage.getItem(field.id);
+      }
+
+      if (storedTextValue) {
+        field.value = storedTextValue;
+        let words = storedTextValue.trim().split(/\s+/);
+        wordCounter.innerHTML = "words: " + words.length;
+      } else {
+        wordCounter.innerHTML = "words: 0";
+      }
 
 
-    // //! Load word into text field
-    // let rememberWordsLabel = document.createElement("label");
-    // rememberWordsLabel.className = "DBXFF-remember-words-label";
-    // rememberWordsLabel.textContent = "Remember Review";
-    // let rememberWords = document.createElement("input");
-    // rememberWords.className = "DBXFF-remember-words";
-    // rememberWords.type = "checkbox";
-    // rememberWords.title = "If checked, text will persist after reloading the page or starting a new review.";
-    // rememberWords.checked = localStorage.getItem(field.id) ? true : "";
-    // rememberWords.addEventListener("change", () => {
-    
-    //   if (rememberWords.checked) {
-    //     localStorage.getItem(field.id, field.value);
-    //   } else {
-    //     localStorage.setItem(field.id, "");
-    //   }
+      //The height is set to the scroll height of the textarea, allowing it to adjust to the text content.
+      field.style.height = ""; // Reset the height to allow recalculation
+      // Set the height to the scroll height of the content
+      field.style.height = field.scrollHeight + "px";
 
-    // });
-    // rememberWordsLabel.appendChild(rememberWords);
-    // field.parentNode.insertBefore(rememberWordsLabel, field);
-    field.parentNode.insertBefore(resetFieldBtn, field);
-    field.parentNode.insertBefore(wordCounter, field.previousSibling);
-  });//loop end
+      // Save the text value to local storage when input event is triggered
+      field.addEventListener("input", () => {
+        field.style.height = ""; // Reset the height to allow recalculation
+        field.style.height = field.scrollHeight + "px"; // Set the height to the scroll height of the content
+        // Split the string by any whitespace character using a regular expression
+        let words = field.value.trim().split(/\s+/);
+        wordCounter.innerHTML = "words: " + words.length;
 
-  //Remember previous review input fields text
-function rememberReviewText() {
-  let inputMemoryEl = document.createElement("input");
-  inputMemoryEl.type = "checkbox";
-  inputMemoryEl.className = "DBXFF-checkbox";
-  inputMemoryEl.checked = localStorage.getItem("rememberReview") == "true" ? true : false;
-  inputMemoryEl.title = "Remember review text";
-  inputMemoryEl.addEventListener("click", (e) => {
+        // Use the field's ID as the localStorage key
+        localStorage.setItem(field.id, field.value);
+      });
 
-    if (inputMemoryEl.checked == true) {
-      console.log('inputMemoryEl.checked', inputMemoryEl.checked)
-      localStorage.setItem("rememberReview", e.target.checked);
-    } else {
-      console.log('inputMemoryEl.checked', inputMemoryEl.checked)
-      localStorage.setItem("rememberReview", e.target.checked);
+
+      // //! Load word into text field
+      // let rememberWordsLabel = document.createElement("label");
+      // rememberWordsLabel.className = "DBXFF-remember-words-label";
+      // rememberWordsLabel.textContent = "Remember Review";
+      // let rememberWords = document.createElement("input");
+      // rememberWords.className = "DBXFF-remember-words";
+      // rememberWords.type = "checkbox";
+      // rememberWords.title = "If checked, text will persist after reloading the page or starting a new review.";
+      // rememberWords.checked = localStorage.getItem(field.id) ? true : "";
+      // rememberWords.addEventListener("change", () => {
+
+      //   if (rememberWords.checked) {
+      //     localStorage.getItem(field.id, field.value);
+      //   } else {
+      //     localStorage.setItem(field.id, "");
+      //   }
+
+      // });
+      // rememberWordsLabel.appendChild(rememberWords);
+      // field.parentNode.insertBefore(rememberWordsLabel, field);
+      field.parentNode.insertBefore(resetFieldBtn, field);
+      field.parentNode.insertBefore(wordCounter, field.previousSibling);
+    });//loop end
+
+    //Remember previous review input fields text
+    function rememberReviewText() {
+      let RememberReviewContainer = document.createElement("div");
+      RememberReviewContainer.className = "DBXFF-remember-review-container";
+      let inputMemoryEl = document.createElement("input");
+      inputMemoryEl.type = "checkbox";
+      inputMemoryEl.name = "rememberReview";
+      inputMemoryEl.id = "rememberReview";
+      inputMemoryEl.className = "DBXFF-checkbox";
+      inputMemoryEl.checked = localStorage.getItem("rememberReview") == "true" ? true : false;
+      inputMemoryEl.title = "Remember review text";
+      inputMemoryEl.addEventListener("click", (e) => {
+
+        if (inputMemoryEl.checked == true) {
+          console.log('inputMemoryEl.checked', inputMemoryEl.checked)
+          localStorage.setItem("rememberReview", e.target.checked);
+        } else {
+          console.log('inputMemoryEl.checked', inputMemoryEl.checked)
+          localStorage.setItem("rememberReview", e.target.checked);
+        }
+      });
+
+      //label
+      let label = document.createElement("label");
+      label.className = "DBXFF-checkbox-label";
+      label.htmlFor = "rememberReview";//htmlFor is the same as for
+      label.textContent = "Remember Review";
+      RememberReviewContainer.appendChild(inputMemoryEl);
+      RememberReviewContainer.appendChild(label);
+      dialog.appendChild(RememberReviewContainer);
+      return localStorage.getItem("rememberReview")
     }
-  });
-  floatingElement.prepend(inputMemoryEl);
-  return localStorage.getItem("rememberReview")
-}
-rememberReviewText()
-}
+    rememberReviewText()
+  }
 }

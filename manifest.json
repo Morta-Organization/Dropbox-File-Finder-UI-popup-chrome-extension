@@ -29,14 +29,17 @@
         "loaders.css",
         "feedbackFields.css",
         "scoreBoard.css",
-        "dashboard.css"
+        "dashboard.css",
+        "moreOptions.css"
       ],
       "js": [
         "Dropbox-sdk.min.js",
         "content.js",
+        "moreOption.js",
         "feedbackFields.js",
         "dashboardScripts.js",
-        "studentReviewPage.js"
+        "studentReviewPage.js",
+        "scrollToResubTask.js"
       ]
     }
   ],
