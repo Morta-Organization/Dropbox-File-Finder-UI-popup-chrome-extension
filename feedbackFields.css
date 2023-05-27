@@ -36,7 +36,8 @@
     border-radius: 3px;
     color: white !important;
     font-weight: 500;
-    width: 105px;
+    width: 110px;
+    overflow: hidden;
     height: 20px;
     background-color: #57cea0;
     user-select: none;
@@ -96,3 +97,7 @@
     font-weight: 200 !important;
 }
 
+#generate_review_button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+}

@@ -30,7 +30,8 @@
         "feedbackFields.css",
         "scoreBoard.css",
         "dashboard.css",
-        "moreOptions.css"
+        "moreOptions.css",
+        "MentorRubrick.css"
       ],
       "js": [
         "Dropbox-sdk.min.js",
@@ -39,7 +40,8 @@
         "feedbackFields.js",
         "dashboardScripts.js",
         "studentReviewPage.js",
-        "scrollToResubTask.js"
+        "scrollToResubTask.js",
+        "MentorRubrick.js"
       ]
     }
   ],

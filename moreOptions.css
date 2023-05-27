@@ -26,7 +26,9 @@ dialog::backdrop {
     background-color: rgba(89, 192, 158, 0.603);
 }
 
-
+.DBXFF-checkbox-label {
+    margin: 0 0 0 5px;
+}
 
 
 

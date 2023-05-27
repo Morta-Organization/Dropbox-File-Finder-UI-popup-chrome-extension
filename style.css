@@ -476,16 +476,16 @@
 }
 
 
-.DBXFF-checkbox {
+.DBXFF-dialog-checkboxes {
 /*   position: absolute; */
   right: 25px;
+  width: 13px;
   top: 4px;
   z-index: 34;
   opacity: 1;
   right: 43px;
   top: 7px;
   accent-color: #06897c;
-  width: 15px;
 }
 
 .DBXFF-remember-words {}

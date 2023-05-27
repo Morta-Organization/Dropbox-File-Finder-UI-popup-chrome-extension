@@ -11,12 +11,16 @@ if (
   window.location.pathname.includes("generate_dfe_review")
 ) {
 
+  let completeReviewBtn = document.querySelector("#generate_review_button")
+  completeReviewBtn.disabled = true;
+  let completionChecker = [false, false, false]
+
   // save any text in fields to local storage
   //load any text from local storage to respective fields
   let fields = document.querySelectorAll(".focus-field");
   generateFields()
   function generateFields() {
-    fields.forEach((field) => {
+    fields.forEach((field, i) => {
       // field.value = localStorage.getItem("rememberReview")  || " ";
       // console.log('localStorage.getItem(rememberReview)', localStorage.getItem("rememberReview"))
       //!RESET - clear field button
@@ -63,7 +67,37 @@ if (
         field.style.height = field.scrollHeight + "px"; // Set the height to the scroll height of the content
         // Split the string by any whitespace character using a regular expression
         let words = field.value.trim().split(/\s+/);
-        wordCounter.innerHTML = "words: " + words.length;
+
+        //*Add a check-mark to the word counter if each field met the required word count.
+        //Disable  "Generate review" button until all fields are filled with the required word count
+
+        /* Positive aspects of the submission */
+        if (i == 0 && words.length >= 100) {
+          wordCounter.innerHTML = `words: ${words.length} ✔`;
+          completionChecker[0] = true;
+        } else
+          /* Aspects that could be improved */
+          if (i == 1 && words.length >= 200) {
+            wordCounter.innerHTML = `words: ${words.length}  ✔`;
+            completionChecker[1] = true;
+          } else
+            /* Overall comments */
+            if (i == 2 && words.length >= 100) {
+              wordCounter.innerHTML = `words: ${words.length}  ✔`;
+              completionChecker[2] = true;
+            } else {
+              /* no check-mark */
+              wordCounter.innerHTML = `words: ${words.length}`;
+              completionChecker[i] = false;
+            }
+
+        //!If all field meet the required word count, enable "Generate review" button
+        if (completionChecker.every(value => value === true)) {
+          completeReviewBtn.disabled = false;
+        } else {
+          completeReviewBtn.disabled = true;
+        }
+
 
         // Use the field's ID as the localStorage key
         localStorage.setItem(field.id, field.value);
@@ -102,7 +136,7 @@ if (
       inputMemoryEl.type = "checkbox";
       inputMemoryEl.name = "rememberReview";
       inputMemoryEl.id = "rememberReview";
-      inputMemoryEl.className = "DBXFF-checkbox";
+      inputMemoryEl.className = "DBXFF-checkbox DBXFF-dialog-checkboxes ";
       inputMemoryEl.checked = localStorage.getItem("rememberReview") == "true" ? true : false;
       inputMemoryEl.title = "Remember review text";
       inputMemoryEl.addEventListener("click", (e) => {
