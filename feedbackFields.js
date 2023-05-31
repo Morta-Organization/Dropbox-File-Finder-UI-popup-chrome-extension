@@ -15,6 +15,13 @@ if (
   completeReviewBtn.disabled = true;
   let completionChecker = [false, false, false]
 
+  // Check if the review is a resubmission
+  let isResub = localStorage.getItem("resub") == "true" ? true : false;
+  let positiveLength;
+  let improvementsLength;
+  let overallLength;
+
+
   // save any text in fields to local storage
   //load any text from local storage to respective fields
   let fields = document.querySelectorAll(".focus-field");
@@ -71,18 +78,23 @@ if (
         //*Add a check-mark to the word counter if each field met the required word count.
         //Disable  "Generate review" button until all fields are filled with the required word count
 
+        // Set the required word count for each field based on whether it's a resubmission or not
+        positiveLength = isResub ? 10 : 50;
+        improvementsLength = isResub ? 100 : 50;
+        overallLength = isResub ? 10 : 45;
+
         /* Positive aspects of the submission */
-        if (i == 0 && words.length >= 100) {
+        if (i == 0 && words.length >= positiveLength) {
           wordCounter.innerHTML = `words: ${words.length} ✔`;
           completionChecker[0] = true;
         } else
           /* Aspects that could be improved */
-          if (i == 1 && words.length >= 200) {
+          if (i == 1 && words.length >= improvementsLength) {
             wordCounter.innerHTML = `words: ${words.length}  ✔`;
             completionChecker[1] = true;
           } else
             /* Overall comments */
-            if (i == 2 && words.length >= 100) {
+            if (i == 2 && words.length >= overallLength) {
               wordCounter.innerHTML = `words: ${words.length}  ✔`;
               completionChecker[2] = true;
             } else {

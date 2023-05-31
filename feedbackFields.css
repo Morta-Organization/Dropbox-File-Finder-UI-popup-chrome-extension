@@ -53,7 +53,7 @@
     font-size: large !important;
     font-family: system-ui, -apple-system, inherit !important;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
-    padding: 5px 10px !important;
+    padding: 10px 10px 20px!important;
 }
 
 .form-control:focus {
