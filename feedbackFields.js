@@ -80,7 +80,7 @@ if (
 
         // Set the required word count for each field based on whether it's a resubmission or not
         positiveLength = isResub ? 10 : 50;
-        improvementsLength = isResub ? 100 : 50;
+        improvementsLength = isResub ? 50 : 50;
         overallLength = isResub ? 10 : 45;
 
         /* Positive aspects of the submission */
