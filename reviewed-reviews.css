@@ -1,0 +1,17 @@
+.DBXFF-review-text {
+    white-space: break-spaces;
+    font-family: inherit;
+    font-size: initial;
+    background-color: #d2def5;
+    padding: 25px 10px;
+    margin: 0;
+    transform: .2 ease-in-out;
+    border-radius: 5px;
+    margin: 2.5px;
+    
+}
+
+.DBXFF-review-text:hover {
+    background-color: #c8d9f8;
+    transition: .2s ease-in-out;
+}

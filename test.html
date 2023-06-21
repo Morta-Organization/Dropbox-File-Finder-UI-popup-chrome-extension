@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<p>asd</p>
+<br>
+
+<p>asd</p>
+<p>asd</p>
+<p>asd</p>
+<hr>
+<h1>asd</h1>
+<br>
+
+<p>asd</p>
+<p>asd</p>
+<p>asd</p>
+<hr>
+<p>asd</p>
+<h1>asd</h1>
+<br>
+<p>asd</p>
+<p>asd</p>
+<p>asd</p>
+<hr>
+<p>asd</p>
+<h1>asd</h1>
+
+
+<script>
+    const brTags = document.getElementsByTagName('br'); // Get all <br> tags
+
+    for (let i = 0; i < brTags.length; i++) { // Loop through each <br> tag
+        const brTag = brTags[i]; // Get the current <br> tag
+        const nextSiblings = getNextSiblings(brTag, 'p', 3); // Get the next 3 sibling <p> tags after the <br> tag
+        
+        if (nextSiblings.length === 3) { // Check if there are 3 <p> tags as siblings
+            const divTag = document.createElement('div'); // Create a new <div> element
+            
+            for (let j = 0; j < nextSiblings.length; j++) { // Loop through the <p> tags
+                const pTag = nextSiblings[j]; // Get the current <p> tag
+                divTag.appendChild(pTag); // Append the <p> tag to the <div> tag
+            }
+            
+            brTag.parentNode.insertBefore(divTag, brTag.nextSibling); // Insert the <div> tag after the <br> tag
+        }
+    }
+    
+    function getNextSiblings(elem, selector, count) {
+        const siblings = []; // Array to store the sibling elements
+        
+        while (elem && count > 0) { // Iterate until reaching the desired count or the end of siblings
+            elem = elem.nextSibling; // Move to the next sibling
+            
+            if (elem && elem.nodeName.toLowerCase() === selector.toLowerCase()) { // Check if the sibling matches the specified selector
+                siblings.push(elem); // Add the sibling to the array
+                count--; // Decrease the count
+            }
+        }
+        
+        return siblings; // Return the array of siblings
+    }
+    
+
+
+</script>
+</body>
+</html>

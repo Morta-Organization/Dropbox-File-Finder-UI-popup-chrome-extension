@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "DBX File Finder",
-  "version": "3.18.18",
+  "version": "3.26.22",
   "description": "Download or open the related dropbox task folder",
   "permissions": [
     "activeTab",
@@ -26,12 +26,13 @@
       ],
       "css": [
         "style.css",
+        "dashboard.css",
         "loaders.css",
         "feedbackFields.css",
         "scoreBoard.css",
-        "dashboard.css",
         "moreOptions.css",
-        "MentorRubrick.css"
+        "MentorRubrick.css",
+        "reviewed-reviews.css"
       ],
       "js": [
         "Dropbox-sdk.min.js",
@@ -40,6 +41,7 @@
         "feedbackFields.js",
         "dashboardScripts.js",
         "studentReviewPage.js",
+        "reviewed_reviews.js",
         "scrollToResubTask.js",
         "MentorRubrick.js"
       ]

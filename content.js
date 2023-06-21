@@ -91,7 +91,7 @@ async function checkToken(dbx) {
     //window.location.pathname.includes("generate_review") && createUI();
 
     // Hide loading indicator or enable user interactions
-   // loadingIndicator("hide");
+    // loadingIndicator("hide");
   } catch (error) {
     console.log("removeSpinner", removeSpinner);
     if (removeSpinner) {
@@ -227,10 +227,10 @@ function extractTaskName(studentNumber) {
   //extract the "Task #digit" from after the firs ":" = Task: Task 7 - Database Interaction
   // Loop through each list item
   h6Tags.forEach((item) => {
-    
+
     // Create a regular expression to match "Task" followed by a space, one or more digits, and a hyphen "-"
     let regex = /Task \d+/gi;
- 
+
 
     // Test if the search word is found in the list item's text content
     if (regex.test(item.textContent)) {
@@ -239,8 +239,8 @@ function extractTaskName(studentNumber) {
       taskNum = item.textContent.match(regex)[0].split(" ")[1];
 
       localStorage.setItem("taskNumber", `Task ${taskNum}`);//save task number to local storage
- 
-      
+
+
     }
   });
 
@@ -487,14 +487,14 @@ function highlightTaskName(taskName) {
   // Loop through each parent div
   parentDivs.forEach((div) => {
 
-    
+
     // Get the text content of the child div
     let itemText = div.textContent?.toLowerCase()?.trim();
     //split the words into an array
     let wordsToHighlight = taskName.split(" ");
 
-//FInd the task number, asn highlight it yellow
- let numbersToHighlight = taskNum.split(" ");
+    //FInd the task number, asn highlight it yellow
+    let numbersToHighlight = taskNum.split(" ");
     //highlight the task number
     numbersToHighlight.forEach((num) => {
       if (num.length > 0) {
@@ -669,21 +669,21 @@ function reviewTimer() {
 }
 
 //Reset timer
-  timeResetIcon.addEventListener("click", async () => {
-    console.log(`%c timer reset`, 'color: #ffba08')
-    clearInterval(startTimer);
-  
-    counter = 0;
-    min = 0;
-    localStorage.setItem("minutes", null);
-    localStorage.setItem("counter", null);
-    combinedTime = 0;
-  
-      
-    startTimer = setInterval(() => reviewTimer(), 1000);
-    await loadTimer();
+timeResetIcon.addEventListener("click", async () => {
+  console.log(`%c timer reset`, 'color: #ffba08')
+  clearInterval(startTimer);
 
-  });
+  counter = 0;
+  min = 0;
+  localStorage.setItem("minutes", null);
+  localStorage.setItem("counter", null);
+  combinedTime = 0;
+
+
+  startTimer = setInterval(() => reviewTimer(), 1000);
+  await loadTimer();
+
+});
 
 // Save the current counter and time to local storage
 function saveTimeValues() {
@@ -702,7 +702,7 @@ reviewCompleteBtn?.addEventListener("click", () => {
   counterEl.style.color = "#8BC34A";
   counterEl.style.animationDuration = "3s";
 
- 
+
 });
 
 // Get review count from local storage and display it
@@ -761,21 +761,21 @@ function replaceRomanNumeralsWithNumbers(inputString) {
 }
 
 
-function highlightTaskNumber(){
+function highlightTaskNumber() {
   // Loop through each list item
-listItems.forEach((item) => {
+  listItems.forEach((item) => {
 
-  // Create a regular expression to match "Task" followed by a space, one or more digits, and a hyphen "-"
-  let regex = /Task \d+/gi;
+    // Create a regular expression to match "Task" followed by a space, one or more digits, and a hyphen "-"
+    let regex = /Task \d+/gi;
 
-  // Test if the search word is found in the list item's text content
-  if (regex.test(item.textContent)) {
+    // Test if the search word is found in the list item's text content
+    if (regex.test(item.textContent)) {
 
-    // If the search word is found, replace it with a highlighted version
-    let found = item.innerHTML.replace(regex, `<b class="highlight">$&</b>`);
+      // If the search word is found, replace it with a highlighted version
+      let found = item.innerHTML.replace(regex, `<b class="highlight">$&</b>`);
 
-    // Replace the original list item HTML with the highlighted version
-    item.innerHTML = found;
-  }
-});
+      // Replace the original list item HTML with the highlighted version
+      item.innerHTML = found;
+    }
+  });
 }

@@ -79,9 +79,9 @@ if (
         //Disable  "Generate review" button until all fields are filled with the required word count
 
         // Set the required word count for each field based on whether it's a resubmission or not
-        positiveLength = isResub ? 10 : 50;
-        improvementsLength = isResub ? 50 : 50;
-        overallLength = isResub ? 10 : 45;
+        positiveLength = isResub ? 10 : 10;
+        improvementsLength = isResub ? 10 : 10;
+        overallLength = isResub ? 10 : 10;
 
         /* Positive aspects of the submission */
         if (i == 0 && words.length >= positiveLength) {

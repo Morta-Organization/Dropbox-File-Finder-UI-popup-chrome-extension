@@ -1,3 +1,7 @@
+* {
+  scroll-behavior: smooth !important;
+}
+
 .DBXFF-box-layout {
   left: 0;
   top: 50%;
@@ -202,6 +206,7 @@
 }
 
 .DBXFF-dlIconContainer {
+  overflow: hidden;
   width: 30px;
   height: 20px;
   position: relative;
