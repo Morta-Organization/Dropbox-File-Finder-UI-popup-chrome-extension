@@ -12,8 +12,8 @@ if (
 ) {
 
   let completeReviewBtn = document.querySelector("#generate_review_button")
-  completeReviewBtn.disabled = true;
-  let completionChecker = [false, false, false]
+  //completeReviewBtn.disabled = true;
+  //let completionChecker = [false, false, false]
 
   // Check if the review is a resubmission
   let isResub = localStorage.getItem("resub") == "true" ? true : false;
@@ -79,36 +79,36 @@ if (
         //Disable  "Generate review" button until all fields are filled with the required word count
 
         // Set the required word count for each field based on whether it's a resubmission or not
-        positiveLength = isResub ? 10 : 10;
-        improvementsLength = isResub ? 10 : 10;
-        overallLength = isResub ? 10 : 10;
+        positiveLength = isResub ? 1 : 1;
+        improvementsLength = isResub ? 1 : 1;
+        overallLength = isResub ? 1 : 1;
 
         /* Positive aspects of the submission */
         if (i == 0 && words.length >= positiveLength) {
-          wordCounter.innerHTML = `words: ${words.length} ✔`;
-          completionChecker[0] = true;
+          wordCounter.innerHTML = `words: ${words.length}`;
+          //completionChecker[0] = true;
         } else
           /* Aspects that could be improved */
           if (i == 1 && words.length >= improvementsLength) {
-            wordCounter.innerHTML = `words: ${words.length}  ✔`;
-            completionChecker[1] = true;
+            wordCounter.innerHTML = `words: ${words.length}`;
+            //completionChecker[1] = true;
           } else
             /* Overall comments */
             if (i == 2 && words.length >= overallLength) {
-              wordCounter.innerHTML = `words: ${words.length}  ✔`;
-              completionChecker[2] = true;
+              wordCounter.innerHTML = `words: ${words.length}`;
+              //completionChecker[2] = true;
             } else {
               /* no check-mark */
               wordCounter.innerHTML = `words: ${words.length}`;
-              completionChecker[i] = false;
+              //completionChecker[i] = false;
             }
 
         //!If all field meet the required word count, enable "Generate review" button
-        if (completionChecker.every(value => value === true)) {
-          completeReviewBtn.disabled = false;
-        } else {
-          completeReviewBtn.disabled = true;
-        }
+        // if (completionChecker.every(value => value === true)) {
+        //   completeReviewBtn.disabled = false;
+        // } else {
+        //   completeReviewBtn.disabled = true;
+        // }
 
 
         // Use the field's ID as the localStorage key
