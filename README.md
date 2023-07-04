@@ -34,14 +34,19 @@ The link will bring you back to this back to this page.
 Here you customize how to receive notifications on this repo.
 
 ## Latest updates
-#### v3.26.22
-- Updated the reviews page to display previous reviews in their original format.  Improving readability.
-- Fix mentor rubric pop-up CSS.
--Fixed other CSS bugs
 
-#### v3.25.20
-- I have added a new feature that allows mentors to see the review rubric with the highest standard. This will help mentors be aware of the level of quality expected in their reviews.
-- In each review text field, there is a minimum word count requirement. Once the required minimum limit is reached, a checkmark will appear. Additionally, the "Generate Review" button will now be disabled until the word count requirement is met for each review text field.
+#### v3.29.22
+- Hide the mouse cursor when typing. If the cursor is inside the text field, and the user starts typing, the cursor will disappear.
+- Improved search results. Now filters out non-related tasks.
+- Added a copy button to each text field. This will copy the text to the clipboard.
+
+
+#### v3.27.22
+- Updated the reviews page to display previous reviews in their original format. Improving readability.
+- Fix mentor rubric pop-up CSS.
+- Fix the <pre> tag issue. Now all review blocks will displayed in their original format.
+- Updated the 'No results found' messages, with troubleshoot options.
+- Fixed other CSS bugs
 
 
 

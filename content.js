@@ -46,8 +46,8 @@ let foundFiles = false;
 let storeToken = "";
 
 //! Dropbox credentials
-const dropboxClientId = process.env.DROPBOX_CLIENT_ID;
-const clientSecret = process.env.DROPBOX_CLIENT_SECRET;
+const dropboxClientId = 'gsw6a2m0r2u44lt';
+const clientSecret = 'nwpi7lk0yyp2v44';
 const redirectHomeUrl = "https://hyperiondev.cogrammar.com/reviewer/dashboard/"; // your redirect URI http://localhost:3000/testRoute/index.html
 
 //Get token from local storage
@@ -316,6 +316,8 @@ async function filesSearch(studentNumber, taskName) {
     query = replaceRomanNumeralsWithNumbers(query).toLowerCase();
   }
 
+
+
   console.log(`%c Searching for files ${inc}`, "color: #5390d9");
   let root = studentNumber;
   let retry = inc;
@@ -350,56 +352,70 @@ async function filesSearch(studentNumber, taskName) {
       } else {
         if (!foundFiles) {
           //foundFiles = true;
-
           console.log(`%c results found: ${results.length}`, "color: #2196f3");
+       
+          //Creates a list of all the results results
+          //Aldo build the dive that contains the download button and the link to the folder
           results.forEach((item, i) => {
-            let btnAndListContainer = document.createElement("div");
-            btnAndListContainer.className = "DBXFF-btnAndListContainer";
-            let foundRes = document.createElement("div");
-            foundRes.className = "DBXFF-foundRes";
-            foundRes.textContent = item.metadata.metadata.path_display;
-            let dlIconContainer = document.createElement("div");
-            dlIconContainer.className = "DBXFF-dlIconContainer";
-            let dlIcon = document.createElement("img");
-            let linkIcon = document.createElement("img");
-            linkIcon.title = "Open Task Folder in dropbox";
-            linkIcon.src = chrome.runtime.getURL("images/externalLink.png");
-            linkIcon.addEventListener("click", async (e) => {
-              let str = item.metadata.metadata.path_display;
+            let taskNumber = item.metadata.metadata.path_display
+            console.log('taskNum', taskNum)
+            // Only display the results that contain the task number
+            if (taskNumber.includes(taskNum)) {
+              if (taskNum < 10) {
+                taskNum = "T0" + taskNum[taskNum.length - 1];
+               
+               }
 
-              // Find the last index of "/"
-              let lastSlashIndex = str.lastIndexOf("/");
+              let btnAndListContainer = document.createElement("div");
+              btnAndListContainer.className = "DBXFF-btnAndListContainer";
+              let foundRes = document.createElement("div");
+              foundRes.className = "DBXFF-foundRes";
+              foundRes.textContent = item.metadata.metadata.path_display;
+              let dlIconContainer = document.createElement("div");
+              dlIconContainer.className = "DBXFF-dlIconContainer";
+              let dlIcon = document.createElement("img");
+              let linkIcon = document.createElement("img");
+              linkIcon.title = "Open Task Folder in dropbox";
+              linkIcon.src = chrome.runtime.getURL("images/externalLink.png");
+              linkIcon.addEventListener("click", async (e) => {
+                let str = item.metadata.metadata.path_display;
 
-              // Remove everything after the last "/"
-              let newStr = str.substring(0, lastSlashIndex);
+                // Find the last index of "/"
+                let lastSlashIndex = str.lastIndexOf("/");
 
-              // Replace all spaces with "%20"
-              let link =
-                "https://www.dropbox.com/work/HyperionDev%20Reviewers" +
-                newStr.replace(" ", "%20");
+                // Remove everything after the last "/"
+                let newStr = str.substring(0, lastSlashIndex);
 
-              // Open the folder URL in a new tab
-              window.open(link, "_blank");
-            });
-            let type = document.createElement("img");
-            type.alt = item.metadata.metadata.name;
-            dlIcon.src = chrome.runtime.getURL("images/dlFOlder.png");
-            dlIcon.alt = "dl-icon";
-            dlIcon.className = "DBXFF-dl-icon-list";
-            dlIcon.title = "Download Task folder";
-            dlIcon.addEventListener("click", async (e) => {
-              e.stopPropagation(); //prevent the route from being selected
-              dlIcon.classList.add("rotate-center");
-              dlIcon.src = chrome.runtime.getURL("images/loader.png");
-              //! Download selected Folder or file
-              downloadFolder(item.metadata.metadata, dlIcon); //folder
-            });
+                // Replace all spaces with "%20"
+                let link =
+                  "https://www.dropbox.com/work/HyperionDev%20Reviewers" +
+                  newStr.replace(" ", "%20");
 
-            dlIconContainer.appendChild(dlIcon);
-            btnAndListContainer.appendChild(dlIconContainer);
-            btnAndListContainer.appendChild(linkIcon);
-            btnAndListContainer.appendChild(foundRes);
-            routeList.appendChild(btnAndListContainer);
+                // Open the folder URL in a new tab
+                window.open(link, "_blank");
+              });
+              let type = document.createElement("img");
+              type.alt = item.metadata.metadata.name;
+              dlIcon.src = chrome.runtime.getURL("images/dlFOlder.png");
+              dlIcon.alt = "dl-icon";
+              dlIcon.className = "DBXFF-dl-icon-list";
+              dlIcon.title = "Download Task folder";
+              dlIcon.addEventListener("click", async (e) => {
+                e.stopPropagation(); //prevent the route from being selected
+                dlIcon.classList.add("rotate-center");
+                dlIcon.src = chrome.runtime.getURL("images/loader.png");
+                //! Download selected Folder or file
+                downloadFolder(item.metadata.metadata, dlIcon); //folder
+              });
+
+              dlIconContainer.appendChild(dlIcon);
+              btnAndListContainer.appendChild(dlIconContainer);
+              btnAndListContainer.appendChild(linkIcon);
+              btnAndListContainer.appendChild(foundRes);
+              routeList.appendChild(btnAndListContainer);
+
+            }
+
           });
 
           //look in 2nd and 3rd folder
@@ -413,8 +429,18 @@ async function filesSearch(studentNumber, taskName) {
     .catch(function (error) {
       console.log(error);
       if (removeSpinner) {
-        routeList.innerHTML =
-          "Either the token has expired or, no files were found. Try looking up the student number in Dropbox";
+
+        routeList.innerHTML = `
+        <p>Either the token has expired. A popup will appear. (If not - Refresh Browser)</p>
+        <br>
+        <p>Or the Task Name could no be found inside student folders</p>
+        <br>
+        <p>Or CoGrammar API is offline</p>
+        <br>
+        <p>Or you have an internet connection issue</p>
+        <br>
+        <p>Try looking up the student number in Dropbox</p>
+        `;
         removeSpinner = false;
       }
       console.log(`%c Search ended`, "color: hotpink");
@@ -481,6 +507,7 @@ function getDLLink(blob, name) {
 
 //Extracts the words that matches the task name and only highlight those words.
 function highlightTaskName(taskName) {
+
   // Get all the  elements that contains the entire path name
   const parentDivs = document.querySelectorAll(".DBXFF-foundRes");
 
@@ -490,11 +517,13 @@ function highlightTaskName(taskName) {
 
     // Get the text content of the child div
     let itemText = div.textContent?.toLowerCase()?.trim();
+
     //split the words into an array
     let wordsToHighlight = taskName.split(" ");
 
-    //FInd the task number, asn highlight it yellow
+    //FInd the task number, and highlight it yellow
     let numbersToHighlight = taskNum.split(" ");
+
     //highlight the task number
     numbersToHighlight.forEach((num) => {
       if (num.length > 0) {

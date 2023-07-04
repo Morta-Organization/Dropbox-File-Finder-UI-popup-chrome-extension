@@ -36,6 +36,7 @@
       ],
       "js": [
         "Dropbox-sdk.min.js",
+        "gsap.min.js",
         "content.js",
         "moreOption.js",
         "feedbackFields.js",
@@ -43,7 +44,8 @@
         "studentReviewPage.js",
         "reviewed_reviews.js",
         "scrollToResubTask.js",
-        "MentorRubrick.js"
+        "MentorRubrick.js",
+        "hide-mouse.js"
       ]
     }
   ],

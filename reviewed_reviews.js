@@ -22,7 +22,7 @@ if (window.location.pathname.includes("/student/reviews/")) {
         for (let i = 0; i < paragraphs.length; i++) {
 
 
-            if (paragraphs[i].tagName === "P" && paragraphs[i].nextElementSibling.tagName === "P" || paragraphs[i].tagName === "P" && paragraphs[i].previousElementSibling.tagName === "PRE") {
+            if (paragraphs[i]?.tagName === "P" && paragraphs[i]?.nextElementSibling?.tagName === "P" || paragraphs[i]?.tagName === "P" && paragraphs[i]?.previousElementSibling?.tagName === "PRE") {
                 const preElement = document.createElement('pre');
                 preElement.className = "DBXFF-review-text";
                 preElement.innerHTML = paragraphs[i].innerHTML;

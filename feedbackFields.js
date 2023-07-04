@@ -25,11 +25,24 @@ if (
   // save any text in fields to local storage
   //load any text from local storage to respective fields
   let fields = document.querySelectorAll(".focus-field");
+
+
+  //! word counter animation - label tag
+  let progressColors = ['#FF0000', '#FF4600', '#FF7F00', '#FEB300', '#fdf61a', '#b0fd1a', '#00FF00']
+  let labelTag = document.querySelector('label')
+
+
+
   generateFields()
   function generateFields() {
     fields.forEach((field, i) => {
       // field.value = localStorage.getItem("rememberReview")  || " ";
       // console.log('localStorage.getItem(rememberReview)', localStorage.getItem("rememberReview"))
+
+      //! Field option container
+      let fieldOptionContainer = document.createElement("div");
+      fieldOptionContainer.className = "DBXFF-field-option-container";
+
       //!RESET - clear field button
       let resetFieldBtn = document.createElement("div");
       resetFieldBtn.className = "DBXFF-reset-field-button";
@@ -42,9 +55,19 @@ if (
         field.style.height = field.scrollHeight + "px"; // Set the height to the scroll height of the content
       });
 
+      //! Copy text to clipboard button
+      let copyFieldBtn = document.createElement("div");
+      copyFieldBtn.className = "DBXFF-copy-field-button";
+      copyFieldBtn.textContent = "copy";
+      copyFieldBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(field.value); //copy text field text to clipboard
+      });
+
+
       //! Word counter - also saves words to local storage
       let wordCounter = document.createElement("div");
       wordCounter.className = "DBXFF-word-counter";
+      wordCounter.style.color = progressColors[0]
 
       // Use the field's ID as the localStorage key
       let storedTextValue
@@ -74,6 +97,7 @@ if (
         field.style.height = field.scrollHeight + "px"; // Set the height to the scroll height of the content
         // Split the string by any whitespace character using a regular expression
         let words = field.value.trim().split(/\s+/);
+    
 
         //*Add a check-mark to the word counter if each field met the required word count.
         //Disable  "Generate review" button until all fields are filled with the required word count
@@ -136,8 +160,80 @@ if (
       // });
       // rememberWordsLabel.appendChild(rememberWords);
       // field.parentNode.insertBefore(rememberWordsLabel, field);
-      field.parentNode.insertBefore(resetFieldBtn, field);
-      field.parentNode.insertBefore(wordCounter, field.previousSibling);
+
+      // ! Word counter animation. animate on each word
+      // field.addEventListener('keydown', (e) => {
+      //   let words = (field.value.trim().split(/\s+/)).length
+  
+      //   if (words > (field.value.trim().split(/\s+/)).length - 1 ) {
+      //     gsap.to(wordCounter, { fontSize: 'large', duration: 0.2 });
+      //   }
+
+      // })
+
+      // field.addEventListener('keyup', (e) => {
+      //   let words = (field.value.trim().split(/\s+/)).length
+      //   if (words < (field.value.trim().split(/\s+/)).length + 1 ) {
+
+      //   if (wordCounter > 0 && wordCounter < 20) {
+      //     gsap.to(wordCounter, {
+      //       color: progressColors[0],
+      //       duration: 3,
+
+      //     });
+      //   } if (wordCounter > 20 && wordCounter < 50) {
+      //     gsap.to(wordCounter, {
+      //       color: progressColors[1],
+      //       duration: 3,
+
+      //     });
+      //   } if (wordCounter > 50 && wordCounter < 70) {
+      //     gsap.to(wordCounter, {
+      //       color: progressColors[2],
+      //       duration: 3,
+
+      //     });
+      //   } if (wordCounter > 70 && wordCounter < 110) {
+      //     gsap.to(wordCounter, {
+      //       color: progressColors[3],
+      //       duration: 3,
+
+      //     });
+      //   } if (wordCounter > 110 && wordCounter < 170) {
+      //     gsap.to(wordCounter, {
+      //       color: progressColors[4],
+      //       duration: 3,
+
+      //     });
+      //   } if (wordCounter > 170) {
+      //     gsap.to(wordCounter, {
+      //       color: progressColors[5],
+      //       duration: 3,
+
+      //     });
+      //   }
+
+      //   gsap.to(wordCounter, { fontSize: 'medium', duration: 0.5 });
+
+      // }
+      // })
+
+
+
+
+
+
+
+
+
+
+      //! Append elements to fieldOptionContainer
+      fieldOptionContainer.appendChild(resetFieldBtn);
+      fieldOptionContainer.appendChild(copyFieldBtn);
+      fieldOptionContainer.appendChild(wordCounter);
+
+
+      field.parentNode.insertBefore(fieldOptionContainer, field.previousSibling);
     });//loop end
 
     //Remember previous review input fields text

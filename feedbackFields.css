@@ -25,6 +25,10 @@
     font-size: small;
 }
 
+.DBXFF-copy-field-button:active {
+    font-size: small;
+}
+
 .DBXFF-reset-field-button:hover {
     background-color: #39c38e;
 }
@@ -34,8 +38,8 @@
     margin-left: 75%;
     font-size: medium;
     border-radius: 3px;
-    color: white !important;
     font-weight: 500;
+    color: white !important;
     width: 110px;
     overflow: hidden;
     height: 20px;
@@ -44,8 +48,43 @@
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
     display: inline-block;
-    margin-left: 55%;
+    margin-left: 40%;
     vertical-align: bottom;
+    font-size: medium;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.DBXFF-field-option-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow: hidden;
+}
+
+.DBXFF-copy-field-button {
+    width: 50px;
+    height: 20px;
+    border-radius: 3px;
+    border: solid 1px #57cea0;
+    background: #57cea0;
+    align-items: center;
+    justify-content: center;
+    right: 0;
+    cursor: pointer;
+    user-select: none;
+    font-size: medium;
+    color: white;
+    font-weight: 500;
+    font-family: inherit;
+    position: inherit;
+    display: inline-flex;
+    margin-left: 20px;
+    vertical-align: bottom;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
 }
 
 
