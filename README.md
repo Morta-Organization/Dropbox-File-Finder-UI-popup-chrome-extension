@@ -35,10 +35,12 @@ Here you customize how to receive notifications on this repo.
 
 ## Latest updates
 
-#### v3.29.22
+#### v3.30.23
 - Hide the mouse cursor when typing. If the cursor is inside the text field, and the user starts typing, the cursor will disappear.
 - Improved search results. Now filters out non-related tasks.
 - Added a copy button to each text field. This will copy the text to the clipboard.
+- Fixed an issue with the build you brand roman numerals. Now it will find the correct task folder.
+- CSS updates
 
 
 #### v3.27.22

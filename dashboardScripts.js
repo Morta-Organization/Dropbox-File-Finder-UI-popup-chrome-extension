@@ -177,9 +177,8 @@ function addResubWord() {
     if (h6.innerText.includes("Task:")) {
       // Create a new span element with the text "Resub" in red
       const resubSpan = document.createElement("span");
-      resubSpan.style.color = "red";
-      resubSpan.style.fontWeight = "bold";
-      resubSpan.textContent = " Resub";
+      resubSpan.className = "resubText";
+      resubSpan.textContent = ` Resub`;
 
       // Find the index of the word "Task" in the inner text of the h6 element
       const taskIndex = h6.innerText.indexOf("Task");

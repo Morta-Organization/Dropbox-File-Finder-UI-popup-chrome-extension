@@ -71,10 +71,8 @@ let dbx = new Dropbox.Dropbox({
 });
 
 //Don't check token on review page
-if (
-  window.location.pathname.includes("generate_review") ||
-  window.location.pathname.includes("generate_dfe_review")
-) {
+if ( window.location.pathname.includes("generate_review") || 
+window.location.pathname.includes("generate_dfe_review")) {
   createUI();
 }
 
@@ -312,13 +310,15 @@ async function filesSearch(studentNumber, taskName) {
   let query = taskName;
 
   //update "build your brand" strings
+  //! BYB tasks files are sometimes written as byb 04 or byb IV. But on the review page it is always written with Roman numerals
+  //THis function will only update task name if the dropbox files contains number instead of roman numerals.
   let pattern = /build your brand/i;
-
-  if (query.match(pattern)) {
+  if (query.match(pattern) && /(01|02|03|04|05)/.test(query)) {
     query = replaceRomanNumeralsWithNumbers(query).toLowerCase();
+  
   }
 
-
+  console.log('query', query)
 
   console.log(`%c Searching for files ${inc}`, "color: #5390d9");
   let root = studentNumber;
@@ -770,6 +770,7 @@ function getReviewCounts() {
 //Build your brand tasks string manipulation
 // Define a function to replace Roman numerals with corresponding numbers
 function replaceRomanNumeralsWithNumbers(inputString) {
+
   // Define a mapping of Roman numerals to numbers
   const romanToNumberMap = {
     I: "01",
