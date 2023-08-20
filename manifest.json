@@ -8,11 +8,12 @@
     "tabs",
     "downloads",
     "downloads.shelf",
-    "notifications"
+    "notifications",
+    "scripting"
   ],
   "web_accessible_resources": [
     {
-      "resources": ["images/*"],
+      "resources": ["images/*", "https://fonts.googleapis.com/*"],
       "matches": ["http://*/*", "https://*/*"]
     }
   ],
@@ -32,7 +33,8 @@
         "scoreBoard.css",
         "moreOptions.css",
         "MentorRubrick.css",
-        "reviewed-reviews.css"
+        "reviewed-reviews.css",
+        "scrollToTop.css"
       ],
       "js": [
         "Dropbox-sdk.min.js",
@@ -45,7 +47,9 @@
         "reviewed_reviews.js",
         "scrollToResubTask.js",
         "MentorRubrick.js",
-        "hide-mouse.js"
+        "hide-mouse.js",
+        "autoSearch.js",
+        "scrollToTop.js"
       ]
     }
   ],

@@ -87,13 +87,44 @@
     border-bottom-left-radius: 0px;
 }
 
+.DBXFF-paste-field-button {
+    width: 50px;
+    height: 20px;
+    border-radius: 3px;
+    border: solid 1px #57cea0;
+    background: #57cea0;
+    align-items: center;
+    justify-content: center;
+    right: 0;
+    cursor: pointer;
+    user-select: none;
+    font-size: medium;
+    color: white;
+    font-weight: 500;
+    font-family: inherit;
+    position: inherit;
+    display: inline-flex;
+    margin-left: 20px;
+    vertical-align: bottom;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
 
-.form-control {
+.DBXFF-paste-field-button:active {
+    font-size: small;
+}
+
+/* exclude filename input */
+.form-control:not(.upload-container) {
     font-size: large !important;
     font-family: system-ui, -apple-system, inherit !important;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px !important;
     padding: 10px 10px 20px!important;
+    /* overflow: hidden; */
+    min-height: 160px;
 }
+
+
 
 .form-control:focus {
     box-shadow: 0 0 0 0.2rem rgb(0 150 136) !important;
@@ -121,9 +152,9 @@
     background: rgb(0, 168, 152); 
   }
 .btn:not(.custom-file-uploader) {
-    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px !important;
-    border-radius: 0.9em !important;
-    background: #39c38e !important;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
+    border-radius: 3px ;
+    background: #39c38e;
 }
 
 .upload-container {

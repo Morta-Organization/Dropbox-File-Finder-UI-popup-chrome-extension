@@ -6,6 +6,15 @@ if (
     window.location.pathname.includes("generate_dfe_review")
 ) {
 
+    //load inject google fonts
+    // Create a link element
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=Gluten:wght@200&family=PT+Sans&family=Unbounded:wght@300&family=Victor+Mono&family=Yatra+One&display=swap'; // The full Google Fonts URL
+
+    // Append the link element to the document's head
+    document.head.appendChild(link);
+
     //
     let feedbackArray = [
         {
@@ -64,7 +73,7 @@ if (
     function createList(clear) {
 
 
-        if (localStorage.getItem("showRubric") == "true" ) {
+        if (localStorage.getItem("showRubric") == "true") {
             ul.innerHTML = ""
             rubricContainer.innerHTML = ""
 
@@ -85,7 +94,7 @@ if (
         } else {
             ul.innerHTML = ""
             rubricContainer.innerHTML = ""
-          
+
         }
 
 
@@ -94,7 +103,7 @@ if (
     //create the checkbox option inside the options menu
     function showRubric() {
         let rubricOptionContainer = document.createElement("div");
-        rubricOptionContainer.className = "DBXFF-rubric-checkbox-container";
+        rubricOptionContainer.className = "DBXFF-rubric-checkbox-container DBXFF-dialog-option-container";
 
         let inputRubricEl = document.createElement("input");
         inputRubricEl.type = "checkbox";
@@ -121,7 +130,7 @@ if (
         let label = document.createElement("label");
         label.className = "DBXFF-checkbox-label";
         label.htmlFor = "showRubric";//htmlFor is the same as for
-        label.textContent = "Show mentor review rubric";
+        label.textContent = "Show mentor review rubric.(Highest level only)";
         rubricOptionContainer.appendChild(inputRubricEl);
         rubricOptionContainer.appendChild(label);
         dialog.appendChild(rubricOptionContainer);

@@ -18,12 +18,18 @@
     width: 50%;
     height: fit-content;
     border-radius: 3px;
-    border: 1px solid #06897c;
+    min-width: 550px;
+    font-size: smaller;
+    background: rgb(255 255 255 / 52%);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.93);
 }
 
 
 dialog::backdrop {
-    background-color: rgba(89, 192, 158, 0.603);
+    background-color: rgba(113, 226, 188, 0.452);
 }
 
 .DBXFF-checkbox-label {
@@ -34,8 +40,11 @@ dialog::backdrop {
 
 /* Remember Review */
 
-.DBXFF-remember-review-container {
-
+.DBXFF-dialog-option-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
 }
 
 .DBXFF-options-dialog h1 {

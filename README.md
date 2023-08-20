@@ -35,20 +35,19 @@ Here you customize how to receive notifications on this repo.
 
 ## Latest updates
 
+#### v3.33.25
+- Added a new option to the options menu. Automatically opens Dropbox to search current student number.
+- Minor CSS Updates.
+- "Fixed" the scroll effect the input fields have when entering text that exceeds the input field's height.
+- Added a back-to-top button to the review page.
+- Added a past button to text filed. Past text at cursor position.
+
 #### v3.30.23
 - Hide the mouse cursor when typing. If the cursor is inside the text field, and the user starts typing, the cursor will disappear.
 - Improved search results. Now filters out non-related tasks.
 - Added a copy button to each text field. This will copy the text to the clipboard.
 - Fixed an issue with the build you brand roman numerals. Now it will find the correct task folder.
 - CSS updates
-
-
-#### v3.27.22
-- Updated the reviews page to display previous reviews in their original format. Improving readability.
-- Fix mentor rubric pop-up CSS.
-- Fix the <pre> tag issue. Now all review blocks will displayed in their original format.
-- Updated the 'No results found' messages, with troubleshoot options.
-- Fixed other CSS bugs
 
 
 
