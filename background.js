@@ -12,3 +12,16 @@
 //       code: window.find("hello", false, true, true, false, true)
 //     });
 //   });
+
+
+// Listen for messages from content scripts
+// (message: any, sender: MessageSender, sendResponse: function) => boolean | undefined
+chrome.runtime.onMessage.addListener((link, sender, sendResponse) => {
+    // extract the URL from the message and open it in a new tab
+    if (link.includes("www")) {
+        chrome.tabs.create({ url: link, active: false });
+    }
+    
+  });
+  
+

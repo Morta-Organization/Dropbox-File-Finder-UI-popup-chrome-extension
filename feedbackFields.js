@@ -63,6 +63,18 @@ if (
         navigator.clipboard.writeText(field.value); //copy text field text to clipboard
       });
 
+      //! Past text from clipboard button
+      let pasteFieldBtn = document.createElement("div");
+      pasteFieldBtn.className = "DBXFF-paste-field-button";
+      pasteFieldBtn.textContent = "paste";
+      pasteFieldBtn.addEventListener("click", () => {
+        // pas t text at current cursor position
+        navigator.clipboard.readText().then((clipText) => {
+          field.setRangeText(clipText, field.selectionStart, field.selectionEnd, "end");
+        });
+      });
+      
+    
 
       //! Word counter - also saves words to local storage
       let wordCounter = document.createElement("div");
@@ -93,11 +105,34 @@ if (
 
       // Save the text value to local storage when input event is triggered
       field.addEventListener("input", () => {
-        field.style.height = ""; // Reset the height to allow recalculation
+        console.log('scrollHeight', field.scrollHeight)
+        console.log('field height', field.style.height)
+
+
+        // Adjust the scroll position after entering text
+        const currentScrollTop = field.scrollTop;
+        field.style.height = `${field.scrollHeight-100}px`; // Reset the height to allow recalculation
         field.style.height = field.scrollHeight + "px"; // Set the height to the scroll height of the content
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // Split the string by any whitespace character using a regular expression
         let words = field.value.trim().split(/\s+/);
-    
+
 
         //*Add a check-mark to the word counter if each field met the required word count.
         //Disable  "Generate review" button until all fields are filled with the required word count
@@ -164,7 +199,7 @@ if (
       // ! Word counter animation. animate on each word
       // field.addEventListener('keydown', (e) => {
       //   let words = (field.value.trim().split(/\s+/)).length
-  
+
       //   if (words > (field.value.trim().split(/\s+/)).length - 1 ) {
       //     gsap.to(wordCounter, { fontSize: 'large', duration: 0.2 });
       //   }
@@ -223,13 +258,10 @@ if (
 
 
 
-
-
-
-
       //! Append elements to fieldOptionContainer
       fieldOptionContainer.appendChild(resetFieldBtn);
       fieldOptionContainer.appendChild(copyFieldBtn);
+      fieldOptionContainer.appendChild(pasteFieldBtn);
       fieldOptionContainer.appendChild(wordCounter);
 
 
@@ -239,7 +271,7 @@ if (
     //Remember previous review input fields text
     function rememberReviewText() {
       let RememberReviewContainer = document.createElement("div");
-      RememberReviewContainer.className = "DBXFF-remember-review-container";
+      RememberReviewContainer.className = "DBXFF-remember-review-container DBXFF-dialog-option-container";
       let inputMemoryEl = document.createElement("input");
       inputMemoryEl.type = "checkbox";
       inputMemoryEl.name = "rememberReview";
@@ -262,7 +294,7 @@ if (
       let label = document.createElement("label");
       label.className = "DBXFF-checkbox-label";
       label.htmlFor = "rememberReview";//htmlFor is the same as for
-      label.textContent = "Remember Review";
+      label.textContent = "Remember Review. Fills input fields with previous review text.";
       RememberReviewContainer.appendChild(inputMemoryEl);
       RememberReviewContainer.appendChild(label);
       dialog.appendChild(RememberReviewContainer);

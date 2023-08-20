@@ -2,38 +2,51 @@ let floatingElement = document.createElement("div");
 let reviewCompleteBtn = document.querySelector("#submit-review-btn");
 let timerContainer = document.createElement("div");
 timerContainer.className = "DBXFF-timer-container";
+
+//Create the reset timer button
 let timeResetIcon = document.createElement("img");
 timeResetIcon.src = chrome.runtime.getURL("images/reset.png");
 timeResetIcon.alt = "reset timer";
 timeResetIcon.title = "Reset timer";
 timerContainer.appendChild(timeResetIcon);
 floatingElement.prepend(timerContainer);
-let foundTaskName;
 
-let updateLink = document.createElement("p");
+
+
 
 // Create the counter element
 let counterEl = document.createElement("p");
 counterEl.className = "DBXFF-timer";
 counterEl.classList.add("pulsate-fwd");
+timerContainer.prepend(counterEl);
+
+
+
+
+// Create the review details element UI
+let reviewDetailsEl = document.createElement("div");
+reviewDetailsEl.className = "DBXFF-review-details";
+// Create the student name element
+let studentNameEl = document.createElement("h4");
+let studentNumberContainerEl = document.createElement("div");
+studentNumberContainerEl.className = "DBXFF-student-number-container";
+
+// Create the open Dropbox link button
+let lookUpStudentBtn = document.createElement("img");
+lookUpStudentBtn.src = chrome.runtime.getURL("images/externalLink.png"); // Set the image source
+lookUpStudentBtn.title = "Look up number in dropbox";
+
+let studentNumberEl = document.createElement("h4");
+let taskNameEl = document.createElement("div");
+
+
 // Initialize the counter and last saved time from local storage, or use default values
 let counter;
 let min;
 let lastSavedTime;
-
-timerContainer.prepend(counterEl);
-
-let reviewDetailsEl = document.createElement("div");
-reviewDetailsEl.className = "DBXFF-review-details";
-let studentNameEl = document.createElement("h4");
-let studentNumberContainerEl = document.createElement("div");
-studentNumberContainerEl.className = "DBXFF-student-number-container";
-let lookUpStudentBtn = document.createElement("img");
-lookUpStudentBtn.src = chrome.runtime.getURL("images/externalLink.png");
-lookUpStudentBtn.title = "Look up number in dropbox";
-let studentNumberEl = document.createElement("h4");
-let taskNameEl = document.createElement("div");
+let foundTaskName;
 let StudentName = "";
+let sharedStudentNum = "";
 let routeList;
 let reviewCount = 0;
 let inc = 0;
@@ -44,6 +57,7 @@ let rootPath = "";
 let fileName = "";
 let foundFiles = false;
 let storeToken = "";
+
 
 //! Dropbox credentials
 
@@ -212,7 +226,8 @@ function createUI() {
 
 //! Extracts the task name from the page elements
 function extractTaskName(studentNumber) {
-  //look up in dropbox
+  sharedStudentNum = studentNumber;
+  // open dropbox and search for the student number
   lookUpStudentBtn.addEventListener("click", () => {
     let link = `https://www.dropbox.com/search/work?path=%2F&query=${studentNumber}&search_token=mUrM54J2SiALJes%2B%2Boc65k3O8pz4DOlJOX9WlhH8KKI%3D&typeahead_session_id=09702658948404806500012995044766`;
     window.open(link, "_blank");
