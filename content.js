@@ -11,7 +11,11 @@ timeResetIcon.title = "Reset timer";
 timerContainer.appendChild(timeResetIcon);
 floatingElement.prepend(timerContainer);
 
-
+let logCss = `
+background-color: white; 
+font-size: 13px; 
+color: red;
+`
 
 
 // Create the counter element
@@ -162,7 +166,7 @@ if (window.location.pathname === "http://localhost:3000/testRoute/index.html") {
 
 //! Step 2:  Create Floating UI popup
 function createUI() {
-  console.log(`%c Creating UI`, "color: red");
+  console.log(`%c Creating UI `, logCss);
   // Create the floating element properties
   let resultsLoaderEl = document.createElement("span");
   resultsLoaderEl.className = "result_loader";
@@ -232,7 +236,7 @@ function extractTaskName(studentNumber) {
     let link = `https://www.dropbox.com/search/work?path=%2F&query=${studentNumber}&search_token=mUrM54J2SiALJes%2B%2Boc65k3O8pz4DOlJOX9WlhH8KKI%3D&typeahead_session_id=09702658948404806500012995044766`;
     window.open(link, "_blank");
   });
-  console.log(`%c Extracting Task Name`, "color: red");
+  console.log(`%c Extracting Task Name `, logCss);
 
   // Only extract the h6 elements that contain the word "Task"
   let h6Tags = [...document.querySelectorAll("h6")].filter((task) =>
@@ -290,7 +294,7 @@ function extractTaskName(studentNumber) {
 
 //! Extract the student number from the page elements
 function extractStudentNumber() {
-  console.log(`%c Extracting St Number`, "color: red");
+  console.log(`%c Extracting St Number `, logCss);
   // Select all h6 elements on the page
   const h6Element = [...document.querySelectorAll("h6")].filter((task) =>
     task.textContent.includes("Student number")
@@ -304,7 +308,10 @@ function extractStudentNumber() {
 
 //! Extract the student name from the page elements
 function extractStudentName() {
-  console.log(`%c Extracting St Name`, "color: red");
+  //Console.log CSS 
+
+   console.log(`%c Extracting St Name `, logCss)
+
 
   // Select all h6 elements on the page
   // Filter the selected h6 elements to only include those that contain the text "Student:"
@@ -367,6 +374,7 @@ async function filesSearch(studentNumber, taskName) {
 
         return;
       } else {
+ 
         if (!foundFiles) {
           //foundFiles = true;
           console.log(`%c results found: ${results.length}`, "color: #2196f3");
@@ -383,14 +391,28 @@ async function filesSearch(studentNumber, taskName) {
                
                }
 
+              //create the list of results
               let btnAndListContainer = document.createElement("div");
               btnAndListContainer.className = "DBXFF-btnAndListContainer";
+
               let foundRes = document.createElement("div");
               foundRes.className = "DBXFF-foundRes";
               foundRes.textContent = item.metadata.metadata.path_display;
+
               let dlIconContainer = document.createElement("div");
               dlIconContainer.className = "DBXFF-dlIconContainer";
               let dlIcon = document.createElement("img");
+
+              //display file size
+              let fileSize = document.createElement("span");
+              fileSize.className = "DBXFF-fileSize";
+              
+              //display file size
+              let size = item.metadata.metadata.size;
+              if (item.metadata.metadata.size){
+              fileSize.textContent = byteConverter(size);
+              }
+
               let linkIcon = document.createElement("img");
               linkIcon.title = "Open Task Folder in dropbox";
               linkIcon.src = chrome.runtime.getURL("images/externalLink.png");
@@ -411,6 +433,8 @@ async function filesSearch(studentNumber, taskName) {
                 // Open the folder URL in a new tab
                 window.open(link, "_blank");
               });
+
+              //create the download button
               let type = document.createElement("img");
               type.alt = item.metadata.metadata.name;
               dlIcon.src = chrome.runtime.getURL("images/dlFOlder.png");
@@ -425,7 +449,9 @@ async function filesSearch(studentNumber, taskName) {
                 downloadFolder(item.metadata.metadata, dlIcon); //folder
               });
 
+              //add the elements to the UI
               dlIconContainer.appendChild(dlIcon);
+              btnAndListContainer.appendChild(fileSize);
               btnAndListContainer.appendChild(dlIconContainer);
               btnAndListContainer.appendChild(linkIcon);
               btnAndListContainer.appendChild(foundRes);
@@ -825,4 +851,18 @@ function highlightTaskNumber() {
       item.innerHTML = found;
     }
   });
+}
+
+//byte converter
+function byteConverter(value) {
+  if (value < 1024) {
+      let res =  value + " bytes";
+      return res
+  } else if (value < 1024 * 1024) {
+      let res = (value / 1024).toFixed(2) + " KB";
+      return res
+  } else {
+      let res = (value / (1024 * 1024)).toFixed(2) + " MB";
+      return res
+  }
 }

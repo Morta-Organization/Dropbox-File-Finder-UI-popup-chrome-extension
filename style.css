@@ -226,6 +226,7 @@
 
 
 .DBXFF-btnAndListContainer {
+  position: relative;
   display: flex;
   flex-direction: row-reverse;
   flex-wrap: wrap;
@@ -550,3 +551,18 @@ mark {
 text-decoration: underline;
 }
 
+/* file size el */
+
+.DBXFF-fileSize {
+  position: absolute;
+  left: 0;
+  color: white;
+  border-radius: 3px;
+  font-size: 12px;
+  transform: translate(5px, 5px);
+  z-index: 999;
+  top: -2px;
+  font-weight: normal;
+  padding: 0px 5px;
+  background-color: rgb(0 0 0 / 34%);
+}
