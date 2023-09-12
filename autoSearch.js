@@ -23,7 +23,7 @@ if (
     let autoSearchLabel = document.createElement("label");
     autoSearchLabel.className = "DBXFF-checkbox-label";
     autoSearchLabel.htmlFor = "autoSearch";
-    autoSearchLabel.textContent = "Auto search student number on Dropbox iDBXFF-rubric-containern background tab.(On page load)";
+    autoSearchLabel.textContent = "Auto search student number on Dropbox in a new tab.(On page load)";
 
     //Create the container for the auto search option
     let autoSearchContainer = document.createElement("div");
