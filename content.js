@@ -89,15 +89,14 @@ let dbx = new Dropbox.Dropbox({
 });
 
 //Don't check token on review page
-if ( window.location.pathname.includes("generate_review") || 
-window.location.pathname.includes("generate_dfe_review")) {
+if (window.location.pathname.includes("generate_review") ||
+  window.location.pathname.includes("generate_dfe_review")) {
   createUI();
 }
 
 //! 1 Check token validity
 async function checkToken(dbx) {
   console.log(`%c Checking token`, "color: #f078c0");
-  console.log("removeSpinner", removeSpinner);
   // Show loading indicator or disable user interactions
   // while waiting for the method to complete
   //loadingIndicator("show");
@@ -111,7 +110,7 @@ async function checkToken(dbx) {
     // Hide loading indicator or enable user interactions
     // loadingIndicator("hide");
   } catch (error) {
-    console.log("removeSpinner", removeSpinner);
+    console.log('ERROR', error)
     if (removeSpinner) {
       routeList.innerHTML = "Token Expired";
       removeSpinner = false;
@@ -310,7 +309,7 @@ function extractStudentNumber() {
 function extractStudentName() {
   //Console.log CSS 
 
-   console.log(`%c Extracting St Name `, logCss)
+  console.log(`%c Extracting St Name `, logCss)
 
 
   // Select all h6 elements on the page
@@ -337,10 +336,8 @@ async function filesSearch(studentNumber, taskName) {
   let pattern = /build your brand/i;
   if (query.match(pattern) && /(01|02|03|04|05)/.test(query)) {
     query = replaceRomanNumeralsWithNumbers(query).toLowerCase();
-  
-  }
 
-  console.log('query', query)
+  }
 
   console.log(`%c Searching for files ${inc}`, "color: #5390d9");
   let root = studentNumber;
@@ -374,45 +371,93 @@ async function filesSearch(studentNumber, taskName) {
 
         return;
       } else {
- 
+
+        // if no results found, look for the next folder
         if (!foundFiles) {
           //foundFiles = true;
           console.log(`%c results found: ${results.length}`, "color: #2196f3");
-       
-          //Creates a list of all the results results
-          //Aldo build the dive that contains the download button and the link to the folder
-          results.forEach((item, i) => {
-            let taskNumber = item.metadata.metadata.path_display
-            console.log('taskNum', taskNum)
-            // Only display the results that contain the task number
-            if (taskNumber.includes(taskNum)) {
-              if (taskNum < 10) {
-                taskNum = "T0" + taskNum[taskNum.length - 1];
-               
-               }
 
-              //create the list of results
+
+          //! Creates a list of all the results results
+          //Also build the div that contains the download button and the link to the folder
+          results.forEach((item, i) => {
+            const lastIndex = item.metadata.metadata.path_display.lastIndexOf("/");// find the last index of "/" and remove everything after it
+            const folderPath = item.metadata.metadata.path_display.substring(0, lastIndex);
+            console.log('folderPath', folderPath)
+
+            // Count the number of slashes in the path
+            let numberOfSlashes = (folderPath.match(/\//g) || []).length;
+
+            //! Create the file/folder size(MB) element
+            let fileSize = document.createElement("span");
+            fileSize.textContent = "...loading";
+            fileSize.className = "DBXFF-fileSize";
+
+            // Only display the result if slashes are more than 2. -  e.g stNUM/L01/T01
+            // 2 slashes will return the root level directory. e.g stNUM/L01 - not stNUM/L01/T01
+            if (numberOfSlashes > 2) {
+
+              //get the file size for the filesDownloadZip method results
+              dbx.filesDownloadZip({ path: folderPath })
+                .then((response) => {
+                  //console.log('response', response)
+                  size = response.result.fileBlob.size
+
+                  fileSize.innerHTML = `
+                <span class="DBXFF_file_Size">File size - </span> ${byteConverter(size)}`
+                })
+                .catch(function (error) {
+                  console.log("ERROR", error);
+                });
+
+              // Only display the results containg the task directory - not the root directory
+              let taskNumber = item.metadata.metadata.path_display
+              // Only display the results that contain the task number
+              if (taskNumber.includes(taskNum)) {
+                if (taskNum < 10) {
+                  //add a 0 infront of the task number if it is less than 10
+                  taskNum = "T0" + taskNum[taskNum.length - 1];
+                  console.log('taskNum', taskNum)
+
+                }
+              } else {
+                fileSize.textContent = "root";
+
+              }
+
+
+
+              //! Create the list of results
               let btnAndListContainer = document.createElement("div");
               btnAndListContainer.className = "DBXFF-btnAndListContainer";
 
               let foundRes = document.createElement("div");
               foundRes.className = "DBXFF-foundRes";
-              foundRes.textContent = item.metadata.metadata.path_display;
+              foundRes.style.fontSize = "12px";
 
+
+               //Remove all the text behind the 3rd slash in the taskNum string
+                // Splitting the string by slashes
+                let parts = item.metadata.metadata.path_display.split('/');
+                //console.log('parts', parts)
+
+                // Rejoining the first three parts using join
+                let splitParts = parts.slice(3)
+                
+                // Add a new line to after the first slash
+                //splitParts[splitParts.length -1] += "\n"
+                let resultString = splitParts.join('/');
+              
+                // Element to display the result
+              foundRes.innerHTML = `<p>${resultString}</p>`;
+
+              // Create the download icon container
               let dlIconContainer = document.createElement("div");
               dlIconContainer.className = "DBXFF-dlIconContainer";
               let dlIcon = document.createElement("img");
 
-              //display file size
-              let fileSize = document.createElement("span");
-              fileSize.className = "DBXFF-fileSize";
-              
-              //display file size
-              let size = item.metadata.metadata.size;
-              if (item.metadata.metadata.size){
-              fileSize.textContent = byteConverter(size);
-              }
 
+              // Create the folder link button
               let linkIcon = document.createElement("img");
               linkIcon.title = "Open Task Folder in dropbox";
               linkIcon.src = chrome.runtime.getURL("images/externalLink.png");
@@ -470,7 +515,7 @@ async function filesSearch(studentNumber, taskName) {
       }
     })
     .catch(function (error) {
-      console.log(error);
+      console.log("ERROR", error);
       if (removeSpinner) {
 
         routeList.innerHTML = `
@@ -495,20 +540,27 @@ async function filesSearch(studentNumber, taskName) {
 
 //Download the Folder
 function downloadFolder(dir, dlIcon) {
+ 
   console.log(`%c  creating Download Folder path`, "color: red");
   let pdfExists = false;
+
+  //check if the folder contains a pdf file. This will determine if the folder will be downloaded or not
   if (dir.path_display.endsWith(".pdf")) {
     pdfExists = true;
   }
 
   //download the found files parent directory
   if (pdfExists) {
-    const lastIndex = dir.path_display.lastIndexOf("/");
-    const folderPath = dir.path_display.substring(0, lastIndex);
+    // Remove everything after the last "/" to get the parent directory
+    const lastIndex = dir.path_display.lastIndexOf("/");// find the last index of "/" and remove everything after it
+    console.log('lastIndex', lastIndex)
+    const folderPath = dir.path_display.substring(0, lastIndex); // Remove everything after the last "/"
     downloadFileBob(folderPath, dlIcon);
   } else {
-    //download the  directory
-    downloadFileBob(dir.path_display, dlIcon);
+    const lastIndex = dir.path_display.lastIndexOf("/");// find the last index of "/" and remove everything after it
+    console.log('lastIndex', lastIndex)
+    const folderPath = dir.path_display.substring(0, lastIndex); // Remove everything after the last "/"
+    downloadFileBob(folderPath, dlIcon);
   }
 }
 
@@ -525,7 +577,7 @@ async function downloadFileBob(path, dlIcon) {
       //displayFiles(response.result.fileBlob);
     })
     .catch(function (error) {
-      console.log(error);
+      console.log("ERROR", error);
       alert(
         "Error downloading file. Download folder could be containing more than 100 files"
       );
@@ -856,13 +908,13 @@ function highlightTaskNumber() {
 //byte converter
 function byteConverter(value) {
   if (value < 1024) {
-      let res =  value + " bytes";
-      return res
+    let res = value + " bytes";
+    return res
   } else if (value < 1024 * 1024) {
-      let res = (value / 1024).toFixed(2) + " KB";
-      return res
+    let res = (value / 1024).toFixed(2) + " KB";
+    return res
   } else {
-      let res = (value / (1024 * 1024)).toFixed(2) + " MB";
-      return res
+    let res = (value / (1024 * 1024)).toFixed(2) + " MB";
+    return res
   }
 }
