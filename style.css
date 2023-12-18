@@ -221,11 +221,18 @@
 }
 
 .DBXFF-foundRes {
+
+  width: 100%;
+}
+
+.DBXFF-foundRes p {
   font-size: 1.2em;
 }
 
 
 .DBXFF-btnAndListContainer {
+  width: 100%;
+  min-height: 50px;
   position: relative;
   display: flex;
   flex-direction: row-reverse;
