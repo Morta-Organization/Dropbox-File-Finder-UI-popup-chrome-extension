@@ -404,7 +404,7 @@ async function filesSearch(studentNumber, taskName) {
                   size = response.result.fileBlob.size
 
                   fileSize.innerHTML = `
-                <span class="DBXFF_file_Size">File size: </span> ${byteConverter(size)}`
+                <span class="DBXFF_file_Size">File size: </span>${byteConverter(size)}`
                 })
                 .catch(function (error) {
                   console.log("ERROR", error);
